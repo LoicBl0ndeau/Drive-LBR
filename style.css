@@ -1,0 +1,98 @@
+body
+{
+  background-color: #152039;
+  margin: 0;
+  font-family: arial;
+  overflow-x: hidden;
+}
+
+#logo_login
+{
+  width: 50vmin;
+  min-width: 20vw;
+  margin-left: 50%;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  transform: translateX(-50%);
+}
+
+form
+{
+  display: inline-block;
+  transform: translateX(-50%);
+  margin-left: 50%;
+  font-size: 20px;
+  color: white;
+}
+
+form .saisie
+{
+  background-color: #1E325F;
+  outline: 0;
+  border: 0;
+  font-size: 20px;
+  padding: 10px;
+  margin-top: 5px;
+  color: white;
+  border-radius: 10px;
+}
+
+form .mdpOublie
+{
+  font-size: 10px;
+  text-align: right;
+  margin-top: 3px;
+}
+
+a
+{
+  text-decoration: none;
+  color: white;
+}
+
+form .boutonConnexion
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form .boutonConnexion button
+{
+  cursor: pointer;
+  font-size: 20px;
+  border: 0;
+  background-color: #1E325F;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.rocket
+{
+  transform: rotate(45deg);
+  height: 60px;
+  margin-left: 10px;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes launch {
+  from
+  {
+    transform: translate(0,0) rotate(45deg);
+  }
+
+  20%
+  {
+    transform: translate(-50px,50px) rotate(35deg);
+  }
+
+  to
+  {
+    transform: translate(100vmax,-100vmax) rotate(65deg);
+  }
+}
