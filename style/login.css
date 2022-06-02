@@ -19,6 +19,7 @@ body
 form
 {
   display: inline-block;
+  width: 35vw;
   transform: translateX(-50%);
   margin-left: 50%;
   font-size: 20px;
@@ -30,6 +31,7 @@ form .saisie
   background-color: #1E325F;
   outline: 0;
   border: 0;
+  width: calc(35vw - 20px);
   font-size: 20px;
   padding: 10px;
   margin-top: 5px;
