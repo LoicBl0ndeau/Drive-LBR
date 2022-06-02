@@ -1,8 +1,17 @@
+@font-face {
+  font-family: "Poppins";
+  src: url(../police/Poppins-Regular.ttf);
+}
+
+body *
+{
+  font-family: "Poppins", arial;
+}
+
 body
 {
   background-color: #152039;
   margin: 0;
-  font-family: arial;
   overflow-x: hidden;
 }
 

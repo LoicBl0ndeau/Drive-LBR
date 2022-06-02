@@ -1,4 +1,101 @@
+@font-face {
+  font-family: "Poppins";
+  src: url(../police/Poppins-Regular.ttf);
+}
+
+body *
+{
+  font-family: "Poppins", arial;
+}
+
 body
 {
   margin: 0;
+  font-family: arial;
+}
+
+header
+{
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #D72E2A;
+}
+
+header > a
+{
+  display: flex;
+  align-items: center;
+}
+
+#logo_longueur_blanc
+{
+  height: 70px;
+}
+
+#scearch_bar
+{
+  display: flex;
+  align-items: center;
+  background-color: #A02026;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+#scearch_bar input
+{
+  background: transparent;
+  outline: 0;
+  border: 0;
+  margin-right: 3px;
+  font-size: 17px;
+  color: white;
+}
+
+#scearch_bar input::placeholder
+{
+  color: lightgray;
+  font-size: 12px;
+  position: relative;
+  bottom: 1px;
+}
+
+#scearch_bar label
+{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#pdp_user
+{
+  margin-right: 9px;
+  cursor: pointer;
+  border: 3px solid white;
+  border-radius: 50%;
+}
+
+#container_header_right
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#importer
+{
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#importer svg
+{
+  margin-right: 5px;
 }
