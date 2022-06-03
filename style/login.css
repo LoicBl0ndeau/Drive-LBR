@@ -87,8 +87,6 @@ form .boutonConnexion button
   transform: rotate(45deg);
   height: 60px;
   margin-left: 10px;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
 }
 
 @keyframes launch {
@@ -105,5 +103,22 @@ form .boutonConnexion button
   to
   {
     transform: translate(100vmax,-100vmax) rotate(65deg);
+  }
+}
+
+@keyframes no {
+  from
+  {
+    transform: rotate(45deg);
+  }
+
+  50%
+  {
+    transform: rotate(-45deg);
+  }
+
+  to
+  {
+    transform: rotate(45deg);
   }
 }

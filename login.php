@@ -11,27 +11,6 @@
 		<title>Connexion Drive - Les Briques Rouges</title>
 	</head>
   <body>
-		<?php
-			require('connexion.php');
-			session_start();
-			if (isset($_POST['identifiant'])){
-			  $username = stripslashes($_REQUEST['identifiant']); //enlève backslash
-			  $username = mysqli_real_escape_string($conn, $username); //sauve les caractères spéciaux
-			  $password = stripslashes($_REQUEST['mdp']); //enlève backslash
-			  $password = mysqli_real_escape_string($conn, $password); //sauve les caractères spéciaux
-				//print hash('sha256', $password);
-			  $query = "SELECT * FROM `profil` WHERE email='$username' and MDP='".hash('sha256', $password)."'";
-			  $result = mysqli_query($conn,$query) or die(mysql_error()); //exécute une requête sur la base de données
-			  $rows = mysqli_num_rows($result); //retourne le nombre de lignes.
-				sleep(1.5);
-			  if($rows==1){
-			      $_SESSION['identifiant'] = $username;
-			      header("Location: accueil.php");
-			  }else{
-			    $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
-			  }
-			}
-		?>
 		<img src="images/Plan de travail 10LogoFullBlanc.png" alt="Logo LBR Blanc" id="logo_login" />
 		<form method="post">
 			<label for="identifiant">Identifiant</label><br />
@@ -48,5 +27,29 @@
 				<button type="submit" id="bouton_login">Se connecter <img src="images/rocket_red.36c56db.svg" class="rocket" /></button>
 			</div>
 		</form>
+		<?php
+			require('connexion.php');
+			session_start();
+			if (isset($_POST['identifiant'])){
+				print $_POST['identifiant'];
+			  $username = stripslashes($_REQUEST['identifiant']); //enlève backslash
+			  $username = mysqli_real_escape_string($conn, $username); //sauve les caractères spéciaux
+			  $password = stripslashes($_REQUEST['mdp']); //enlève backslash
+			  $password = mysqli_real_escape_string($conn, $password); //sauve les caractères spéciaux
+				//print hash('sha256', $password);
+			  $query = "SELECT * FROM `profil` WHERE email='$username' and MDP='".hash('sha256', $password)."'";
+			  $result = mysqli_query($conn,$query) or die(mysql_error()); //exécute une requête sur la base de données
+			  $rows = mysqli_num_rows($result); //retourne le nombre de lignes.
+			  if($rows==1){
+					echo "<script>$('.rocket').css('animation','3s launch');</script>";
+					sleep(1.5);
+			    //$_SESSION['identifiant'] = $username;
+			    //header("Location: accueil.php");
+			  }else{
+			    $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
+					echo "<script>$('.rocket').css('animation','.5s no');</script>";
+			  }
+			}
+		?>
   </body>
 </html>
