@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 02 juin 2022 à 13:18
--- Version du serveur : 5.7.36
--- Version de PHP : 7.4.26
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 07, 2022 at 08:32 AM
+-- Server version: 5.7.36
+-- PHP Version: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `les briques rouges`
+-- Database: `lbr`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `caractériser`
+-- Table structure for table `caractériser`
 --
 
 DROP TABLE IF EXISTS `caractériser`;
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `caractériser` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `catégorie`
+-- Table structure for table `catégorie`
 --
 
 DROP TABLE IF EXISTS `catégorie`;
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `catégorie` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `fichier`
+-- Table structure for table `fichier`
 --
 
 DROP TABLE IF EXISTS `fichier`;
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `fichier` (
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `fichier`
+-- Dumping data for table `fichier`
 --
 
 INSERT INTO `fichier` (`Id_fichier`, `Type`, `Privé`, `Titre`, `Auteur`, `Taille`, `Date_de_publication`, `Commentaire`, `bin`) VALUES
@@ -89,7 +89,7 @@ INSERT INTO `fichier` (`Id_fichier`, `Type`, `Privé`, `Titre`, `Auteur`, `Taill
 -- --------------------------------------------------------
 
 --
--- Structure de la table `gérer`
+-- Table structure for table `gérer`
 --
 
 DROP TABLE IF EXISTS `gérer`;
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `gérer` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `log_`
+-- Table structure for table `log_`
 --
 
 DROP TABLE IF EXISTS `log_`;
@@ -118,32 +118,35 @@ CREATE TABLE IF NOT EXISTS `log_` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `profil`
+-- Table structure for table `profil`
 --
 
 DROP TABLE IF EXISTS `profil`;
 CREATE TABLE IF NOT EXISTS `profil` (
   `Id_Profil` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
-  `MDP` varchar(50) DEFAULT NULL,
+  `MDP` varchar(100) DEFAULT NULL,
   `Nom` varchar(50) DEFAULT NULL,
   `Prenom` varchar(50) DEFAULT NULL,
   `Description` varchar(50) DEFAULT NULL,
   `Role` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`Id_Profil`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `profil`
+-- Dumping data for table `profil`
 --
 
 INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description`, `Role`) VALUES
-(1, 'louis.boubert.26@gmail.com', 'azerty', 'Boubert', 'Louis', 'premier profil', 'Admin');
+(1, 'louis.boubert.26@gmail.com', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Boubert', 'Louis', 'premier profil', 'Admin'),
+(3, 'capellemartin.27@gmail.com', '119511946f7c081e3050a2be01c9124b1b984efb455656c107b2ec056496c4ee', 'Capelle', 'Martin', 'Administrateur de création', 'Admin'),
+(4, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin'),
+(5, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `publier_modifier`
+-- Table structure for table `publier_modifier`
 --
 
 DROP TABLE IF EXISTS `publier_modifier`;
@@ -157,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `publier_modifier` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `tag`
+-- Table structure for table `tag`
 --
 
 DROP TABLE IF EXISTS `tag`;
