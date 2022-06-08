@@ -8,12 +8,10 @@
 	}
 ?>
 <?php // importer des photos
-
-  if(isset($_POST["valider"])){
+  if(isset($_FILES["image"])){
       include("connect.php");
       $req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
       $req->execute(array($_FILES["image"]["type"],$_FILES["image"]["name"],$_FILES["image"]["size"],file_get_contents($_FILES["image"]["tmp_name"])));
-      print $_FILES["image"]["tmp_name"];
   }
 ?>
 <!DOCTYPE html>
@@ -46,9 +44,8 @@
 	      		<path d="M480.6,341.2c-11.3,0-20.4,9.1-20.4,20.4V460H51.8v-98.4c0-11.3-9.1-20.4-20.4-20.4S11,350.4,11,361.6v118.8    c0,11.3,9.1,20.4,20.4,20.4h449.2c11.3,0,20.4-9.1,20.4-20.4V361.6C501,350.4,491.9,341.2,480.6,341.2z"/>
 					</svg>
 					Importer
-					<form name="fo" method="post" action="" enctype="multipart/form-data">
-					<input type="file" id="importer_file" name="image" />
-					<input type="submit" name="valider" value="charger"/>
+					<form id="form_import" method="post" enctype="multipart/form-data">
+						<input type="file" id="importer_file" name="image" />
 					</form>
 				</label>
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />

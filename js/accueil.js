@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  $('#importer_file').on("change",function(){
+    $('#form_import').submit();
+  });
   $('#pdp_user').on("click",function(){
     $('#profil').css("transform","translate(0,-50%)");
     $('#mask_profil').css("transform","translateX(0)");
