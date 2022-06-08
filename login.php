@@ -32,30 +32,25 @@
 		<?php
 			session_start();
 			if (isset($_POST['identifiant']) && isset($_POST['mdp'])){
-				require('connexion.php');
-				//La partie ci-dessous élimine toute attaque de type injection SQL et XSS
-			  $username = stripslashes($_REQUEST['identifiant']); //enlève backslash
-			  $username = mysqli_real_escape_string($conn, $username); //sauve les caractères spéciaux
-			  $password = stripslashes($_REQUEST['mdp']); //enlève backslash
-			  $password = mysqli_real_escape_string($conn, $password); //sauve les caractères spéciaux
-				//print hash('sha256', $password);
-			  $query = "SELECT * FROM `profil` WHERE email='$username' and MDP='".hash('sha256', $password)."'";
-			  $result = mysqli_query($conn,$query) or die(mysql_error()); //exécute une requête sur la base de données
-			  $rows = mysqli_num_rows($result); //retourne le nombre de lignes.
-			  if($rows==1){
-					$followingdata = $result->fetch_assoc();
-			    $_SESSION['loggedUser'] = [
-						'email' => $followingdata['email'],
-						'Nom' => $followingdata['Nom'],
-						'Prenom' => $followingdata['Prenom'],
-						'Description' => $followingdata['Description'],
-						'Role' => $followingdata['Role']
+				require('connect.php');
+			  $query = "SELECT * FROM profil WHERE email=? and MDP=? limit 1";
+			  $resultStatement = $PDO->prepare($query);
+				$resultStatement->execute(array($_POST['identifiant'],hash('sha256', $_POST['mdp'])));
+				$result = $resultStatement->fetchAll();
+				if(count($result) > 0){
+					$_SESSION['loggedUser'] = [
+						'email' => $result[0]['email'],
+						'Nom' => $result[0]['Nom'],
+						'Prenom' => $result[0]['Prenom'],
+						'Description' => $result[0]['Description'],
+						'Role' => $result[0]['Role']
 					];
 					echo "<script>$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='1.5; url=accueil.php' />";
-			  }else{
-			    $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
+				}
+				else{
+					$message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
 					echo "<script>$('#info_login').text(\"".$message."\");$('.rocket').css('animation','.5s no');</script>";
-			  }
+				}
 			}
 		?>
   </body>
