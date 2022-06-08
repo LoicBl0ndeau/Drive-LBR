@@ -68,10 +68,17 @@ header > a
   cursor: pointer;
 }
 
+#importer_file
+{
+  display: none;
+}
+
 #pdp_user
 {
   margin-right: 9px;
   cursor: pointer;
+  height: 32px;
+  width: 32px;
   border: 3px solid rgba(255,255,255,.8);
   border-radius: 50%;
 }
