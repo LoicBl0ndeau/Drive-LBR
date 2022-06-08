@@ -41,6 +41,14 @@ form
   color: white;
 }
 
+#togglePassword
+{
+  margin-left: -30px;
+  position: relative;
+  bottom: 3px;
+  cursor: pointer;
+}
+
 form .saisie
 {
   background-color: #1E325F;

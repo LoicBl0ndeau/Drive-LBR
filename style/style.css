@@ -100,13 +100,14 @@ header > a
   margin-right: 5px;
 }
 
-#container_profil
+#mask_profil
 {
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translateX(100vw);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,10 +115,17 @@ header > a
 
 #profil
 {
-  width: 40vmin;
-  height: calc(40vmin * 4 / 3);
+  width: 50vmin;
+  min-height: calc(50vmin * 4 / 3);
+  max-height: 80vh;
+  position: fixed;
+  left: calc(50vw - 50vmin / 2);
+  top: 50%;
+  transform: translate(100vw,-50%);
+  transition: transform .5s;
   background-color: #171717;
   border-radius: 8px;
+  overflow: auto;
 }
 
 #container_profil_top
@@ -150,11 +158,6 @@ header > a
   cursor: pointer;
 }
 
-*:not(#container_profil,html,body, #container_profil *)
-{
-  filter: blur(2px);
-}
-
 #container_pdp_profil
 {
   display: flex;
@@ -172,6 +175,8 @@ header > a
 
 #container_profil_stats
 {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
   background-color: white;
   color: #D72E2A;
   display: flex;
@@ -189,4 +194,27 @@ header > a
 {
   width: 2px;
   background-color: #757575;
+}
+
+#container_profil_buttons
+{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+#container_profil_buttons button
+{
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  transition: background .2s;
+}
+
+#container_profil_buttons button:hover
+{
+  background: #D72E2A;
 }

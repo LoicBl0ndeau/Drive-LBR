@@ -6,6 +6,7 @@
 		<meta name="Auteurs" content="Loïc BLONDEAU;Louis BOUBERT;Martin CAPELLE;Ilies BENSLAMA" />
 		<link rel="stylesheet" type="text/css" href="style/login.css" />
 		<link rel="icon" href="images/favicon.ico" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="js/login.js"></script>
 		<title>Connexion Drive - Les Briques Rouges</title>
@@ -18,7 +19,7 @@
       <input type="text" class="saisie" id="identifiant" name="identifiant" placeholder="Entrez votre identifiant" /><br />
 			<br />
 			<label for="mdp">Mot de passe</label><br />
-      <input type="password" class="saisie" id="mdp" name="mdp" placeholder="Entrez votre mot de passe" /><br />
+      <input type="password" class="saisie" id="mdp" name="mdp" placeholder="Entrez votre mot de passe" /><i class="bi bi-eye-slash" id="togglePassword"></i><br />
 			<div class="mdpOublie">
 				<a href="">Mot de passe oublié ?</a><br />
 			</div>
