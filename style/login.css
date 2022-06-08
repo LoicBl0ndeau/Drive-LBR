@@ -25,6 +25,12 @@ body
   transform: translateX(-50%);
 }
 
+#info_login
+{
+  text-align: center;
+  color: #EA001C;
+}
+
 form
 {
   display: inline-block;
@@ -97,7 +103,7 @@ form .boutonConnexion button
 
   20%
   {
-    transform: translate(-50px,50px) rotate(35deg);
+    transform: translate(-50px,50px) rotate(35deg) scale(1.4);
   }
 
   to

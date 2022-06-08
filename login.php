@@ -12,6 +12,7 @@
 	</head>
   <body>
 		<img src="images/Plan de travail 10LogoFullBlanc.png" alt="Logo LBR Blanc" id="logo_login" />
+		<p id="info_login"></p>
 		<form method="post">
 			<label for="identifiant">Identifiant</label><br />
       <input type="text" class="saisie" id="identifiant" name="identifiant" placeholder="Entrez votre identifiant" /><br />
@@ -28,10 +29,10 @@
 			</div>
 		</form>
 		<?php
-			require('connexion.php');
 			session_start();
-			if (isset($_POST['identifiant'])){
-				print $_POST['identifiant'];
+			if (isset($_POST['identifiant']) && isset($_POST['mdp'])){
+				require('connexion.php');
+				//La partie ci-dessous élimine toute attaque de type injection SQL et XSS
 			  $username = stripslashes($_REQUEST['identifiant']); //enlève backslash
 			  $username = mysqli_real_escape_string($conn, $username); //sauve les caractères spéciaux
 			  $password = stripslashes($_REQUEST['mdp']); //enlève backslash
@@ -41,13 +42,18 @@
 			  $result = mysqli_query($conn,$query) or die(mysql_error()); //exécute une requête sur la base de données
 			  $rows = mysqli_num_rows($result); //retourne le nombre de lignes.
 			  if($rows==1){
-					echo "<script>$('.rocket').css('animation','3s launch');</script>";
-					sleep(1.5);
-			    //$_SESSION['identifiant'] = $username;
-			    //header("Location: accueil.php");
+					$followingdata = $result->fetch_assoc();
+			    $_SESSION['loggedUser'] = [
+						'email' => $followingdata['email'],
+						'Nom' => $followingdata['Nom'],
+						'Prenom' => $followingdata['Prenom'],
+						'Description' => $followingdata['Description'],
+						'Role' => $followingdata['Role']
+					];
+					echo "<script>$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='1.5; url=accueil.php' />";
 			  }else{
 			    $message = "Le nom d'utilisateur ou le mot de passe est incorrect.";
-					echo "<script>$('.rocket').css('animation','.5s no');</script>";
+					echo "<script>$('#info_login').text(\"".$message."\");$('.rocket').css('animation','.5s no');</script>";
 			  }
 			}
 		?>

@@ -1,3 +1,12 @@
+<?php
+	// Initialise la session
+	session_start();
+	// Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
+	if(!isset($_SESSION["loggedUser"])){
+		header("Location: login.php");
+		exit();
+	}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -12,7 +21,7 @@
 	</head>
   <body>
 		<header>
-			<a href="accueil.html"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
+			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
 			<div id="container_header_right">
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 			</div>

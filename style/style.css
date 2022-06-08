@@ -72,7 +72,7 @@ header > a
 {
   margin-right: 9px;
   cursor: pointer;
-  border: 3px solid white;
+  border: 3px solid rgba(255,255,255,.8);
   border-radius: 50%;
 }
 
@@ -98,4 +98,95 @@ header > a
 #importer svg
 {
   margin-right: 5px;
+}
+
+#container_profil
+{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#profil
+{
+  width: 40vmin;
+  height: calc(40vmin * 4 / 3);
+  background-color: #171717;
+  border-radius: 8px;
+}
+
+#container_profil_top
+{
+  background: linear-gradient(to top right, #A02026, #D72E2A);
+  padding-bottom: 25px;
+  border-radius: 8px 8px 0 0;
+}
+
+#name, #role
+{
+  margin-top: 3px;
+  margin-bottom: 3px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+}
+
+#container_deconnexion
+{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: white;
+  padding: 5px;
+}
+
+#container_deconnexion *
+{
+  cursor: pointer;
+}
+
+*:not(#container_profil,html,body, #container_profil *)
+{
+  filter: blur(2px);
+}
+
+#container_pdp_profil
+{
+  display: flex;
+  justify-content: center;
+}
+
+#pdp_profil
+{
+  height: 64px;
+  width: 64px;
+  border: 3px solid rgba(255,255,255,.8);
+  border-radius: 50%;
+  text-align: center;
+}
+
+#container_profil_stats
+{
+  background-color: white;
+  color: #D72E2A;
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+  padding: 15px;
+}
+
+#container_profil_stats span
+{
+  text-align: center;
+}
+
+#container_profil_stats span:nth-child(2)
+{
+  width: 2px;
+  background-color: #757575;
 }
