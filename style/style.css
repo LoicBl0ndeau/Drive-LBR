@@ -123,8 +123,7 @@ header > a
 #profil
 {
   width: 50vmin;
-  min-height: calc(50vmin * 4 / 3);
-  max-height: 80vh;
+  max-height: calc(50vmin * 4 / 3);
   position: fixed;
   left: calc(50vw - 50vmin / 2);
   top: 50%;
@@ -218,6 +217,7 @@ header > a
   cursor: pointer;
   padding: 5px;
   margin: 5px;
+  font-size: 20px;
   transition: background .2s;
 }
 
