@@ -8,7 +8,7 @@
 	}
 ?>
 <?php // importer des photos
-	if($_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
+	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
 		print $total_count = count($_FILES['image']['name']);
 		for( $i=0 ; $i < $total_count ; $i++ ) {
 		  if(isset($_FILES['image']) && $_FILES['image']['error'][$i] == 0 && $_FILES['image']['size'][$i] <= 4294967295){
