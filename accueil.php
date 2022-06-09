@@ -8,11 +8,26 @@
 	}
 ?>
 <?php // importer des photos
-  if(isset($_FILES["image"])){
-      include("connect.php");
-      $req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
-      $req->execute(array($_FILES["image"]["type"],$_FILES["image"]["name"],$_FILES["image"]["size"],file_get_contents($_FILES["image"]["tmp_name"])));
-  }
+	if($_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
+		print $total_count = count($_FILES['image']['name']);
+		for( $i=0 ; $i < $total_count ; $i++ ) {
+		  if(isset($_FILES['image']) && $_FILES['image']['error'][$i] == 0 && $_FILES['image']['size'][$i] <= 4294967295){
+		    include("connect.php");
+				$allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
+				$extension = pathinfo($_FILES['image']['name'][$i])['extension'];
+				if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est une image
+		    	$req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
+		    	$req->execute(array($_FILES["image"]["type"][$i],$_FILES["image"]["name"][$i],$_FILES["image"]["size"][$i],file_get_contents($_FILES["image"]["tmp_name"][$i])));
+				}
+			}
+			else{
+				print "Erreur lors de l'upload. Erreur n°".$_FILES['image']['error'][$i];
+			}
+		}
+	}
+	unset($_POST);
+	// Protection contre "actualiser la page" ou envoi depuis l'extérieur (vol de formulaire)
+	$_SESSION['random_OK'] = uniqid(); // nombre aléatoire unique
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,10 +59,11 @@
 	      		<path d="M480.6,341.2c-11.3,0-20.4,9.1-20.4,20.4V460H51.8v-98.4c0-11.3-9.1-20.4-20.4-20.4S11,350.4,11,361.6v118.8    c0,11.3,9.1,20.4,20.4,20.4h449.2c11.3,0,20.4-9.1,20.4-20.4V361.6C501,350.4,491.9,341.2,480.6,341.2z"/>
 					</svg>
 					Importer
-					<form id="form_import" method="post" enctype="multipart/form-data">
-						<input type="file" id="importer_file" name="image" />
-					</form>
 				</label>
+				<form id="form_import" method="post" enctype="multipart/form-data">
+					<input type="file" id="importer_file" name="image[]" accept="image/*" multiple />
+					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />
+				</form>
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 			</div>
 		</header>
@@ -73,7 +89,7 @@
 			</div>
 			<div id="container_profil_buttons">
 				<button type="button">Mon profil</button>
-				<button type="button">ChangeLog</button>
+				<button type="button">Admin</button>
 				<button type="button">Corbeille</button>
 			</div>
 		</div>
