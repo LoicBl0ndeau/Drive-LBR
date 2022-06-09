@@ -26,7 +26,7 @@
     <header>
       <?php include_once('header_AM.php'); ?>
     </header>
-
+    <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php

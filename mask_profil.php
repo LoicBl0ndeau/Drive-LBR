@@ -20,7 +20,7 @@
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
-    <button type="button">ChangeLog</button>
+    <button type="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager	.php';" >Admin</button> <!-- c'est en attendant le bon menu -->
     <button type="button">Corbeille</button>
   </div>
 </div>
