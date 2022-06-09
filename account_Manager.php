@@ -18,18 +18,50 @@
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Drive - Les Briques Rouges</title>
+    
 	</head>
 
-  <body>
-    <!-- Navigation -->
+  <body class="d-flex flex-column min-vh-100">
+      <!-- Navigation -->
     <header>
       <?php include_once('header_AM.php'); ?>
     </header>
+
+    <div class="container">
+      <table>
+        <thead>
+          <tr>
+           <th>Prenom Nom</th>
+           <th>email</th>
+           <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($users as $user) : ?>
+                <tr>
+                   <td><?php echo $user['Prenom'] . " " . $user['Nom']; ?></td>
+                   <td><?php echo $user['email'];?></td>
+                   <td><?php echo $user['Role'];?></td>
+                   <td><button type="button" name="button"><a href="edit_user.php">Modifier</a></button></td>
+                   <td><button type="button" name="button"><a href="delete_user.php">Supprimer</a></button></td>
+                </tr>
+          <?php endforeach ?>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><button type="button" name="button"><a href="add_user.php">Ajouter</a></button></td>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+
+
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php
-			//echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+			echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
 	 	?>
   </body>
 </html>

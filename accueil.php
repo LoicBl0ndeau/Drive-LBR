@@ -18,6 +18,10 @@
 				if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est une image
 		    	$req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
 		    	$req->execute(array($_FILES["image"]["type"][$i],$_FILES["image"]["name"][$i],$_FILES["image"]["size"][$i],file_get_contents($_FILES["image"]["tmp_name"][$i])));
+					print "c'est ouf : ".$extension;
+				}
+				else {
+					print "c'est pas ouf : ".$extension;
 				}
 			}
 			else{
