@@ -40,21 +40,21 @@
           </div>
           <div class="mb-3">
               <label for="Email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="Email" name="Email" aria-describedby="title-help">
+              <input type="email" class="form-control" id="Email" name="Email" aria-describedby="title-help">
           </div>
           <div class="mb-3">
               <label for="Description" class="form-label">Description</label>
-              <textarea class="form-control" placeholder="Écrivez la recette ici" id="Description" name="Description"></textarea>
+              <textarea class="form-control" placeholder="Écrivez la description ici" id="Description" name="Description"></textarea>
           </div>
           <div class="mb-3">
-              <label for="role" class="form-label">Visiteur</label>
-              <input type="radio" name="role" value=0>
-              <label for="role" class="form-label">Editeur</label>
-              <input type="radio" name="role" value=1>
-              <label for="role" class="form-label">Invité</label>
-              <input type="radio" name="role" value=2>
-              <label for="role" class="form-label">Admin</label>
-              <input type="radio" name="role" value=3>
+              <label for="Role" class="form-label">Visiteur</label>
+              <input type="radio" name="Role" value="Visiteur">
+              <label for="Role" class="form-label">Editeur</label>
+              <input type="radio" name="Role" value="Editeur">
+              <label for="Role" class="form-label">Invité</label>
+              <input type="radio" name="Role" value="Invité">
+              <label for="Role" class="form-label">Admin</label>
+              <input type="radio" name="Role" value="Admin">
           </div>
           <button type="submit" class="btn btn-primary">Envoyer</button>
       </form>
