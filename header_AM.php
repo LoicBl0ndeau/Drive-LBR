@@ -11,3 +11,4 @@
 <div id="container_header_right">
 	</label>
 	<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
+</div>
