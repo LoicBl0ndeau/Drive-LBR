@@ -9,22 +9,22 @@
 ?>
 <?php // importer des photos
 	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
-		$total_count = count($_FILES['image']['name']);
+		$total_count = count($_FILES['media']['name']);
 		for( $i=0 ; $i < $total_count ; $i++ ) {
-		  if(isset($_FILES['image']) && $_FILES['image']['error'][$i] == 0){
-				if($_FILES['image']['size'][$i] <= 4294967295){
+		  if(isset($_FILES['media']) && $_FILES['media']['error'][$i] == 0){
+				if($_FILES['media']['size'][$i] <= 10000000000){ //max 10Go
 			    include("connect.php");
 					$allowedExtensions = ['ogm', 'wmv', 'mpg', 'webm', 'ogv', 'mov', 'asx', 'mpeg', 'mp4', 'm4v', 'avi','jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
-					$extension = strtolower(pathinfo($_FILES['image']['name'][$i])['extension']);
-					if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est une image
+					$extension = strtolower(pathinfo($_FILES['media']['name'][$i])['extension']);
+					if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est un média
 						$req=$PDO->prepare("SELECT Id_fichier FROM fichier ORDER BY Id_fichier DESC");
 						$req->execute();
 						$res = $req->fetchAll();
 						$Id_fichier = $res[0]["Id_fichier"] + 1;
 						mkdir("upload/".$Id_fichier, 0700);
-						move_uploaded_file($_FILES["image"]["tmp_name"][$i], "upload/".$Id_fichier."/".basename($_FILES["image"]["name"][$i]));
+						move_uploaded_file($_FILES["media"]["tmp_name"][$i], "upload/".$Id_fichier."/".basename($_FILES["media"]["name"][$i]));
 			    	$req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
-			    	$req->execute(array($_FILES["image"]["type"][$i],$_FILES["image"]["name"][$i],$_FILES["image"]["size"][$i],"upload/".$Id_fichier."/".basename($_FILES["image"]["name"][$i])));
+			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_FILES["media"]["size"][$i],"upload/".$Id_fichier."/".basename($_FILES["media"]["name"][$i])));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
@@ -35,7 +35,7 @@
 				}
 			}
 			else{
-				echo "<script>alert('Erreur lors de l'upload. Erreur n°".$_FILES['image']['error'][$i]."');</script>";
+				echo "<script>alert('Erreur lors de l'upload. Erreur n°".$_FILES['media']['error'][$i]."');</script>";
 			}
 		}
 	}
@@ -75,7 +75,7 @@
 					Importer
 				</label>
 				<form id="form_import" method="post" enctype="multipart/form-data">
-					<input type="file" id="importer_file" name="image[]" accept="video/*,image/*" multiple />
+					<input type="file" id="importer_file" name="media[]" accept="video/*,image/*" multiple />
 					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />
 				</form>
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
