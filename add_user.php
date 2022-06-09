@@ -18,7 +18,7 @@
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Drive - Les Briques Rouges</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
   </head>
 
   <body class="d-flex flex-column min-vh-100">
@@ -28,7 +28,9 @@
     </header>
 
     <div class="container">
+
       <h1>Ajouter un utilisateur</h1>
+
       <form action="submit_user.php" method="POST">
           <div class="mb-3">
               <label for="Prenom" class="form-label">Prenom</label>
@@ -56,7 +58,7 @@
               <label for="Role" class="form-label">Admin</label>
               <input type="radio" name="Role" value="Admin">
           </div>
-          <button type="submit" class="btn btn-primary">Envoyer</button>
+          <button type="submit" class="btn btn-primary">Valider</button>
       </form>
       <br />
     </div>

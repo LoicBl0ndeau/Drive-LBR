@@ -18,7 +18,7 @@
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Drive - Les Briques Rouges</title>
-    
+
 	</head>
 
   <body class="d-flex flex-column min-vh-100">
@@ -43,7 +43,10 @@
                    <td><?php echo $user['email'];?></td>
                    <td><?php echo $user['Role'];?></td>
                    <td><button type="button" name="button"><a href="edit_user.php">Modifier</a></button></td>
-                   <td><button type="button" name="button"><a href="delete_user.php">Supprimer</a></button></td>
+                   <td>
+									 	<form action="delete_user.php" method="post">
+										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button></td>
+                   	</form>
                 </tr>
           <?php endforeach ?>
         </tbody>

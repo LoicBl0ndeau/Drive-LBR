@@ -15,7 +15,9 @@ $postData = $_POST;
 if (
     !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
     !isset($_POST['Nom']) || empty($_POST['Nom']) ||
-    !isset($_POST['Description']) || empty($_POST['Description'])
+		(!isset($_POST['Email']) || !filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) ||
+    !isset($_POST['Description']) || empty($_POST['Description'])||
+    !isset($_POST['Role']) || empty($_POST['Role'])
     )
 {
 	echo('Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.');
@@ -90,7 +92,16 @@ $insertRecipe->execute([
               <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
               <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
           </div>
+	        <a class="btn btn-primary" href="account_Manager.php">Retour au gestionnaire</a>
         </div>
       </div>
+
+			<!-- Page Profil -->
+			<?php include_once('mask_profil.php'); ?>
+
+			<?php
+				echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+			?>
+
 	</body>
 </html>
