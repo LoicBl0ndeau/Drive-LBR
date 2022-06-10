@@ -42,11 +42,16 @@
                    <td><?php echo $user['Prenom'] . " " . $user['Nom']; ?></td>
                    <td><?php echo $user['email'];?></td>
                    <td><?php echo $user['Role'];?></td>
-                   <td><button type="button" name="button"><a href="account_Manager_edit_user.php">Modifier</a></button></td>
+                   <td>
+										 <form action="account_Manager_edit_user.php" method="post">
+											 <button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
+										 </form>
+									 </td>
                    <td>
 									 	<form action="account_Manager_delete_user.php" method="post">
-										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button></td>
+										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
                    	</form>
+									</td>
                 </tr>
           <?php endforeach ?>
         </tbody>
