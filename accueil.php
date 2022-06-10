@@ -14,7 +14,7 @@
 		  if(isset($_FILES['image']) && $_FILES['image']['error'][$i] == 0 && $_FILES['image']['size'][$i] <= 4294967295){
 		    include("connect.php");
 				$allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
-				$extension = pathinfo($_FILES['image']['name'][$i])['extension'];
+				$extension = strtolower(pathinfo($_FILES['image']['name'][$i])['extension']);
 				if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est une image
 		    	$req=$PDO->prepare("insert into fichier(Type,Titre,Taille,bin) values(?,?,?,?)");
 		    	$req->execute(array($_FILES["image"]["type"][$i],$_FILES["image"]["name"][$i],$_FILES["image"]["size"][$i],file_get_contents($_FILES["image"]["tmp_name"][$i])));
@@ -64,7 +64,7 @@
 					<input type="file" id="importer_file" name="image[]" accept="image/*" multiple />
 					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />
 				</form>
-				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
+				<img src="export.php?Id_fichier=71" alt="pdp_utilisateur" id="pdp_user" />
 			</div>
 		</header>
 
