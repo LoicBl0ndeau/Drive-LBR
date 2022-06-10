@@ -46,7 +46,7 @@
     </a>
     <div id="container_pdp_profil">
       <label for="changer_pdp" id="pdp">
-          <img src=<?php echo '' alt="pdp_utilisateur" id="pdp_profil" />
+          <img src="upload/11/logo test.png" alt="pdp_utilisateur" id="pdp_profil" />
       </label>
       <form id="form_profil" method="post" enctype="multipart/form-data">
         <input type="file" id="changer_pdp" name="photodeprofil" accept="image/*" />
