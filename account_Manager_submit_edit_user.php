@@ -61,7 +61,7 @@ $Role = $postData['Role'];
 		// Validation du formulaire
 		$same_email = 0;
 			foreach ($users as $user) {
-			    if ($user['email'] === $Email) {
+			    if ( ($user['email'] === $Email) && !($user['Id_Profil'] === $Id_Profil) ) {
 						$same_email++;
 			        //echo "le mail semble déjà utilisé";
 			    }
@@ -103,7 +103,7 @@ $Role = $postData['Role'];
 			    'Role' => $Role,
 			]);
 		}
-		
+
 		?>
 
     <div class="container">
