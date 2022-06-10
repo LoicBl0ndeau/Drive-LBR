@@ -46,7 +46,7 @@
     </a>
     <div id="container_pdp_profil">
       <label for="changer_pdp" id="pdp">
-          <img src=<?php echo '' alt="pdp_utilisateur" id="pdp_profil" />
+          <img src='images/pdp_user.jpg' alt="pdp_utilisateur" id="pdp_profil" />
       </label>
       <form id="form_profil" method="post" enctype="multipart/form-data">
         <input type="file" id="changer_pdp" name="photodeprofil" accept="image/*" />
@@ -64,7 +64,7 @@
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
-    <button type="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager.php';" >Admin</button> <!-- c'est en attendant le bon menu -->
+    <button type="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager_accueil.php';" >Admin</button> <!-- c'est en attendant le bon menu -->
     <button type="button">Corbeille</button>
   </div>
 </div>
@@ -84,7 +84,6 @@
     window.location.replace("logout.php");
   });
   $('#changer_pdp').on("change",function(){
-    alert("test");
     $('#form_profil').submit();
   });
 </script>

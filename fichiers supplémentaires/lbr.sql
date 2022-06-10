@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 10, 2022 at 08:26 AM
+-- Generation Time: Jun 10, 2022 at 03:07 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -67,23 +67,14 @@ CREATE TABLE IF NOT EXISTS `fichier` (
   `Commentaire` varchar(50) DEFAULT NULL,
   `bin` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Id_fichier`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fichier`
 --
 
 INSERT INTO `fichier` (`Id_fichier`, `Type`, `Titre`, `Auteur`, `Taille`, `Date_de_publication`, `Commentaire`, `bin`) VALUES
-(1, NULL, 'Première_photo', NULL, NULL, NULL, NULL, NULL),
-(2, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/2/20220603_231949.jpg'),
-(3, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/3/20220603_231949.jpg'),
-(4, 'image/jpeg', 'anthony-delanoix-hzgs56Ze49s-unsplash.jpg', 'Louis Boubert', '1744118', NULL, NULL, 'upload/4/anthony-delanoix-hzgs56Ze49s-unsplash.jpg'),
-(5, 'image/jpeg', 'joey-thompson-4zN_-PKsbWw-unsplash.jpg', 'Louis Boubert', '1418428', NULL, NULL, 'upload/5/joey-thompson-4zN_-PKsbWw-unsplash.jpg'),
-(6, 'video/mp4', 'BLONDEAU_DRIVE.mp4', 'Louis Boubert', '24627082', NULL, NULL, 'upload/6/BLONDEAU_DRIVE.mp4'),
-(7, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/7/20220603_231949.jpg'),
-(8, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/8/20220603_231949.jpg'),
-(9, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/9/20220603_231949.jpg'),
-(10, 'image/jpeg', '20220603_231949.jpg', 'Louis Boubert', '2561729', NULL, NULL, 'upload/10/20220603_231949.jpg');
+(1, NULL, 'Première_photo', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -129,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `profil` (
   `Prenom` varchar(50) DEFAULT NULL,
   `Description` varchar(50) DEFAULT NULL,
   `Role` varchar(50) DEFAULT NULL,
+  `pdp` varchar(100) NOT NULL DEFAULT 'images/pdp_user.jpg',
   PRIMARY KEY (`Id_Profil`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
@@ -136,12 +128,11 @@ CREATE TABLE IF NOT EXISTS `profil` (
 -- Dumping data for table `profil`
 --
 
-INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description`, `Role`) VALUES
-(1, 'louis.boubert.26@gmail.com', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Boubert', 'Louis', 'premier profil', 'Admin'),
-(3, 'capellemartin.27@gmail.com', '119511946f7c081e3050a2be01c9124b1b984efb455656c107b2ec056496c4ee', 'Capelle', 'Martin', 'Administrateur de création', 'Admin'),
-(4, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin'),
-(5, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin'),
-(7, 'test@test.test', NULL, 'test', 'test', 'test', 'Visiteur');
+INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description`, `Role`, `pdp`) VALUES
+(1, 'louis.boubert.26@gmail.com', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Boubert', 'Louis', 'premier profil', 'Admin', 'images/pdp_user.jpg'),
+(3, 'capellemartin.27@gmail.com', '119511946f7c081e3050a2be01c9124b1b984efb455656c107b2ec056496c4ee', 'Capelle', 'Martin', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
+(4, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
+(5, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg');
 
 -- --------------------------------------------------------
 
