@@ -1,4 +1,6 @@
 <a href="account_Manager.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
+
+
 <div id="scearch_bar">
 	<input type="text" id="text_scearch_bar" placeholder="Tapez le nom d'un utilisateur" />
 	<label for="text_scearch_bar">
@@ -8,7 +10,16 @@
 		</svg>
 	</label>
 </div>
+
+
 <div id="container_header_right">
 	</label>
 	<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
+</div>
+
+
+<!-- Bande sous le header dans la page gestionnaire de compte -->
+<div id="bande_gestionnaire">
+
+
 </div>
