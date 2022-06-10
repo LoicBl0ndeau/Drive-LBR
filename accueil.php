@@ -39,7 +39,7 @@
 			}
 		}
 	}
-	unset($_POST);
+	unset($_POST['randomformOK']);
 	// Protection contre "actualiser la page" ou envoi depuis l'extérieur (vol de formulaire)
 	$_SESSION['random_OK'] = uniqid(); // nombre aléatoire unique
 ?>

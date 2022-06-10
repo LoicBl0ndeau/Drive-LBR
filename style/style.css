@@ -176,7 +176,16 @@ header > a
   width: 64px;
   border: 3px solid rgba(255,255,255,.8);
   border-radius: 50%;
+  transition: filter .5s;
   text-align: center;
+}
+
+input[type=file]{
+  display: none;
+}
+
+#pdp_profil:hover{
+  filter: grayscale(60%);
 }
 
 #container_profil_stats
