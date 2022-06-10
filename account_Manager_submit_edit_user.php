@@ -13,16 +13,24 @@
 $postData = $_POST;
 
 if (
-    !isset($_POST['user']) || empty($_POST['user'])
-    )
+  !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
+  !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
+  !isset($_POST['Nom']) || empty($_POST['Nom']) ||
+	(!isset($_POST['Email']) || !filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) ||
+  !isset($_POST['Description']) || empty($_POST['Description'])||
+  !isset($_POST['Role']) || empty($_POST['Role'])
+  )
 {
-	echo('Il y a un problème');
-    return;
+  echo('Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.');
+  return;
 }
 
-$Id_Profil = $postData['user'];
-
-//echo $Id_Profil;
+$Id_Profil = $postData['Id_Profil'];
+$Prenom = $postData['Prenom'];
+$Nom = $postData['Nom'];
+$Email = $postData['Email'];
+$Description = $postData['Description'];
+$Role = $postData['Role'];
 
 ?>
 
@@ -37,17 +45,21 @@ catch (Exception $e)
 }
 
 // Ecriture de la requête
-$sqlQuery = 'DELETE FROM Profil WHERE Id_Profil=:Id_Profil';
+$sqlQuery = 'UPDATE profil SET email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
 
 // Préparation
-$delete_user = $mysqlClient->prepare($sqlQuery);
+$edited_user = $mysqlClient->prepare($sqlQuery);
 
-// Exécution ! l'utilisateur est maintenant supprimé de la base de données
-$delete_user->execute([
+// Exécution ! l'utilisateur est maintenant en base de données
+$edited_user->execute([
     'Id_Profil' => $Id_Profil,
+    'email' => $Email,
+    'Nom' => $Nom,
+    'Prenom' => $Prenom,
+    'Description' => $Description,
+    'Role' => $Role,
 ]);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,9 +83,18 @@ $delete_user->execute([
 
       <div class="container">
 
-        <h1>Utilisateur supprimé !</h1>
+        <h1>Utilisateur bien modifié</h1>
 
         <div class="card">
+
+          <div class="card-body">
+              <h5 class="card-title">Rappel de vos informations</h5>
+              <p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
+              <p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
+              <p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
+              <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
+              <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
+          </div>
 	        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
         </div>
       </div>
