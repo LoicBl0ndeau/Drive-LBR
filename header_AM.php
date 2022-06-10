@@ -1,4 +1,13 @@
+<<<<<<< HEAD
 <a href="account_Manager.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
+=======
+<?php
+    include_once('var_AM.php');
+    include_once('func_AM.php');
+?>
+
+<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
+>>>>>>> cbb1de56f38204d9b7f92e35187e88c426d14678
 
 
 <div id="scearch_bar">
@@ -14,12 +23,16 @@
 
 <div id="container_header_right">
 	</label>
-	<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
+	<img src="export.php?Id_fichier=71"	 alt="pdp_utilisateur" id="pdp_user" />
 </div>
 
+<<<<<<< HEAD
 
 <!-- Bande sous le header dans la page gestionnaire de compte -->
 <div id="bande_gestionnaire">
 
 
 </div>
+=======
+<!-- Bande sous le header dans la page gestionnaire de compte -->
+>>>>>>> cbb1de56f38204d9b7f92e35187e88c426d14678

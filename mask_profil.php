@@ -8,7 +8,7 @@
       </svg>
     </a>
     <div id="container_pdp_profil">
-      <img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_profil" />
+      <img src="export.php?Id_fichier=71" alt="pdp_utilisateur" id="pdp_profil" />
     </div>
     <p id="name"></p>
     <p id="role"></p>
