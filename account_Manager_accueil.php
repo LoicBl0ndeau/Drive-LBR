@@ -27,19 +27,22 @@
       <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-    <div class="container">
-      <table>
+    <div class="container" id="table_compte">
+			<table>
         <thead>
           <tr>
-           <th>Prenom Nom</th>
+						<th> Nom </th>
+           <th>Prenom</th>
            <th>email</th>
            <th>Role</th>
+					 <th><button type="button" name="button"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
           </tr>
         </thead>
         <tbody>
           <?php foreach($users as $user) : ?>
                 <tr>
-                   <td><?php echo $user['Prenom'] . " " . $user['Nom']; ?></td>
+								 	<td> <?php echo $user['Nom']?> </td>
+                   <td><?php echo $user['Prenom']?></td>
                    <td><?php echo $user['email'];?></td>
                    <td><?php echo $user['Role'];?></td>
                    <td><button type="button" name="button"><a href="account_Manager_edit_user.php">Modifier</a></button></td>
@@ -50,11 +53,6 @@
                 </tr>
           <?php endforeach ?>
         </tbody>
-        <tfoot>
-          <tr>
-            <td><button type="button" name="button"><a href="account_Manager_add_user.php">Ajouter</a></button></td>
-          </tr>
-        </tfoot>
       </table>
 
     </div>
