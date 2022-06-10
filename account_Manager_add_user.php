@@ -24,14 +24,14 @@
   <body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('header_AM.php'); ?>
+      <?php include_once('account_Manager_header.php'); ?>
     </header>
 
     <div class="container">
 
       <h1>Ajouter un utilisateur</h1>
 
-      <form action="submit_user.php" method="POST">
+      <form action="account_Manager_submit_user.php" method="POST">
           <div class="mb-3">
               <label for="Prenom" class="form-label">Prenom</label>
               <input type="text" class="form-control" id="Prenom" name="Prenom" aria-describedby="title-help">

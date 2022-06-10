@@ -63,7 +63,7 @@ $users = $userStatement->fetchAll();
           echo $user['Prenom'] . " " . $user['Nom'] . " dont l'id est : " . $user['Id_Profil'];
         } ?><br>
         La suppression est définitive <br><br><br>
-				<form action="submit_delete_user.php" method="post">
+				<form action="account_Manager_submit_delete_user.php" method="post">
         	<button class="btn btn-danger" type="submit" name="user" value="<?php echo $Id_Profil ?>">SUPPRIMER</button>
 				</form>
         <button class="btn btn-success" type="button" name="button">RETOUR</button>

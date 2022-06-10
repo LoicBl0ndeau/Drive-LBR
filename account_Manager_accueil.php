@@ -24,7 +24,7 @@
   <body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('header_AM.php'); ?>
+      <?php include_once('account_Manager_header.php'); ?>
     </header>
 
     <div class="container">
@@ -42,9 +42,9 @@
                    <td><?php echo $user['Prenom'] . " " . $user['Nom']; ?></td>
                    <td><?php echo $user['email'];?></td>
                    <td><?php echo $user['Role'];?></td>
-                   <td><button type="button" name="button"><a href="edit_user.php">Modifier</a></button></td>
+                   <td><button type="button" name="button"><a href="account_Manager_edit_user.php">Modifier</a></button></td>
                    <td>
-									 	<form action="delete_user.php" method="post">
+									 	<form action="account_Manager_delete_user.php" method="post">
 										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button></td>
                    	</form>
                 </tr>
@@ -52,7 +52,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td><button type="button" name="button"><a href="add_user.php">Ajouter</a></button></td>
+            <td><button type="button" name="button"><a href="account_Manager_add_user.php">Ajouter</a></button></td>
           </tr>
         </tfoot>
       </table>

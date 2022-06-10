@@ -75,7 +75,7 @@ $insertRecipe->execute([
 
       <!-- Navigation -->
     <header>
-      <?php include_once('header_AM.php'); ?>
+      <?php include_once('account_Manager_header.php'); ?>
     </header>
 
       <div class="container">
@@ -92,7 +92,7 @@ $insertRecipe->execute([
               <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
               <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
           </div>
-	        <a class="btn btn-primary" href="account_Manager.php">Retour au gestionnaire</a>
+	        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
         </div>
       </div>
 
