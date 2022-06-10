@@ -24,37 +24,40 @@
   <body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('header_AM.php'); ?>
+      <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-    <div class="container">
-      <table>
+    <div class="container" id="table_compte">
+			<table>
         <thead>
           <tr>
-           <th>Prenom Nom</th>
+						<th> Nom </th>
+           <th>Prenom</th>
            <th>email</th>
            <th>Role</th>
+					 <th><button type="button" name="button"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
           </tr>
         </thead>
         <tbody>
           <?php foreach($users as $user) : ?>
                 <tr>
-                   <td><?php echo $user['Prenom'] . " " . $user['Nom']; ?></td>
+								 	<td> <?php echo $user['Nom']?> </td>
+                   <td><?php echo $user['Prenom']?></td>
                    <td><?php echo $user['email'];?></td>
                    <td><?php echo $user['Role'];?></td>
-                   <td><button type="button" name="button"><a href="edit_user.php">Modifier</a></button></td>
                    <td>
-									 	<form action="delete_user.php" method="post">
-										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button></td>
+										 <form action="account_Manager_edit_user.php" method="post">
+											 <button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
+										 </form>
+									 </td>
+                   <td>
+									 	<form action="account_Manager_delete_user.php" method="post">
+										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
                    	</form>
+									</td>
                 </tr>
           <?php endforeach ?>
         </tbody>
-        <tfoot>
-          <tr>
-            <td><button type="button" name="button"><a href="add_user.php">Ajouter</a></button></td>
-          </tr>
-        </tfoot>
       </table>
 
     </div>

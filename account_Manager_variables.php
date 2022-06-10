@@ -14,7 +14,7 @@ catch(Exception $e)
 // Si tout va bien, on peut continuer
 
 // On récupère tout le contenu de la table recipes
-$sqlQuery = 'SELECT * FROM profil';
+$sqlQuery = 'SELECT * FROM profil ORDER BY Nom';
 $recipesStatement = $mysqlClient->prepare($sqlQuery);
 $recipesStatement->execute();
 $users = $recipesStatement->fetchAll();
