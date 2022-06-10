@@ -17,14 +17,19 @@
 					$allowedExtensions = ['ogm', 'wmv', 'mpg', 'webm', 'ogv', 'mov', 'asx', 'mpeg', 'mp4', 'm4v', 'avi','jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
 					$extension = strtolower(pathinfo($_FILES['media']['name'][$i])['extension']);
 					if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est un média
-						$req=$PDO->prepare("SELECT Id_fichier FROM fichier ORDER BY Id_fichier DESC");
-						$req->execute();
+						//$req=$PDO->query("SHOW TABLE STATUS FROM Id_fichier LIKE 'fichier'");
+						//$donnees = $req->fetch();
+						//echo $donnees['Auto_increment'];
+
+
+						$req=$PDO->query("SELECT Id_fichier FROM fichier ORDER BY Id_fichier DESC");
 						$res = $req->fetchAll();
 						$Id_fichier = $res[0]["Id_fichier"] + 1;
 						mkdir("upload/".$Id_fichier, 0700);
-						move_uploaded_file($_FILES["media"]["tmp_name"][$i], "upload/".$Id_fichier."/".basename($_FILES["media"]["name"][$i]));
-			    	$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,bin) values(?,?,?,?,?)");
-			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],"upload/".$Id_fichier."/".basename($_FILES["media"]["name"][$i])));
+						$nomFichier = basename($_FILES["media"]["name"][$i]);
+						move_uploaded_file($_FILES["media"]["tmp_name"][$i], "upload/".$Id_fichier."/".$nomFichier);
+						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,bin) values(?,?,?,?,?)");
+			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],"upload/".$Id_fichier."/".$nomFichier));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
