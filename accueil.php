@@ -78,7 +78,7 @@
 					<input type="file" id="importer_file" name="media[]" accept="video/*,image/*" multiple />
 					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />
 				</form>
-				<img src="export.php?Id_fichier=71" alt="pdp_utilisateur" id="pdp_user" />
+				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 			</div>
 		</header>
 
