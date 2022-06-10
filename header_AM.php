@@ -19,7 +19,7 @@
 
 <div id="container_header_right">
 	</label>
-	<img src="export.php?Id_fichier=71"	 alt="pdp_utilisateur" id="pdp_user" />
+	<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 </div>
 
 <!-- Bande sous le header dans la page gestionnaire de compte -->
