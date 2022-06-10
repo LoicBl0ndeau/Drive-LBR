@@ -39,6 +39,7 @@
 				$result = $resultStatement->fetchAll();
 				if(count($result) > 0){
 					$_SESSION['loggedUser'] = [
+						'Id_Profil' => $result[0]['Id_Profil'],
 						'email' => $result[0]['email'],
 						'Nom' => $result[0]['Nom'],
 						'Prenom' => $result[0]['Prenom'],

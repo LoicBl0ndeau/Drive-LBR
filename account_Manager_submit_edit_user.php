@@ -61,7 +61,7 @@ $Role = $postData['Role'];
 		// Validation du formulaire
 		$same_email = 0;
 			foreach ($users as $user) {
-			    if ($user['email'] === $Email) {
+			    if ( ($user['email'] === $Email) && !($user['Id_Profil'] === $Id_Profil) ) {
 						$same_email++;
 			        //echo "le mail semble déjà utilisé";
 			    }
@@ -103,17 +103,17 @@ $Role = $postData['Role'];
 			    'Role' => $Role,
 			]);
 		}
-		
+
 		?>
 
     <div class="container">
 
 			<!-- si message d'erreur on l'affiche -->
 	    <?php if(isset($errorMessage)) : ?>
-	        <div class="alert alert-danger" role="alert">
-	            <?php echo $errorMessage; ?>
-	        </div>
-					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $errorMessage; ?>
+        </div>
+				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
 
 			<?php else: ?>
 
@@ -129,10 +129,24 @@ $Role = $postData['Role'];
               <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
               <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
           </div>
-	        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
-        </div>
+					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				</div>
 
 			<?php endif; ?>
+
+			<?php if($Id_Profil === $_SESSION['loggedUser']['Id_Profil'])
+			{
+				//echo "Vous avez modifié votre propre compte";
+				$_SESSION['loggedUser'] = [
+					'Id_Profil' => $Id_Profil,
+					'email' => $Email,
+					'Nom' => $Nom,
+					'Prenom' => $Prenom,
+					'Description' => $Description,
+					'Role' => $Role,
+				];
+			}
+			?>
 
     </div>
 
