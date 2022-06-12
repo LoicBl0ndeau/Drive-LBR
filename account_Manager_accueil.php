@@ -28,6 +28,14 @@
     </header>
 
     <div class="container" id="table_compte">
+
+			<?php
+			if (empty($users))
+			{
+				echo "il n'y a pas de résultats pour votre recherche";
+			}
+			?>
+
 			<table>
         <thead>
           <tr>
