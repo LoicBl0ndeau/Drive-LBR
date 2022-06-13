@@ -27,7 +27,7 @@
       <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-    <div class="container" id="table_compte">
+    <div id="table_compte">
 
 			<?php
 			if (empty($users))
@@ -49,7 +49,7 @@
         </thead>
         <tbody>
           <?php foreach($users as $user) : ?>
-                <tr>
+                <tr class="tab_body">
 								 	<td> <?php echo $user['Nom']?> </td>
                    <td><?php echo $user['Prenom']?></td>
                    <td><?php echo $user['email'];?></td>

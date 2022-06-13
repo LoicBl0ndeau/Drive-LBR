@@ -50,7 +50,7 @@
           </div>
           <div class="mb-3">
               <label for="Role" class="form-label">Visiteur</label>
-              <input type="radio" name="Role" value="Visiteur">
+              <input type="radio" class="form-check-input" name="Role" value="Visiteur">
               <label for="Role" class="form-label">Editeur</label>
               <input type="radio" name="Role" value="Editeur">
               <label for="Role" class="form-label">Invité</label>
