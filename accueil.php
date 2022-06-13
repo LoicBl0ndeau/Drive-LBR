@@ -87,8 +87,21 @@
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 
+		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
+
 		<?php
-			echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+			$req = $PDO->query("SELECT * FROM fichier");
+			$res = $req->fetchAll();
+			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
+			foreach ($res as $media) {
+				if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+					echo "<img class='media' src='".$media['bin']."' alt='".$media['Titre']."' />";
+				}
+				else{
+					echo "<video controls class='media'><source src='".$media['bin']."' />Your browser does not support the video tag.</video>";
+				}
+			}
 	 	?>
+
   </body>
 </html>
