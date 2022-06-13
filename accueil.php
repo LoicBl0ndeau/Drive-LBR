@@ -22,9 +22,11 @@
 						$Id_fichier = $res['Auto_increment'];
 						mkdir("upload/".$Id_fichier, 0700);
 						$nomFichier = basename($_FILES["media"]["name"][$i]);
-						move_uploaded_file($_FILES["media"]["tmp_name"][$i], "upload/".$Id_fichier."/".$nomFichier);
-						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,bin) values(?,?,?,?,?)");
-			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],"upload/".$Id_fichier."/".$nomFichier));
+						$chemin = "upload/".$Id_fichier."/".$nomFichier;
+						move_uploaded_file($_FILES["media"]["tmp_name"][$i], $chemin);
+						$date = date('Y-m-d H:i:s',filemtime($chemin));
+						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
+			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],$date,$chemin));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
@@ -39,7 +41,7 @@
 			}
 		}
 	}
-	unset($_POST);
+	unset($_POST['randomformOK']);
 	// Protection contre "actualiser la page" ou envoi depuis l'extérieur (vol de formulaire)
 	$_SESSION['random_OK'] = uniqid(); // nombre aléatoire unique
 ?>

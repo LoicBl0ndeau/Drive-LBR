@@ -32,31 +32,7 @@ $Role = $postData['Role'];
 
 ?>
 
-<?php
-try
-{
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
 
-// Ecriture de la requête
-$sqlQuery = 'INSERT INTO profil(email, Nom, Prenom, Description, Role) VALUES (:email, :Nom, :Prenom, :Description, :Role)';
-
-// Préparation
-$insertRecipe = $mysqlClient->prepare($sqlQuery);
-
-// Exécution ! l'utilisateur est maintenant en base de données
-$insertRecipe->execute([
-    'email' => $Email,
-    'Nom' => $Nom,
-    'Prenom' => $Prenom,
-    'Description' => $Description,
-    'Role' => $Role,
-]);
-?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -78,30 +54,91 @@ $insertRecipe->execute([
       <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-      <div class="container">
+		<?php
 
-        <h1>Utilisateur bien ajouté</h1>
+		// Validation du formulaire
+		$same_email = 0;
+			foreach ($users as $user) {
+			    if ($user['email'] === $Email) {
+						$same_email++;
+			        //echo "le mail semble déjà utilisé";
+			    }
+					else {
+						//echo "le mail semble ne jamais avoir été utilisé";
+			      //$errorMessage = sprintf('le mail semble ne jamais avoir été utilisé');
+			    }
+			}
+			//echo $same_email;
+		?>
 
-        <div class="card">
+		<?php
+		if ($same_email) {
+			$errorMessage = sprintf('L\'adresse email semble déjà utilisé, l\'utilisateur n\'est pas enregistré');
+		}
+		else {
+			try
+			{
+				$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
+			}
+			catch (Exception $e)
+			{
+			        die('Erreur : ' . $e->getMessage());
+			}
 
-          <div class="card-body">
-              <h5 class="card-title">Rappel de vos informations</h5>
-              <p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
-              <p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
-              <p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
-              <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
-              <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
-          </div>
-	        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
-        </div>
-      </div>
+			// Ecriture de la requête
+			$sqlQuery = 'INSERT INTO profil(email, Nom, Prenom, Description, Role) VALUES (:email, :Nom, :Prenom, :Description, :Role)';
 
-			<!-- Page Profil -->
-			<?php include_once('mask_profil.php'); ?>
+			// Préparation
+			$insertRecipe = $mysqlClient->prepare($sqlQuery);
 
-			<?php
-				echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
-			?>
+			// Exécution ! l'utilisateur est maintenant en base de données
+			$insertRecipe->execute([
+			    'email' => $Email,
+			    'Nom' => $Nom,
+			    'Prenom' => $Prenom,
+			    'Description' => $Description,
+			    'Role' => $Role,
+			]);
+		}
+
+		?>
+
+    <div class="container">
+
+			<!-- si message d'erreur on l'affiche -->
+	    <?php if(isset($errorMessage)) : ?>
+	        <div class="alert alert-danger" role="alert">
+	            <?php echo $errorMessage; ?>
+	        </div>
+					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+
+			<?php else: ?>
+
+				<h1>Utilisateur bien ajouté</h1>
+
+				<div class="card">
+
+					<div class="card-body">
+							<h5 class="card-title">Rappel de vos informations</h5>
+							<p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
+							<p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
+							<p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
+							<p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
+							<p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
+					</div>
+					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				</div>
+
+	    <?php endif; ?>
+
+    </div>
+
+		<!-- Page Profil -->
+		<?php include_once('mask_profil.php'); ?>
+
+		<?php
+			echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+		?>
 
 	</body>
 </html>
