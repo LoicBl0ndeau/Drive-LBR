@@ -238,7 +238,8 @@ input[type=file]{
   background: #D72E2A;
 }
 
-                /* Je modifie ici */
+            /* Modification pour la page gestionnaire de compte */
+
 #table_compte
 {
 
@@ -274,4 +275,4 @@ td, th {
 border-bottom: 1px solid #ddd
 }
 
-td:hover {background-color: lightgray;}
+tr:hover {background-color: lightgray;}
