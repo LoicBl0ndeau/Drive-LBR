@@ -35,7 +35,7 @@
 				require('connect.php');
 			  $query = "SELECT * FROM profil WHERE email=? and MDP=? limit 1";
 			  $resultStatement = $PDO->prepare($query);
-				$resultStatement->execute(array($_POST['identifiant'],hash('sha256', $_POST['mdp'])));
+				$resultStatement->execute(array(strip_tags($_POST['identifiant']),hash('sha256', strip_tags($_POST['mdp']))));
 				$result = $resultStatement->fetchAll();
 				if(count($result) > 0){
 					$_SESSION['loggedUser'] = [
