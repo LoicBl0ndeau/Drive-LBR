@@ -183,12 +183,17 @@ header > a
   cursor: pointer;
 }
 
+#pdp_profil, #pdp_user
+{
+  object-fit: cover;
+}
+
 input[type=file]{
   display: none;
 }
 
 #pdp_profil:hover{
-  filter: grayscale(60%);
+  filter: grayscale(100%);
 }
 
 #container_profil_stats
