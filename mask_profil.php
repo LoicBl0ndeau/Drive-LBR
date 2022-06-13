@@ -8,12 +8,20 @@
 					$allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
 					$extension = strtolower(pathinfo($_FILES['photodeprofil']['name'])['extension']);
 					if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est un média
-
-						//mkdir("pdp/".$_SESSION['loggedUser']['email'], 0700);
+						if(!file_exists("pdp/".$_SESSION['loggedUser']['email'])){
+							mkdir("pdp/".$_SESSION['loggedUser']['email'], 0700);
+						}
 						$nomFichier = basename($_FILES["photodeprofil"]["name"]);
-						move_uploaded_file($_FILES["photodeprofil"]["tmp_name"], "pdp/".$_SESSION['loggedUser']['email']."/".$nomFichier);
+						$path_pdp = "pdp/".$_SESSION['loggedUser']['email']."/".$nomFichier;
+						move_uploaded_file($_FILES["photodeprofil"]["tmp_name"], $path_pdp);
+						$req=$PDO->prepare("SELECT * FROM profil where email=?");
+			    	$req->execute(array($_SESSION['loggedUser']['email']));
+						$res = $req->fetchAll()[0]['pdp'];
+						if($res != "images/pdp_user.jpg"){
+							unlink($res);
+						}
 						$req=$PDO->prepare("UPDATE profil set pdp=? where email=?");
-			    	$req->execute(array("pdp/".$_SESSION['loggedUser']['email']."/".$nomFichier,$_SESSION['loggedUser']['email']));
+			    	$req->execute(array($path_pdp,$_SESSION['loggedUser']['email']));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
@@ -46,11 +54,8 @@
     </a>
     <div id="container_pdp_profil">
       <label for="changer_pdp" id="pdp">
-<<<<<<< HEAD
-          <img src="upload/11/logo test.png" alt="pdp_utilisateur" id="pdp_profil" />
-=======
-          <img src='images/pdp_user.jpg' alt="pdp_utilisateur" id="pdp_profil" />
->>>>>>> 51ad4df141b8347d8eadb16b653780472d77e35e
+          <img src="<?php include("connect.php");$req=$PDO->prepare("SELECT * FROM profil where email=?");$req->execute(array($_SESSION['loggedUser']['email']));$res = $req->fetchAll()[0]['pdp'];echo $res; ?>" alt="pdp_utilisateur" id="pdp_profil" />
+					<?php echo "<script>$('#pdp_user').attr('src','".$res."');</script>" ?>
       </label>
       <form id="form_profil" method="post" enctype="multipart/form-data">
         <input type="file" id="changer_pdp" name="photodeprofil" accept="image/*" />
