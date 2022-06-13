@@ -227,3 +227,41 @@ header > a
 {
   background: #D72E2A;
 }
+
+                /* Je modifie ici */
+#table_compte
+{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table
+{
+width: 100%;
+border-collapse: collapse;
+text-align: center;
+}
+
+thead
+{
+  background-color: #A02026;
+}
+
+th
+{
+  color : #FFFFFF;
+
+}
+
+td
+{
+  height : 50px;
+
+}
+td, th {
+border-bottom: 1px solid #ddd
+}
+
+td:hover {background-color: lightgray;}

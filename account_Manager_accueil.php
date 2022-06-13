@@ -31,11 +31,11 @@
 			<table>
         <thead>
           <tr>
-						<th> Nom </th>
+						<th>Nom</th>
            <th>Prenom</th>
            <th>email</th>
            <th>Role</th>
-					 <th><button type="button" name="button"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
+					 <th><button type="button" name="button" id="bouton_ajouter"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
           </tr>
         </thead>
         <tbody>
