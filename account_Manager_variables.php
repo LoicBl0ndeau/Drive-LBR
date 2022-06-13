@@ -23,8 +23,8 @@ if (
 	$recherche = "";
 }
 else {
-	//echo('recherche : ' . $_POST['recherche']);
-	$recherche = $postData['recherche'];
+	$recherche = strip_tags($postData['recherche']);
+	//echo('recherche : ' . $recherche);
 }
 
 

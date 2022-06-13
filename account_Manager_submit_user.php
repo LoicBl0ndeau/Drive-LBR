@@ -24,11 +24,11 @@ if (
     return;
 }
 
-$Prenom = $postData['Prenom'];
-$Nom = $postData['Nom'];
-$Email = $postData['Email'];
-$Description = $postData['Description'];
-$Role = $postData['Role'];
+$Prenom = strip_tags($postData['Prenom']);
+$Nom = strip_tags($postData['Nom']);
+$Email = strip_tags($postData['Email']);
+$Description = strip_tags($postData['Description']);
+$Role = strip_tags($postData['Role']);
 
 ?>
 
