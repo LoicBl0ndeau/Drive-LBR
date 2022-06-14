@@ -284,7 +284,6 @@ td, th {
 border-bottom: 1px solid #ddd
 }
 
-<<<<<<< HEAD
 tr.tab_body:hover {background-color: lightgray;}
 
                /* Modification page ajouter un compte */
@@ -494,12 +493,4 @@ h5 {
 .card-body {
     flex: 1 1 auto;
     padding: 1rem 1rem;
-=======
-tr:hover {background-color: lightgray;}
-
-.media
-{
-  height: 200px;
-  margin: 20px;
->>>>>>> 4b92b80821f49c0ce4237a57a056f399fd955114
 }
