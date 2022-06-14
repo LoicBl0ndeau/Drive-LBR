@@ -253,6 +253,28 @@ input[type=file]{
   align-items: center;
 }
 
+#container_tags{
+  width: 100vw;
+  display: flex;
+
+}
+
+#catégories_de_tags{
+  text-align: center;
+  width: 50vw;
+  height: 50%;
+  display: block;
+
+}
+
+#Tags{
+  text-align: center;
+  width: 50vw;
+
+
+
+}
+
 table
 {
 width: 100%;
