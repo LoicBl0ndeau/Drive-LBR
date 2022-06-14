@@ -47,6 +47,29 @@
 						'Role' => $result[0]['Role']
 					];
 					echo "<script>$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='1.5; url=accueil.php' />";
+
+					//   ajout d'une ligne dans le changelog
+					try
+					{
+						$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
+					}
+					catch (Exception $e)
+					{
+									die('Erreur : ' . $e->getMessage());
+					}
+					// Ecriture de la requête
+					$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+					// Préparation
+					$changelog_login = $mysqlClient->prepare($sqlQuery);
+
+					// Exécution ! l'utilisateur est maintenant en base de données
+					$changelog_login->execute([
+							'Nom' => $_SESSION['loggedUser']['Nom'],
+							'Date_de_modification' => date('d-m-y h:i:s'),
+							'Description' => "Connexion du compte " . $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'] . " / " . $_SESSION['loggedUser']['Nom'] . " / " . $_SESSION['loggedUser']['Prenom'],
+					]);
+
 				}
 				else{
 					$message = "Le nom d'utilisateur ou le mot de passe est incorrect.";

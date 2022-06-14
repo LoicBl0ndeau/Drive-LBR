@@ -98,6 +98,21 @@ $Role = strip_tags($postData['Role']);
 			    'Description' => $Description,
 			    'Role' => $Role,
 			]);
+
+			//   ajout d'une ligne dans le changelog
+
+			// Ecriture de la requête
+			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+			// Préparation
+			$edited_user = $mysqlClient->prepare($sqlQuery);
+
+			// Exécution ! l'utilisateur est maintenant en base de données
+			$edited_user->execute([
+					'Nom' => $_SESSION['loggedUser']['Nom'],
+					'Date_de_modification' => date('d-m-y h:i:s'),
+					'Description' => "Création d'un compte : $Email / $Nom / $Prenom / $Description / $Role",
+			]);
 		}
 
 		?>
