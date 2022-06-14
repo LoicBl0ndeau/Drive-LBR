@@ -7,6 +7,7 @@
 		exit();
 	}
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
@@ -18,13 +19,53 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="js/changelog.js"></script>
 		<title>ChangeLog Drive - Les Briques Rouges</title>
+
 	</head>
-  <body>
-		<header>
-			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
-			<div id="container_header_right">
-				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
-			</div>
-		</header>
+
+	<body class="d-flex flex-column min-vh-100">
+      <!-- Navigation -->
+    <header>
+      <?php include_once('changelog_header.php'); ?>
+    </header>
+
+		<div id="table_compte">
+
+			<?php
+			if (empty($changelogs))
+			{
+				echo "il n'y a pas de résultats pour votre recherche"."<br />";
+			}
+			?>
+
+			<table>
+        <thead>
+          <tr>
+						<th>Id_Log_</th>
+						<th>Nom</th>
+						<th>Date_de_modification</th>
+						<th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach($changelogs as $changelog) : ?>
+                <tr class="tab_body">
+									<td><?php echo $changelog['Id_Log_']?></td>
+									<td><?php echo $changelog['Nom']?></td>
+									<td><?php echo $changelog['Date_de_modification'];?></td>
+									<td><?php echo $changelog['Description'];?></td>
+                </tr>
+          <?php endforeach ?>
+        </tbody>
+      </table>
+
+    </div>
+
+	  <!-- Page Profil -->
+		<?php include_once('mask_profil.php'); ?>
+
+		<?php
+			echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+	 	?>
+
   </body>
 </html>

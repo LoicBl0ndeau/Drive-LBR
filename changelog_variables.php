@@ -31,9 +31,9 @@ else {
 
 
 // On récupère tout le contenu de la table recipes
-$sqlQuery = 'SELECT * FROM profil WHERE Nom LIKE "%' . $recherche . '%" OR Prenom LIKE "%' . $recherche . '%" OR email LIKE "%' . $recherche . '%" OR Role LIKE "%' . $recherche . '%" OR Id_Profil LIKE "%' . $recherche . '%" ORDER BY Nom;';
-$recipesStatement = $mysqlClient->prepare($sqlQuery);
-$recipesStatement->execute();
-$users = $recipesStatement->fetchAll();
+$sqlQuery = 'SELECT * FROM log_ WHERE Id_log_ LIKE "%' . $recherche . '%" OR Nom LIKE "%' . $recherche . '%" OR Date_de_modification LIKE "%' . $recherche . '%" OR Description LIKE "%' . $recherche . '%" ORDER BY Id_log_;';
+$changelogStatement = $mysqlClient->prepare($sqlQuery);
+$changelogStatement->execute();
+$changelogs = $changelogStatement->fetchAll();
 
 ?>

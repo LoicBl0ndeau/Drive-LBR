@@ -25,12 +25,12 @@ if (
   return;
 }
 
-$Id_Profil = $postData['Id_Profil'];
-$Prenom = $postData['Prenom'];
-$Nom = $postData['Nom'];
-$Email = $postData['Email'];
-$Description = $postData['Description'];
-$Role = $postData['Role'];
+$Id_Profil = strip_tags($postData['Id_Profil']);
+$Prenom = strip_tags($postData['Prenom']);
+$Nom = strip_tags($postData['Nom']);
+$Email = strip_tags($postData['Email']);
+$Description = strip_tags($postData['Description']);
+$Role = strip_tags($postData['Role']);
 
 ?>
 
@@ -45,7 +45,7 @@ $Role = $postData['Role'];
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<title>Drive - Les Briques Rouges</title>
+		<title>Account Manager Drive - Les Briques Rouges</title>
 	</head>
 
   <body class="d-flex flex-column min-vh-100">
