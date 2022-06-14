@@ -19,6 +19,7 @@ header
   height: 80px;
   display: flex;
   align-items: center;
+  z-index: 9;
   justify-content: space-between;
   background-color: #D72E2A;
 }
@@ -115,6 +116,7 @@ header > a
   top: 0;
   bottom: 0;
   left: 0;
+  z-index: 99;
   right: 0;
   transform: translateX(100vw);
   display: flex;
@@ -129,6 +131,7 @@ header > a
   position: fixed;
   left: calc(50vw - 50vmin / 2);
   top: 50%;
+  z-index: 100;
   transform: translate(100vw,-50%);
   transition: transform .5s;
   background-color: #171717;
@@ -281,6 +284,7 @@ td, th {
 border-bottom: 1px solid #ddd
 }
 
+<<<<<<< HEAD
 tr.tab_body:hover {background-color: lightgray;}
 
                /* Modification page ajouter un compte */
@@ -490,4 +494,12 @@ h5 {
 .card-body {
     flex: 1 1 auto;
     padding: 1rem 1rem;
+=======
+tr:hover {background-color: lightgray;}
+
+.media
+{
+  height: 200px;
+  margin: 20px;
+>>>>>>> 4b92b80821f49c0ce4237a57a056f399fd955114
 }

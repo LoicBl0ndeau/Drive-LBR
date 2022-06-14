@@ -87,8 +87,68 @@
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 
+		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
+
+		<div id="trier_par">Trier par :</div>
 		<?php
-			echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+			function mois($mois) {
+				switch ($mois) {
+					case 1:
+						$mois = "Janvier";
+					break;
+					case 2:
+						$mois = "Février";
+					break;
+					case 3:
+						$mois = "Mars";
+					break;
+					case 4:
+						$mois = "Avril";
+					break;
+					case 5:
+						$mois = "Mai";
+					break;
+					case 6:
+						$mois = "Juin";
+					break;
+					case 7:
+						$mois = "Juillet";
+					break;
+					case 8:
+						$mois = "Août";
+					break;
+					case 9:
+						$mois = "Septembre";
+					break;
+					case 10:
+						$mois = "Octobre";
+					break;
+					case 11:
+						$mois = "Novembre";
+					break;
+					case 12:
+						$mois = "Décembre";
+					break;
+				}
+		 		return $mois;
+			}
+			$req = $PDO->query("SELECT * FROM fichier ORDER BY Date_de_publication");
+			$res = $req->fetchAll();
+			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
+			$dateOlder = date_create($res[0]['Date_de_publication']);
+			echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1>";
+			foreach ($res as $media) {
+				if($dateOlder != date_create($media['Date_de_publication'])){
+					$dateOlder = date_create($media['Date_de_publication']);
+					echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1>";
+				}
+				if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+					echo "<img class='media' src='".$media['bin']."' alt='".$media['Titre']."' />";
+				}
+				else{
+					echo "<video controls class='media'><source src='".$media['bin']."' />Your browser does not support the video tag.</video>";
+				}
+			}
 	 	?>
   </body>
 </html>
