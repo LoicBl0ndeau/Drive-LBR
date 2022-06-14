@@ -150,5 +150,6 @@
 				}
 			}
 	 	?>
+		<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
   </body>
 </html>
