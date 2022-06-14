@@ -1,13 +1,17 @@
 <?php
-    include_once('var_AM.php');
-    include_once('func_AM.php');
+    include_once('changelog_variables.php');
+    //include_once('func_AM.php');
 ?>
 
 <a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
 
 
 <div id="scearch_bar">
-	<input type="text" id="text_scearch_bar" placeholder="Tapez le nom d'un utilisateur" />
+
+  <form method="post">
+    <input type="text" id="text_scearch_bar" placeholder="Tapez le nom d'un utilisateur" name="recherche"/>
+  </form>
+
 	<label for="text_scearch_bar">
 		<!-- c'est la loupe -->
 		<svg fill="#FFFF" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px">
