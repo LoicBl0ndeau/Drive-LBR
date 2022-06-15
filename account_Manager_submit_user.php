@@ -23,8 +23,10 @@ if (
     !isset($_POST['Role']) || empty($_POST['Role'])
     )
 {
-	echo('Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.');
-    return;
+	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
+				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>');
+  return;
 }
 
 $Prenom = strip_tags($postData['Prenom']);
@@ -113,7 +115,7 @@ $Role = strip_tags($postData['Role']);
 			// Exécution ! l'utilisateur est maintenant en base de données
 			$edited_user->execute([
 					'Nom' => $_SESSION['loggedUser']['Nom'],
-					'Date_de_modification' => date('d-m-y h:i:s'),
+					'Date_de_modification' => date('d-m-y H:i:s'),
 					'Description' => "Création d'un compte : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
 		}
