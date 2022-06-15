@@ -6,6 +6,9 @@
 		header("Location: login.php");
 		exit();
 	}
+
+	// Défini le fuseau horaire à utilisateur
+	date_default_timezone_set('Europe/Paris');
 ?>
 <?php // importer des photos
 	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"

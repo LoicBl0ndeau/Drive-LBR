@@ -6,6 +6,9 @@
 		header("Location: login.php");
 		exit();
 	}
+
+	// Défini le fuseau horaire à utilisateur
+	date_default_timezone_set('Europe/Paris');
 ?>
 
 <!DOCTYPE html>
