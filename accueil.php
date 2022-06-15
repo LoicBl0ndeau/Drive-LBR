@@ -10,7 +10,7 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
-<?php
+<?php //download
 	if(isset($_POST['src_download'])){
 		$file = $_POST['src_download'];
 		header('Content-Description: File Transfer');
@@ -23,6 +23,15 @@
 		readfile($file);
 		exit;
 	}
+?>
+<?php //delete
+	if(isset($_SESSION['random_OK'], $_POST['randomdeleteOK']) && $_POST['randomdeleteOK'] == $_SESSION['random_OK']){
+		include("connect.php");
+		$req = $PDO->prepare("DELETE FROM fichier WHERE bin=?");
+		$req->execute(array($_POST['delete']));
+		unlink($_POST['delete']);
+	}
+	unset($_POST['randomdeleteOK']);
 ?>
 <?php // importer des photos
 	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
@@ -79,6 +88,7 @@
 	</head>
   <body>
 		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
+		<form method="post" id="delete" enctype="multipart/form-data"><input type="hidden" name="delete" /><input type="hidden" name="randomdeleteOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
 		<div id="lecteur"></div>
 		<header>
 			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
@@ -110,7 +120,7 @@
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
-<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
+		<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
 		<div id="trier_par">Trier par :</div>
 		<?php
 			function mois($mois) {

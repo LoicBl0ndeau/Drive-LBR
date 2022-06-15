@@ -40,7 +40,16 @@ $(document).ready(function(){
         name: "Supprimer des tags"
       },
       supprimer: {
-        name: "Supprimer"
+        name: "Supprimer",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#delete input[name=delete]').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#delete input[name=delete]').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#delete').submit();
+        }
       },
       telecharger: {
         name: "Télécharger",
