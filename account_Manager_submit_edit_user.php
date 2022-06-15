@@ -6,6 +6,9 @@
 		header("Location: login.php");
 		exit();
 	}
+
+	// Défini le fuseau horaire à utilisateur
+	date_default_timezone_set('Europe/Paris');
 ?>
 
 <?php
@@ -100,6 +103,21 @@ $Role = strip_tags($postData['Role']);
 			    'Prenom' => $Prenom,
 			    'Description' => $Description,
 			    'Role' => $Role,
+			]);
+
+			//   ajout d'une ligne dans le changelog
+
+			// Ecriture de la requête
+			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+			// Préparation
+			$edited_user = $mysqlClient->prepare($sqlQuery);
+
+			// Exécution ! l'utilisateur est maintenant en base de données
+			$edited_user->execute([
+			    'Nom' => $_SESSION['loggedUser']['Nom'],
+			    'Date_de_modification' => date('d-m-y h:i:s'),
+			    'Description' => "Modification du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
 		}
 

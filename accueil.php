@@ -6,6 +6,23 @@
 		header("Location: login.php");
 		exit();
 	}
+
+	// Défini le fuseau horaire à utilisateur
+	date_default_timezone_set('Europe/Paris');
+?>
+<?php
+	if(isset($_POST['src_download'])){
+		$file = $_POST['src_download'];
+		header('Content-Description: File Transfer');
+		header('Content-Type: application/octet-stream');
+		header('Content-Disposition: attachment; filename="'.basename($file).'"');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($file));
+		readfile($file);
+		exit;
+	}
 ?>
 <?php // importer des photos
 	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
@@ -54,10 +71,15 @@
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="js/contextmenu/jquery.contextMenu.js"></script>
+		<script src="js/contextmenu/jquery.ui.position.min.js"></script>
+		<link rel="stylesheet" href="js/contextmenu/jquery.contextMenu.min.css" />
 		<script src="js/accueil.js"></script>
 		<title>Drive - Les Briques Rouges</title>
 	</head>
   <body>
+		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
+		<div id="lecteur"></div>
 		<header>
 			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
 			<div id="scearch_bar">
@@ -135,18 +157,23 @@
 			$req = $PDO->query("SELECT * FROM fichier ORDER BY Date_de_publication");
 			$res = $req->fetchAll();
 			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
-			$dateOlder = date_create($res[0]['Date_de_publication']);
-			echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1>";
+			$dateOlder = NULL;
 			foreach ($res as $media) {
 				if($dateOlder != date_create($media['Date_de_publication'])){
-					$dateOlder = date_create($media['Date_de_publication']);
-					echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1>";
+					if($dateOlder == NULL){
+						$dateOlder = date_create($media['Date_de_publication']);
+						echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+					}
+					else{
+						$dateOlder = date_create($media['Date_de_publication']);
+						echo "</div><h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+					}
 				}
 				if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-					echo "<img class='media' src='".$media['bin']."' alt='".$media['Titre']."' />";
+					echo "<div class='marge'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
 				}
 				else{
-					echo "<video controls class='media'><source src='".$media['bin']."' />Your browser does not support the video tag.</video>";
+					echo "<div class='marge'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
 				}
 			}
 	 	?>

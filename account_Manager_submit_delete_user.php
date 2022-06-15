@@ -6,6 +6,9 @@
 		header("Location: login.php");
 		exit();
 	}
+
+	// Défini le fuseau horaire à utilisateur
+	date_default_timezone_set('Europe/Paris');
 ?>
 
 <?php
@@ -37,6 +40,18 @@ catch (Exception $e)
 }
 
 // Ecriture de la requête
+$sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
+
+// Préparation
+$userStatement = $mysqlClient->prepare($sqlQuery);
+
+// Exécution ! l'utilisateur est maintenant en base de données
+$userStatement->execute([
+    'Id_Profil' => $Id_Profil
+]);
+$users = $userStatement->fetchAll();
+
+// Ecriture de la requête
 $sqlQuery = 'DELETE FROM Profil WHERE Id_Profil=:Id_Profil';
 
 // Préparation
@@ -45,6 +60,30 @@ $delete_user = $mysqlClient->prepare($sqlQuery);
 // Exécution ! l'utilisateur est maintenant supprimé de la base de données
 $delete_user->execute([
     'Id_Profil' => $Id_Profil,
+]);
+
+//   ajout d'une ligne dans le changelog
+
+// Ecriture de la requête
+$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+// Préparation
+$edited_user = $mysqlClient->prepare($sqlQuery);
+
+// Exécution ! l'utilisateur est maintenant en base de données
+
+foreach ($users as $user) {
+	$Email = $user['email'];
+	$Nom = $user['Nom'];
+	$Prenom = $user['Prenom'];
+	$Description = $user['Description'];
+	$Role = $user['Role'];
+}
+
+$edited_user->execute([
+		'Nom' => $_SESSION['loggedUser']['Nom'],
+		'Date_de_modification' => date('d-m-y h:i:s'),
+		'Description' => "Suppression du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 ]);
 ?>
 
