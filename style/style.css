@@ -604,3 +604,34 @@ h5 {
     width: 200px;
   }
 }
+
+#ajoutcat{
+
+  position: fixed;
+  left: 40vh;
+  right:40vh;
+  top:35vw;
+  bottom: 10vw;
+  z-index: 100;
+  transform: translate(-100vw,-50%);
+  transition: transform .5s;
+  background-color: #D72E2A;
+  border-radius: 8px;
+
+
+
+}
+
+#mask_tag
+{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  right: 0;
+  transform: translateX(100vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

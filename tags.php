@@ -95,10 +95,15 @@
     <span id="Tags">
       <h1>Tags</h1>
 
-      <div class="plus" id="plus_cat">+</div><br/>
+      <div class="plus" id="plus_tags">+</div><br/>
 
     </span>
   </div>
+
+	<div id="ajoutcat">
+		
+	</div>
+	<div id="mask_tag"></div>
 
 </body>
 </html>
