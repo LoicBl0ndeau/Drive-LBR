@@ -110,7 +110,7 @@
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
-
+<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
 		<div id="trier_par">Trier par :</div>
 		<?php
 			function mois($mois) {
@@ -177,6 +177,6 @@
 				}
 			}
 	 	?>
-		<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
+
   </body>
 </html>
