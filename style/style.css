@@ -332,7 +332,6 @@ border-bottom: 1px solid #ddd;
 
 tr.tab_body:hover {background-color: lightgray;}
 
-<<<<<<< HEAD
                /* Modification page ajouter un compte */
 .container
 {
@@ -540,7 +539,8 @@ h5 {
 .card-body {
     flex: 1 1 auto;
     padding: 1rem 1rem;
-=======
+}
+
 .container_media
 {
   display: flex;
@@ -578,7 +578,6 @@ h5 {
 .marge
 {
   margin: 20px;
->>>>>>> 76102d118b09b878aa4f5216737b8b4ab3abea12
 }
 
 @media only screen and (orientation: portrait) /* Si height > width */
