@@ -52,7 +52,7 @@
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <link rel="icon" href="images/favicon.ico" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="js/accueil.js"></script>
+  <script src="js/tags.js"></script>
   <title>Drive - Les Briques Rouges</title>
 </head>
 <body>
@@ -85,18 +85,15 @@
     <span id="catégories_de_tags">
       <h1>Catégories de tags</h1>
 
-        <input  type="button" value="+" /><br/>
-        <input  type="button" value="ajouter un tag" /><br/>
-        <input  type="button" value="ajouter un tag" /><br/>
-        <input  type="button" value="ajouter un tag" /><br/>
+        <div class="plus" id="plus_cat">+</div><br/>
+
 
     </span>
     <span id="Tags">
       <h1>Tags</h1>
-      <input  type="button" value="ajouter un tag" /><br/>
-      <input  type="button" value="ajouter un tag" /><br/>
-      <input  type="button" value="ajouter un tag" /><br/>
-      <input  type="button" value="ajouter un tag" /><br/>
+
+      <div class="plus" id="plus_cat">+</div><br/>
+
     </span>
   </div>
 
