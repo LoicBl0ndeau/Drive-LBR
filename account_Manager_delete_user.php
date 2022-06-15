@@ -69,7 +69,7 @@ $users = $userStatement->fetchAll();
 				<form action="account_Manager_submit_delete_user.php" method="post">
         	<button class="btn btn-danger" type="submit" name="user" value="<?php echo $Id_Profil ?>">SUPPRIMER</button>
 				</form>
-        <button class="btn btn-success" type="button" name="button">RETOUR</button>
+        <button class="btn btn-success" type="button" name="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager_accueil.php';">RETOUR</button>
     </div>
   </body>
 </html>
