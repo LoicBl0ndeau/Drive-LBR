@@ -71,7 +71,7 @@
 
 					// Exécution ! l'utilisateur est maintenant en base de données
 					$changelog_login->execute([
-							'Nom' => $_SESSION['loggedUser']['Nom'],
+							'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 							'Date_de_modification' => date('d-m-y H:i:s'),
 							'Description' => "Connexion du compte " . $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'] . " / " . $_SESSION['loggedUser']['Nom'] . " / " . $_SESSION['loggedUser']['Prenom'],
 					]);

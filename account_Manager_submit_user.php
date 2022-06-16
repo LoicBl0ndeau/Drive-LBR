@@ -114,7 +114,7 @@ $Role = strip_tags($postData['Role']);
 
 			// Exécution ! l'utilisateur est maintenant en base de données
 			$edited_user->execute([
-					'Nom' => $_SESSION['loggedUser']['Nom'],
+					'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 					'Date_de_modification' => date('d-m-y H:i:s'),
 					'Description' => "Création d'un compte : $Email / $Nom / $Prenom / $Description / $Role",
 			]);

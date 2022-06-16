@@ -31,7 +31,7 @@ else {
 
 
 // On récupère tout le contenu de la table recipes
-$sqlQuery = 'SELECT * FROM log_ WHERE Id_log_ LIKE "%' . $recherche . '%" OR Nom LIKE "%' . $recherche . '%" OR Date_de_modification LIKE "%' . $recherche . '%" OR Description LIKE "%' . $recherche . '%" ORDER BY Id_log_;';
+$sqlQuery = 'SELECT * FROM log_ WHERE Id_log_ LIKE "%' . $recherche . '%" OR Nom LIKE "%' . $recherche . '%" OR Date_de_modification LIKE "%' . $recherche . '%" OR Description LIKE "%' . $recherche . '%" ORDER BY Id_log_ DESC;';
 $changelogStatement = $mysqlClient->prepare($sqlQuery);
 $changelogStatement->execute();
 $changelogs = $changelogStatement->fetchAll();
