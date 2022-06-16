@@ -73,9 +73,9 @@
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
-    <button type="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager_accueil.php';" >account manager</button> <!-- c'est en attendant le bon menu -->
-		<button type="button" onclick="window.location.href='http://localhost/drive_lbr/changelog.php';" >changelog</button> <!-- c'est en attendant le bon menu -->
-    <button type="button">Corbeille</button>
+    <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
+		<button type="button" onclick="window.location.href='changelog.php';" >Changelog</button> <!-- c'est en attendant le bon menu -->
+    <button type="button" onclick="window.location.href='corbeille.php';">Corbeille</button>
   </div>
 </div>
 
