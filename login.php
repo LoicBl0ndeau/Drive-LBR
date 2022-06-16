@@ -54,20 +54,12 @@
 					];
 					echo "<script>$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='1.5; url=accueil.php' />";
 
-					//   ajout d'une ligne dans le changelog
-					try
-					{
-						$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-					}
-					catch (Exception $e)
-					{
-									die('Erreur : ' . $e->getMessage());
-					}
+					// ajout d'une ligne dans le changelog
 					// Ecriture de la requête
 					$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 					// Préparation
-					$changelog_login = $mysqlClient->prepare($sqlQuery);
+					$changelog_login = $PDO->prepare($sqlQuery);
 
 					// Exécution ! l'utilisateur est maintenant en base de données
 					$changelog_login->execute([
