@@ -73,8 +73,11 @@
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
+
+<?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
     <button type="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager_accueil.php';" >account manager</button> <!-- c'est en attendant le bon menu -->
 		<button type="button" onclick="window.location.href='http://localhost/drive_lbr/changelog.php';" >changelog</button> <!-- c'est en attendant le bon menu -->
+<?php endif ?>
     <button type="button">Corbeille</button>
   </div>
 </div>

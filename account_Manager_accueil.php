@@ -9,6 +9,10 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+// Autorisation admin 
+	include_once('account_Manager_functions.php');
+	autorisation_admin();
 ?>
 
 <!DOCTYPE html>
