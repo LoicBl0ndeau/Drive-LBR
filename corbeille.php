@@ -10,6 +10,23 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
+<?php //restore
+	if(isset($_SESSION['random_OK'], $_POST['randomrestoreOK']) && $_POST['randomrestoreOK'] == $_SESSION['random_OK']){
+		include("connect.php");
+		$req = $PDO->prepare("UPDATE fichier SET Corbeille = 0 WHERE bin=?");
+		$req->execute(array($_POST['restore']));
+	}
+	unset($_POST['randomrestoreOK']);
+?>
+<?php //delete
+	if(isset($_SESSION['random_OK'], $_POST['randomdeleteOK']) && $_POST['randomdeleteOK'] == $_SESSION['random_OK']){
+		include("connect.php");
+		$req = $PDO->prepare("DELETE FROM fichier WHERE bin=?");
+		$req->execute(array($_POST['delete']));
+		unlink($_POST['delete']);
+	}
+	unset($_POST['randomdeleteOK']);
+?>
 <?php //download
 	if(isset($_POST['src_download'])){
 		$file = $_POST['src_download'];
@@ -23,51 +40,6 @@
 		readfile($file);
 		exit;
 	}
-?>
-<?php //delete
-	if(isset($_SESSION['random_OK'], $_POST['randomdeleteOK']) && $_POST['randomdeleteOK'] == $_SESSION['random_OK']){
-		include("connect.php");
-		$req = $PDO->prepare("UPDATE fichier SET Corbeille = 1 WHERE bin=?");
-		$req->execute(array($_POST['delete']));
-	}
-	unset($_POST['randomdeleteOK']);
-?>
-<?php // importer des photos
-	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
-		$total_count = count($_FILES['media']['name']);
-		for( $i=0 ; $i < $total_count ; $i++ ) {
-		  if(isset($_FILES['media']) && $_FILES['media']['error'][$i] == 0){
-				if($_FILES['media']['size'][$i] <= 10000000000){ //max 10Go
-			    include("connect.php");
-					$allowedExtensions = ['ogm', 'wmv', 'mpg', 'webm', 'ogv', 'mov', 'asx', 'mpeg', 'mp4', 'm4v', 'avi','jpg', 'jpeg', 'gif', 'png', 'tiff', 'pjp', 'jfif', 'bmp', 'svg', 'xbm', 'dib', 'jxl', 'svgz', 'webp', 'ico', 'tif', 'pjpeg', 'avif'];
-					$extension = strtolower(pathinfo($_FILES['media']['name'][$i])['extension']);
-					if(in_array($extension, $allowedExtensions)){ //on vérifie que l'extension est un média
-						$req=$PDO->query("SHOW TABLE STATUS FROM lbr LIKE 'fichier'");
-						$res = $req->fetch();
-						$Id_fichier = $res['Auto_increment'];
-						mkdir("upload/".$Id_fichier, 0700);
-						$nomFichier = basename($_FILES["media"]["name"][$i]);
-						$chemin = "upload/".$Id_fichier."/".$nomFichier;
-						move_uploaded_file($_FILES["media"]["tmp_name"][$i], $chemin);
-						$date = date('Y-m-d H:i:s',filemtime($chemin));
-						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur_Id,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
-			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Id_Profil'],$_FILES["media"]["size"][$i],$date,$chemin));
-					}
-					else{
-						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
-					}
-				}
-				else{
-					echo "<script>alert('Erreur, fichier trop volumineux');</script>";
-				}
-			}
-			else{
-				echo "<script>alert('Erreur lors de l'upload. Erreur n°".$_FILES['media']['error'][$i]."');</script>";
-			}
-		}
-	}
-	unset($_POST['randomformOK']);
-	// Protection contre "actualiser la page" ou envoi depuis l'extérieur (vol de formulaire)
 	$_SESSION['random_OK'] = uniqid(); // nombre aléatoire unique
 ?>
 <!DOCTYPE html>
@@ -82,12 +54,13 @@
 		<script src="js/contextmenu/jquery.contextMenu.js"></script>
 		<script src="js/contextmenu/jquery.ui.position.min.js"></script>
 		<link rel="stylesheet" href="js/contextmenu/jquery.contextMenu.min.css" />
-		<script src="js/accueil.js"></script>
-		<title>Drive - Les Briques Rouges</title>
+		<script src="js/corbeille.js"></script>
+		<title>Corbeille Drive - Les Briques Rouges</title>
 	</head>
   <body>
 		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
 		<form method="post" id="delete" enctype="multipart/form-data"><input type="hidden" name="delete" /><input type="hidden" name="randomdeleteOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
+		<form method="post" id="restore" enctype="multipart/form-data"><input type="hidden" name="restore" /><input type="hidden" name="randomrestoreOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
 		<div id="lecteur"></div>
 		<header>
 			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
@@ -100,21 +73,6 @@
 				</label>
 			</div>
 			<div id="container_header_right">
-
-				<?php if($_SESSION["loggedUser"]["Role"]!="Visiteur") : ?> <!-- Si on est visiteur alors pas accès à l'importation des fichiers -->
-				<label for="importer_file" id="importer">
-					<svg fill="#FFFF" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" width="27px" height="27px">
-	      		<path d="m153.7,171.5l81.9-88.1v265.3c0,11.3 9.1,20.4 20.4,20.4 11.3,0 20.4-9.1 20.4-20.4v-265.3l81.9,88.1c7.7,8.3 20.6,8.7 28.9,1.1 8.3-7.7 8.7-20.6 1.1-28.9l-117.3-126.2c-11.5-11.6-25.6-5.2-29.9,0l-117.3,126.2c-7.7,8.3-7.2,21.2 1.1,28.9 8.2,7.6 21.1,7.2 28.8-1.1z"/>
-	      		<path d="M480.6,341.2c-11.3,0-20.4,9.1-20.4,20.4V460H51.8v-98.4c0-11.3-9.1-20.4-20.4-20.4S11,350.4,11,361.6v118.8    c0,11.3,9.1,20.4,20.4,20.4h449.2c11.3,0,20.4-9.1,20.4-20.4V361.6C501,350.4,491.9,341.2,480.6,341.2z"/>
-					</svg>
-					Importer
-				</label>
-
-			<?php endif ?>
-				<form id="form_import" method="post" enctype="multipart/form-data">
-					<input type="file" id="importer_file" name="media[]" accept="video/*,image/*" multiple />
-					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />
-				</form>
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 			</div>
 		</header>
@@ -123,8 +81,6 @@
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
-		<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
-		<div id="trier_par">Trier par :</div>
 		<?php
 			function mois($mois) {
 				switch ($mois) {
@@ -172,7 +128,7 @@
 			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
 			$dateOlder = NULL;
 			foreach ($res as $media) {
-				if($media['Corbeille'] == 0){
+				if($media['Corbeille'] == 1){
 					if($dateOlder != date_create($media['Date_de_publication'])){
 						if($dateOlder == NULL){
 							$dateOlder = date_create($media['Date_de_publication']);
@@ -192,6 +148,5 @@
 				}
 			}
 	 	?>
-
-  </body>
+	</body>
 </html>
