@@ -607,11 +607,11 @@ h5 {
 
 #ajoutcat{
 
+  width: 50vmin;
+  max-height: calc(50vmin * 4 / 3);
   position: fixed;
-  left: 45vw;
-  right:45vw;
-  top:50vh;
-  bottom: 40vh;
+  left: calc(50vw - 50vmin / 2);
+  top: 50%;
   z-index: 100;
   transform: translate(-100vw,-50%);
   transition: transform .5s;
@@ -626,11 +626,12 @@ h5 {
 
 #ajouttag{
 
+
+  width: 50vmin;
+  max-height: calc(50vmin * 4 / 3);
   position: fixed;
-  left: 45vw;
-  right:45vw;
-  top:50vh;
-  bottom: 40vh;
+  left: calc(50vw - 50vmin / 2);
+  top: 50%;
   z-index: 100;
   transform: translate(-100vw,-50%);
   transition: transform .5s;
@@ -640,6 +641,21 @@ h5 {
   color: white;
 
 
+
+
+}
+
+#ajouttag *{
+  font-size: 10px
+  padding: 5px;
+  margin: 8px;
+}
+
+
+#ajoutcat *{
+  font-size: 10px
+  padding: 5px;
+  margin: 8px;
 }
 
 #mask_tag
@@ -654,8 +670,4 @@ h5 {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-#input_cat{
-
 }

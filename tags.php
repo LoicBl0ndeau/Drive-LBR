@@ -103,7 +103,6 @@
 
 			Nom de la catégorie:</br>
 			<input type="text" id="input_cat" name="input_cat" placeholder='Entrer le nom ici' /></br>
-			<input type="button" id="bouton_annule"  value="Annuler"/>
 			<input type="submit" id="boutonvalidecat" name="boutonvalidecat" value="Valider"/>
 
 	</form>
@@ -113,7 +112,6 @@
 	<form method="post"id="ajouttag">
 		Nom du tag:</br>
 		<input type="text" id="input_tag" name="input_tag" placeholder='Entrer le nom ici' /></br>
-		<input type="button" value="Annuler"/>
 		<input type="submit" id="boutonvalidetag" name="boutonvalidetag" value="Valider"/>
 </form>
 

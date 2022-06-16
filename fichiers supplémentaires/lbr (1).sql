@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 16 juin 2022 à 12:16
+-- Généré le : jeu. 16 juin 2022 à 12:36
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -47,16 +47,7 @@ CREATE TABLE IF NOT EXISTS `catégorie` (
   `Nom` varchar(50) NOT NULL,
   `Créateur` varchar(50) NOT NULL,
   PRIMARY KEY (`Id_Catégorie`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `catégorie`
---
-
-INSERT INTO `catégorie` (`Id_Catégorie`, `Nom`, `Créateur`) VALUES
-(1, 'coucou', '1'),
-(2, 'coucou', '1'),
-(3, 'ci', '1');
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -133,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `profil` (
   `Prenom` varchar(50) DEFAULT NULL,
   `Description` varchar(50) DEFAULT NULL,
   `Role` varchar(50) DEFAULT NULL,
-  `pdp` varchar(100) NOT NULL,
+  `pdp` varchar(100) NOT NULL DEFAULT 'images/pdp_user.jpg',
   PRIMARY KEY (`Id_Profil`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
@@ -176,14 +167,24 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `Id_Catégorie` int(11) DEFAULT '1',
   PRIMARY KEY (`Id_Tag`),
   KEY `Id_Catégorie` (`Id_Catégorie`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tag`
 --
 
 INSERT INTO `tag` (`Id_Tag`, `Nom`, `Créateur`, `Id_Catégorie`) VALUES
-(1, 'lo', '1', 1);
+(1, 'lo', '1', 1),
+(2, 'lo', '1', 1),
+(3, 'lo', '1', 1),
+(4, 'lo', '1', 1),
+(5, 'lo', '1', 1),
+(6, 'lo', '1', 1),
+(7, 'lo', '1', 1),
+(8, 'lo', '1', 1),
+(9, 'lo', '1', 1),
+(10, 'lo', '1', 1),
+(11, 'lo', '1', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
