@@ -50,8 +50,8 @@
 						$chemin = "upload/".$Id_fichier."/".$nomFichier;
 						move_uploaded_file($_FILES["media"]["tmp_name"][$i], $chemin);
 						$date = date('Y-m-d H:i:s',filemtime($chemin));
-						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
-			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],$date,$chemin));
+						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur_Id,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
+			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Id_Profil'],$_FILES["media"]["size"][$i],$date,$chemin));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
@@ -100,6 +100,8 @@
 				</label>
 			</div>
 			<div id="container_header_right">
+
+				<?php if($_SESSION["loggedUser"]["Role"]!="Visiteur") : ?> <!-- Si on est visiteur alors pas accès à l'importation des fichiers -->
 				<label for="importer_file" id="importer">
 					<svg fill="#FFFF" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" width="27px" height="27px">
 	      		<path d="m153.7,171.5l81.9-88.1v265.3c0,11.3 9.1,20.4 20.4,20.4 11.3,0 20.4-9.1 20.4-20.4v-265.3l81.9,88.1c7.7,8.3 20.6,8.7 28.9,1.1 8.3-7.7 8.7-20.6 1.1-28.9l-117.3-126.2c-11.5-11.6-25.6-5.2-29.9,0l-117.3,126.2c-7.7,8.3-7.2,21.2 1.1,28.9 8.2,7.6 21.1,7.2 28.8-1.1z"/>
@@ -107,6 +109,8 @@
 					</svg>
 					Importer
 				</label>
+
+			<?php endif ?>
 				<form id="form_import" method="post" enctype="multipart/form-data">
 					<input type="file" id="importer_file" name="media[]" accept="video/*,image/*" multiple />
 					<input type="hidden" name="randomformOK" value="<?php echo $_SESSION['random_OK']; ?>" />

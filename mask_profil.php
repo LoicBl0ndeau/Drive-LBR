@@ -67,15 +67,48 @@
     <p id="role"></p>
   </div>
   <div id="container_profil_stats">
-    <span>31<br />photos</span>
+    <span>
+			<?php
+				$req=$PDO->prepare("SELECT * FROM fichier where Auteur_Id=?");
+				$req->execute(array($_SESSION['loggedUser']['Id_Profil']));
+				$res = $req->fetchAll();
+				$compteur = 0;
+				$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
+				foreach ($res as $imgs) {
+					if(in_array($imgs['Type'],$extensionsImage)){
+						$compteur++;
+					}
+				}
+				echo $compteur;
+			?>
+			<br />photos
+		</span>
     <span></span>
-    <span>5<br />vidéos</span>
+    <span>
+			<?php
+				$req=$PDO->prepare("SELECT * FROM fichier where Auteur_Id=?");
+				$req->execute(array($_SESSION['loggedUser']['Id_Profil']));
+				$res = $req->fetchAll();
+				$compteur = 0;
+				$extensionsImage = ['video/ogg','video/x-ms-wmv','video/mpeg','video/webm','video/quicktime','video/x-ms-asf','video/mp4','video/avi'];
+				foreach ($res as $imgs) {
+					if(in_array($imgs['Type'],$extensionsImage)){
+						$compteur++;
+					}
+				}
+				echo $compteur;
+			?>
+			<br />vidéos
+		</span>
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
+
+<?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
     <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
 		<button type="button" onclick="window.location.href='changelog.php';" >Changelog</button> <!-- c'est en attendant le bon menu -->
-    <button type="button" onclick="window.location.href='corbeille.php';">Corbeille</button>
+<?php endif ?>
+    <button type="button">Corbeille</button>
   </div>
 </div>
 

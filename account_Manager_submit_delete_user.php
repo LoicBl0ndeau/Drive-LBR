@@ -81,7 +81,7 @@ foreach ($users as $user) {
 }
 
 $edited_user->execute([
-		'Nom' => $_SESSION['loggedUser']['Nom'],
+		'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 		'Date_de_modification' => date('d-m-y H:i:s'),
 		'Description' => "Suppression du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 ]);
