@@ -95,15 +95,57 @@
     <span id="Tags">
       <h1>Tags</h1>
 
-      <div class="plus" id="plus_tags">+</div><br/>
+      <div class="plus" id="plus_tag">+</div><br/>
 
     </span>
   </div>
+	<form method="post" id="ajoutcat">
 
-	<div id="ajoutcat">
-		
-	</div>
+			Nom de la catégorie:</br>
+			<input type="text" id="input_cat" name="input_cat" placeholder='Entrer le nom ici' /></br>
+			<input type="button" id="bouton_annule"  value="Annuler"/>
+			<input type="submit" id="boutonvalidecat" name="boutonvalidecat" value="Valider"/>
+
+	</form>
+
+
+
+	<form method="post"id="ajouttag">
+		Nom du tag:</br>
+		<input type="text" id="input_tag" name="input_tag" placeholder='Entrer le nom ici' /></br>
+		<input type="button" value="Annuler"/>
+		<input type="submit" id="boutonvalidetag" name="boutonvalidetag" value="Valider"/>
+</form>
+
 	<div id="mask_tag"></div>
 
 </body>
+<?php
+
+if (isset($_POST['boutonvalidecat'])) {
+
+	require('connect.php');
+	$query = "INSERT INTO catégorie(Nom,Créateur) values(?,?)";
+	$resultStatement = $PDO->prepare($query);
+	$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
+	$result = $resultStatement->fetchAll();
+
+}
+
+if (isset($_POST['boutonvalidetag'])) {
+
+	require('connect.php');
+	echo('bou');
+	$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
+	$resultStatement = $PDO->prepare($query);
+	$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil']));
+	$result = $resultStatement->fetchAll();
+	echo($_SESSION['loggedUser']['Id_Profil']);
+	echo($_POST['input_tag']);
+
+}
+
+
+
+ ?>
 </html>

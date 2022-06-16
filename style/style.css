@@ -608,16 +608,36 @@ h5 {
 #ajoutcat{
 
   position: fixed;
-  left: 40vh;
-  right:40vh;
-  top:35vw;
-  bottom: 10vw;
+  left: 45vw;
+  right:45vw;
+  top:50vh;
+  bottom: 40vh;
   z-index: 100;
   transform: translate(-100vw,-50%);
   transition: transform .5s;
   background-color: #D72E2A;
   border-radius: 8px;
+  text-align: center;
+  color: white;
 
+
+
+}
+
+#ajouttag{
+
+  position: fixed;
+  left: 45vw;
+  right:45vw;
+  top:50vh;
+  bottom: 40vh;
+  z-index: 100;
+  transform: translate(-100vw,-50%);
+  transition: transform .5s;
+  background-color: #D72E2A;
+  border-radius: 8px;
+  text-align: center;
+  color: white;
 
 
 }
@@ -634,4 +654,8 @@ h5 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#input_cat{
+
 }
