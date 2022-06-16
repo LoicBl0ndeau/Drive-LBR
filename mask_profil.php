@@ -108,7 +108,7 @@
     <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
 		<button type="button" onclick="window.location.href='changelog.php';" >Changelog</button> <!-- c'est en attendant le bon menu -->
 <?php endif ?>
-    <button type="button">Corbeille</button>
+    <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
 </div>
 
