@@ -50,8 +50,8 @@
 						$chemin = "upload/".$Id_fichier."/".$nomFichier;
 						move_uploaded_file($_FILES["media"]["tmp_name"][$i], $chemin);
 						$date = date('Y-m-d H:i:s',filemtime($chemin));
-						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
-			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom'],$_FILES["media"]["size"][$i],$date,$chemin));
+						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur_Id,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
+			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Id_Profil'],$_FILES["media"]["size"][$i],$date,$chemin));
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
