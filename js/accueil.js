@@ -46,7 +46,16 @@ $(document).ready(function(){
     zIndex: 50,
     items: {
       informations: {
-        name: "Informations"
+        name: "Informations",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#form_informations input[name=src_informations]').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#form_informations input[name=src_informations]').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#form_informations').submit();
+        }
       },
       addTags: {
         name: "Ajouter des tags"

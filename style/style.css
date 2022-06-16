@@ -45,8 +45,6 @@ header
   position: sticky;
 }
 
-
-
 header > a
 {
   display: flex;
@@ -112,6 +110,33 @@ header > a
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+#container_informations_media
+{
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#container_informations
+{
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 20px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255,255,255,.5);
 }
 
 #importer

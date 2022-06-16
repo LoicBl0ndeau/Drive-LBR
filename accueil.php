@@ -10,6 +10,12 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
+<?php //informations
+	if(isset($_POST['src_informations'])){
+		$_SESSION['src_informations'] = $_POST['src_informations'];
+		header('Location: informations.php');
+	}
+?>
 <?php //download
 	if(isset($_POST['src_download'])){
 		$file = $_POST['src_download'];
@@ -86,6 +92,7 @@
 		<title>Drive - Les Briques Rouges</title>
 	</head>
   <body>
+		<form method="post" id="form_informations" enctype="multipart/form-data"><input type="hidden" name="src_informations" /></form>
 		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
 		<form method="post" id="delete" enctype="multipart/form-data"><input type="hidden" name="delete" /><input type="hidden" name="randomdeleteOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
 		<div id="lecteur"></div>
@@ -192,6 +199,5 @@
 				}
 			}
 	 	?>
-
   </body>
 </html>
