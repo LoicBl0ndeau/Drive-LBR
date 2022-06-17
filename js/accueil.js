@@ -42,15 +42,19 @@ $(document).ready(function(){
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
   $('.nom_categorie').on("click",function(){
-    if($(this).hasClass('cat_clicked')){
+    if($(this).hasClass('cat_entered')){
       $('.nom_categorie:not([id_cat='+$(this).attr("id_cat")+'])').css("display","inline");
       $('.tag_de_cat_'+$(this).attr("id_cat")).css("display","none");
+      if(!($('.tag_de_cat_'+$(this).attr("id_cat")).hasClass('tag_clicked'))){
+        $(this).removeClass('cat_clicked');
+      }
     }
     else{
       $('.nom_categorie:not([id_cat='+$(this).attr("id_cat")+'])').css("display","none");
       $('.tag_de_cat_'+$(this).attr("id_cat")).css("display","inline");
+      $(this).addClass('cat_clicked');
     }
-    $(this).toggleClass('cat_clicked');
+    $(this).toggleClass('cat_entered');
   });
   $('.nom_tag').on("click",function(){
     $(this).toggleClass('tag_clicked');
