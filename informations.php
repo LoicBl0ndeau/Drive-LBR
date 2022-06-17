@@ -57,7 +57,7 @@
 				?>
 				<br />
 				Date d'ajout: <?php echo date('d/m/Y',strtotime($res['Date_de_publication'])); ?><br />
-				Taille: <?php echo $res['Taille']; ?><br />
+				Taille: <?php echo round(0.000001*$res['Taille'], 2)." Mo (".$res['Taille']." octets)"; ?><br />
 				Tags: <br />
 			</div>
 		</div>
