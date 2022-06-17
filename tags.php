@@ -123,7 +123,7 @@
 if (isset($_POST['boutonvalidecat'])) {
 
 	require('connect.php');
-	$query = "INSERT INTO catégorie(Nom,Créateur) values(?,?)";
+	$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
 	$resultStatement = $PDO->prepare($query);
 	$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
 	$result = $resultStatement->fetchAll();

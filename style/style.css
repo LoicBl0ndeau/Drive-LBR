@@ -112,6 +112,94 @@ header > a
   justify-content: space-between;
 }
 
+nav
+{
+  z-index: 9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D72E2A;
+  position: sticky;
+  top: 80px;
+  border-top: 2px solid #A02026;
+  border-bottom: 1px solid #A02026;
+  padding: 5px;
+  overflow: hidden;
+}
+
+#container_categories
+{
+  overflow: scroll;
+  padding: 5px;
+  margin: 5px;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#container_categories::-webkit-scrollbar {
+  display: none;
+}
+
+.nom_categorie
+{
+  display: inline;
+  cursor: pointer;
+  color: white;
+  background-color: #A02026;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 2px;
+  margin-left: 2px;
+  transition: background-color .2s;
+}
+
+.nom_categorie:hover
+{
+  background-color: #3672B3;
+}
+
+.cat_clicked
+{
+  background-color: #3672B3;
+}
+
+.nom_tag
+{
+  cursor: pointer;
+  color: white;
+  background-color: #A02026;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 2px;
+  margin-left: 2px;
+  transition: background-color .2s;
+}
+
+.nom_tag:hover
+{
+  background-color: #BDE4FB;
+}
+
+.tag_clicked
+{
+  background-color: #BDE4FB;
+}
+
+#settings_cat_tag
+{
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#settings_cat_tag:hover
+{
+  transform: rotate(30deg);
+}
+
 #container_informations_media
 {
   position: fixed;
