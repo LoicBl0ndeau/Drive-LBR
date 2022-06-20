@@ -118,12 +118,34 @@
 				<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 			</div>
 		</header>
+		<nav>
+			<div></div>
+			<div id="container_categories">
+				<?php
+				 	include("connect.php");
+				 	$req = $PDO->query("SELECT * FROM categorie ORDER BY Id_Catégorie");
+		 			$res = $req->fetchAll();
+					$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie=?");
+					foreach ($res as $categories) {
+						echo "<div class='nom_categorie' id_cat='".$categories['Id_Catégorie']."'>".$categories['Nom']."</div>";
+						$reqTags->execute(array($categories['Id_Catégorie']));
+						$resTags = $reqTags->fetchAll();
+						foreach ($resTags as $tag) {
+							echo "<div class='nom_tag tag_de_cat_".$categories['Id_Catégorie']."' style='display: none;'>".$tag['Nom']."</div>";
+						}
+					}
+			 	?>
+			</div>
+			<a href="tags.php" id="settings_cat_tag">
+				<svg version="1.1" style="width: 32px;height: 32px;" fill="#FFFF" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M29.181 19.070c-1.679-2.908-0.669-6.634 2.255-8.328l-3.145-5.447c-0.898 0.527-1.943 0.829-3.058 0.829-3.361 0-6.085-2.742-6.085-6.125h-6.289c0.008 1.044-0.252 2.103-0.811 3.070-1.679 2.908-5.411 3.897-8.339 2.211l-3.144 5.447c0.905 0.515 1.689 1.268 2.246 2.234 1.676 2.903 0.672 6.623-2.241 8.319l3.145 5.447c0.895-0.522 1.935-0.82 3.044-0.82 3.35 0 6.067 2.725 6.084 6.092h6.289c-0.003-1.034 0.259-2.080 0.811-3.038 1.676-2.903 5.399-3.894 8.325-2.219l3.145-5.447c-0.899-0.515-1.678-1.266-2.232-2.226zM16 22.479c-3.578 0-6.479-2.901-6.479-6.479s2.901-6.479 6.479-6.479c3.578 0 6.479 2.901 6.479 6.479s-2.901 6.479-6.479 6.479z"></path>
+				</svg>
+			</a>
+		</nav>
 
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
-
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
-		<input class="favorite styled" type="button" value="ajouter un tag" onclick="window.location.href ='tags.php'"/>
 		<div id="trier_par">Trier par :</div>
 		<?php
 			function mois($mois) {
@@ -184,11 +206,15 @@
 						}
 					}
 					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-						echo "<div class='marge'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+						echo "<div class='marge'><img class='img_media' id_media='".$media['Id_fichier']."' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
 					}
 					else{
-						echo "<div class='marge'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						echo "<div class='marge'><div class='player' id_media='".$media['Id_fichier']."'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
 					}
+					$reqEmail = $PDO->prepare("SELECT email FROM profil WHERE Id_Profil=?");
+					$reqEmail->execute(array($media['Auteur_Id']));
+					$resEmail = $reqEmail->fetch();
+					echo "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: ".$resEmail['email']."<br /><br />Date d'ajout: ".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
 				}
 			}
 	 	?>

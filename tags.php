@@ -16,7 +16,7 @@
 		if (isset($_POST['boutonvalidecat'])) {
 			echo('eeeee');
 			require('connect.php');
-			$query = "INSERT INTO catégorie(Nom,Créateur) values(?,?)";
+			$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
 			$resultStatement = $PDO->prepare($query);
 			$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
 			$result = $resultStatement->fetchAll();
@@ -87,7 +87,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
         <div class="plus" id="plus_cat">+</div><br/>
 				<?php
 
-				$resultStatement = $PDO->query('SELECT Nom from catégorie');
+				$resultStatement = $PDO->query('SELECT Nom from categorie');
 				$result = $resultStatement->fetchAll();
 
 				?>
@@ -123,5 +123,32 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 	<div id="mask_tag"></div>
 
 </body>
+
+<?php
+
+if (isset($_POST['boutonvalidecat'])) {
+
+	require('connect.php');
+	$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
+	$resultStatement = $PDO->prepare($query);
+	$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
+	$result = $resultStatement->fetchAll();
+
+}
+
+if (isset($_POST['boutonvalidetag'])) {
+
+	require('connect.php');
+	echo('bou');
+	$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
+	$resultStatement = $PDO->prepare($query);
+	$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil']));
+	$result = $resultStatement->fetchAll();
+	echo($_SESSION['loggedUser']['Id_Profil']);
+	echo($_POST['input_tag']);
+
+}
+?>
+
 
 </html>

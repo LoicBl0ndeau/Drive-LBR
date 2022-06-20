@@ -39,6 +39,9 @@ $(document).ready(function(){
   $('#importer_file').on("change",function(){
     $('#form_import').submit();
   });
+  $('.fermer_informations').on("click",function(){
+    $(this).parent().parent().css("transform","translateX(-130%)");
+  });
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
   $('.nom_categorie').on("click",function(){
@@ -66,13 +69,8 @@ $(document).ready(function(){
       informations: {
         name: "Informations",
         callback: function(itemKey, opt){
-          if(opt.$trigger.hasClass("player")){
-            $('#form_informations input[name=src_informations]').attr("value",opt.$trigger.find('source').attr("src"));
-          }
-          else{
-            $('#form_informations input[name=src_informations]').attr("value",opt.$trigger.attr("src"));
-          }
-          $('#form_informations').submit();
+          $('.container_informations').css("transform","translateX(-130%)");
+          $('[id_media=container_inf_'+opt.$trigger.attr("id_media")+']').css("transform","translateX(0px)");
         }
       },
       addTags: {
