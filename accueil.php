@@ -142,6 +142,7 @@
 				</svg>
 			</a>
 		</nav>
+
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 
@@ -218,5 +219,6 @@
 				}
 			}
 	 	?>
+
   </body>
 </html>
