@@ -200,33 +200,6 @@ nav
   transform: rotate(30deg);
 }
 
-#container_informations_media
-{
-  position: fixed;
-  top: 80px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#container_informations
-{
-  position: fixed;
-  top: 80px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  font-size: 20px;
-  flex-direction: column;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255,255,255,.85);
-}
-
 #importer
 {
   background: transparent;
@@ -688,6 +661,7 @@ h5 {
 {
   display: inline-flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   cursor: pointer;
 }
@@ -702,6 +676,41 @@ h5 {
   position: absolute;
   height: 60px;
   z-index: 8;
+}
+
+.container_informations
+{
+  position: fixed;
+  z-index: 20;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: 340px;
+  padding: 10px;
+  box-shadow: 0 0 40px 8px rgba(0,0,0,.6);
+  transform: translateX(-130%);
+  transition: transform .5s;
+  background-color: white;
+}
+
+@media only screen and (max-width: 360px)
+{
+  .container_informations
+  {
+    width: auto;
+    right: 0;
+  }
+}
+
+.menu_informations
+{
+  display: flex;
+  justify-content: space-between;
+}
+
+.fermer_informations
+{
+  cursor: pointer;
 }
 
 .marge

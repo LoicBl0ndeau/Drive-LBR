@@ -10,12 +10,6 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
-<?php //informations
-	if(isset($_POST['src_informations'])){
-		$_SESSION['src_informations'] = $_POST['src_informations'];
-		header('Location: informations.php');
-	}
-?>
 <?php //download
 	if(isset($_POST['src_download'])){
 		$file = $_POST['src_download'];
@@ -92,7 +86,6 @@
 		<title>Drive - Les Briques Rouges</title>
 	</head>
   <body>
-		<form method="post" id="form_informations" enctype="multipart/form-data"><input type="hidden" name="src_informations" /></form>
 		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
 		<form method="post" id="delete" enctype="multipart/form-data"><input type="hidden" name="delete" /><input type="hidden" name="randomdeleteOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
 		<div id="lecteur"></div>
@@ -213,11 +206,15 @@
 						}
 					}
 					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-						echo "<div class='marge'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+						echo "<div class='marge'><img class='img_media' id_media='".$media['Id_fichier']."' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
 					}
 					else{
-						echo "<div class='marge'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						echo "<div class='marge'><div class='player' id_media='".$media['Id_fichier']."'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
 					}
+					$reqEmail = $PDO->prepare("SELECT email FROM profil WHERE Id_Profil=?");
+					$reqEmail->execute(array($media['Auteur_Id']));
+					$resEmail = $reqEmail->fetch();
+					echo "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: ".$resEmail['email']."<br /><br />Date d'ajout: ".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
 				}
 			}
 	 	?>
