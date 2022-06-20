@@ -25,6 +25,9 @@
 	}
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomformTAG'] == $_SESSION['random_ok_tag']){
 	if (isset($_POST['boutonvalidetag'])) {
+		echo('ee');
+		if(empty($_POST['input_tag'])){
+			echo('coco');
 
 		require('connect.php');
 		echo('bou');
@@ -34,6 +37,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 		$result = $resultStatement->fetchAll();
 		echo($_SESSION['loggedUser']['Id_Profil']);
 		echo($_POST['input_tag']);
+		}
 
 	}
 }
