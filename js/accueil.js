@@ -36,7 +36,7 @@ function fermerLecteur(){
 }
 
 $(document).ready(function(){
-  $('#container_categories').on("mousewheel", function(evt){
+  $('#container_categories').on("wheel", function(evt){
     if(evt.originalEvent.wheelDeltaX == 0){
       evt.preventDefault();
       if(evt.originalEvent.wheelDelta <= 0){
