@@ -145,7 +145,6 @@
 
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
-
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
 		<div id="trier_par">Trier par :</div>
 		<?php
