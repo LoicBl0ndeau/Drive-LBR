@@ -9,6 +9,10 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+	// Autorisation admin
+	include_once('functions.php');
+	autorisation_admin();
 ?>
 
 <?php
@@ -20,13 +24,14 @@ if (
   !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
   !isset($_POST['Nom']) || empty($_POST['Nom']) ||
 	(!isset($_POST['Email']) || !filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) ||
+  !isset($_POST['MDP']) || empty($_POST['MDP'])||
   !isset($_POST['Description']) || empty($_POST['Description'])||
   !isset($_POST['Role']) || empty($_POST['Role'])
   )
 {
   echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
 				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>');
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>');
   return;
 }
 
@@ -34,6 +39,7 @@ $Id_Profil = strip_tags($postData['Id_Profil']);
 $Prenom = strip_tags($postData['Prenom']);
 $Nom = strip_tags($postData['Nom']);
 $Email = strip_tags($postData['Email']);
+$MDP_sha256 = hash('sha256', strip_tags($postData['MDP']));
 $Description = strip_tags($postData['Description']);
 $Role = strip_tags($postData['Role']);
 
@@ -82,38 +88,53 @@ $Role = strip_tags($postData['Role']);
 			$errorMessage = sprintf('L\'adresse email semble déjà utilisé, l\'utilisateur n\'est pas enregistré');
 		}
 		else {
-			try
-			{
-				$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
+			if (isset($postData['MDP_changed']) && $postData['MDP_changed'] = "1") {
+
+				include("connect.php");
+
+				// Ecriture de la requête
+				$sqlQuery = 'UPDATE profil SET MDP = :MDP, email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+				    'Id_Profil' => $Id_Profil,
+						'MDP' => $MDP_sha256,
+				    'email' => $Email,
+				    'Nom' => $Nom,
+				    'Prenom' => $Prenom,
+				    'Description' => $Description,
+				    'Role' => $Role,
+				]);
 			}
-			catch (Exception $e)
-			{
-			        die('Erreur : ' . $e->getMessage());
+			else {
+				include("connect.php");
+
+				// Ecriture de la requête
+				$sqlQuery = 'UPDATE profil SET email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+						'Id_Profil' => $Id_Profil,
+						'email' => $Email,
+						'Nom' => $Nom,
+						'Prenom' => $Prenom,
+						'Description' => $Description,
+						'Role' => $Role,
+				]);
 			}
-
-			// Ecriture de la requête
-			$sqlQuery = 'UPDATE profil SET email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
-
-			// Préparation
-			$edited_user = $mysqlClient->prepare($sqlQuery);
-
-			// Exécution ! l'utilisateur est maintenant en base de données
-			$edited_user->execute([
-			    'Id_Profil' => $Id_Profil,
-			    'email' => $Email,
-			    'Nom' => $Nom,
-			    'Prenom' => $Prenom,
-			    'Description' => $Description,
-			    'Role' => $Role,
-			]);
-
 			//   ajout d'une ligne dans le changelog
 
 			// Ecriture de la requête
 			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 			// Préparation
-			$edited_user = $mysqlClient->prepare($sqlQuery);
+			$edited_user = $PDO->prepare($sqlQuery);
 
 			// Exécution ! l'utilisateur est maintenant en base de données
 			$edited_user->execute([
@@ -121,6 +142,18 @@ $Role = strip_tags($postData['Role']);
 			    'Date_de_modification' => date('d-m-y H:i:s'),
 			    'Description' => "Modification du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
+
+			// envoie du mail à l'Utilisateur
+
+			$mail = <<<MAIL
+							Bonjour $Prenom $Nom,<br /><br />
+							Nous avons détécté une modification de votre compte $Role associé au mail : $Email <br /><br />
+							Nous vous remercions de votre confiance.
+							MAIL;
+
+			include_once('sendmail.php');
+			sendmail($Email,$mail);
+
 		}
 
 		?>
@@ -132,7 +165,7 @@ $Role = strip_tags($postData['Role']);
         <div class="alert alert-danger" role="alert">
             <?php echo $errorMessage; ?>
         </div>
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 
 			<?php else: ?>
 

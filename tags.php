@@ -10,35 +10,85 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-	echo "test";
-	if(isset($_SESSION['random_ok_tag'], $_POST['randomformCAT']) && $_POST['randomformCAT'] == $_SESSION['random_ok_tag']){
-		echo("tst");
-		if (isset($_POST['boutonvalidecat'])) {
-			echo('eeeee');
-			require('connect.php');
-			$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
-			$resultStatement = $PDO->prepare($query);
-			$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
-			$result = $resultStatement->fetchAll();
+//	echo "test";
 
+
+
+	if(isset($_SESSION['random_ok_tag'], $_POST['randomformCAT']) && $_POST['randomformCAT'] == $_SESSION['random_ok_tag']){
+		//echo("tst");
+
+		if (isset($_POST['boutonvalidecat'])) {
+			if(empty($_POST['input_cat'])){
+				echo('nom de la catégorie vide');
+			}
+
+			else{
+				require('connect.php');
+				$sqlQuery = 'SELECT Nom FROM categorie';
+				$recipesStatement = $PDO->prepare($sqlQuery);
+				$recipesStatement->execute();
+				$catego = $recipesStatement->fetchAll();
+
+				$same_cat = 0;
+							foreach ($catego as $cat) {
+									if ($cat['Nom'] === $_POST['input_cat']) {
+													$same_cat++;
+											echo "le nom semble déjà utilisé";
+									}
+											else {
+										//echo('oklm');
+									}
+							}
+							//echo $same_cat;
+							if($same_cat=== 0){
+								//echo('eeeee');
+								require('connect.php');
+								$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
+								$resultStatement = $PDO->prepare($query);
+								$resultStatement->execute(array($_POST['input_cat'],$_SESSION['loggedUser']['Id_Profil']));
+								$result = $resultStatement->fetchAll();
+
+							}
+
+			}
 		}
 	}
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomformTAG'] == $_SESSION['random_ok_tag']){
 	if (isset($_POST['boutonvalidetag'])) {
-		echo('ee');
+		//echo('ee');
 		if(empty($_POST['input_tag'])){
-			echo('coco');
-
-		require('connect.php');
-		echo('bou');
-		$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
-		$resultStatement = $PDO->prepare($query);
-		$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil']));
-		$result = $resultStatement->fetchAll();
-		echo($_SESSION['loggedUser']['Id_Profil']);
-		echo($_POST['input_tag']);
+			echo('nom du tag vide');
 		}
 
+		else{
+			require('connect.php');
+			$sqlQuery = 'SELECT Nom FROM tag';
+			$recipesStatement = $PDO->prepare($sqlQuery);
+			$recipesStatement->execute();
+			$tags = $recipesStatement->fetchAll();
+
+			$same_tag = 0;
+						foreach ($tags as $tag) {
+								if ($tag['Nom'] === $_POST['input_tag']) {
+												$same_tag++;
+										echo "le nom semble déjà utilisé";
+								}
+										else {
+									//echo('oklm');
+								}
+						}
+						//echo $same_tag;
+						if($same_tag=== 0){
+							require('connect.php');
+							//echo('bou');
+							$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
+							$resultStatement = $PDO->prepare($query);
+							$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil']));
+							$result = $resultStatement->fetchAll();
+
+						}
+
+					}
 	}
 }
 
@@ -86,9 +136,16 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 
         <div class="plus" id="plus_cat">+</div><br/>
 				<?php
+				require('connect.php');
+				$sqlQuery = 'SELECT * FROM categorie';
+				$recipesStatement = $PDO->query($sqlQuery);
+				$catego = $recipesStatement->fetchAll();
 
-				$resultStatement = $PDO->query('SELECT Nom from categorie');
-				$result = $resultStatement->fetchAll();
+							foreach ($catego as $cat) {
+									echo '<div class="cat" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</div></br>';
+							}
+
+
 
 				?>
 
@@ -98,6 +155,41 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
       <h1>Tags</h1>
 
       <div class="plus" id="plus_tag">+</div><br/>
+			<?php
+			require('connect.php');
+			$sqlQuery = 'SELECT Id_Catégorie from categorie';
+			$recipesStatement = $PDO->query($sqlQuery);
+			$nbrcat=$recipesStatement->fetchAll();
+			//echo $nbrcat[0];
+			foreach ($nbrcat as $id_cat) {
+				//echo $id_cat[0];
+				$sqlQuery = 'SELECT Nom from tag where Id_Catégorie=?';
+				$recipesStatement = $PDO->prepare($sqlQuery);
+				$recipesStatement->execute(array($id_cat[0]));
+				$nametags=$recipesStatement->fetchAll();
+				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
+				foreach ($nametags as $nametag) {
+					echo "<div class='tag'>".$nametag[0]."</div>";
+				}
+				echo "</div>";
+
+			}
+			/*for ($i=0; $i <$nbrcat[0] ; $i++) {
+				$sqlQuery = 'SELECT COUNT(*) from tag WHERE Id_Categorie=;
+				$recipesStatement = $PDO->query($sqlQuery);
+				$nbrtag=$recipesStatement->fetch();
+				echo
+				for ($i=0; $i < ; $i++) {
+					// code...
+				}
+			}*/
+
+
+
+
+
+
+			?>
 
     </span>
   </div>
