@@ -129,7 +129,7 @@ $Role = strip_tags($postData['Role']);
 						Bonjour $Prenom $Nom,<br /><br />
 						Vous avez maintenant un compte $Role associé au mail : $Email <br /><br />
 						Votre mot de passe est : $MDP <br /><br />
-						Il vous sera demander pour vous connecter au
+						Il vous sera demandé pour vous connecter au
 						<a href="https://www.lesbriquesrouges.fr/" style="font-size:15px;line-height:18px;font-family:'open-sans',sans-serif;color:#000000;font-weight:normal;text-decoration:underline" target="_blank">site</a>.<br /><br />
 						Dans un souci de sécurité, nous vous invitons à le modifier dès la première connexion.
 						Nous vous remercions de votre confiance.
