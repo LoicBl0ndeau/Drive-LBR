@@ -10,8 +10,8 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-// Autorisation admin 
-	include_once('account_Manager_functions.php');
+	// Autorisation admin
+	include_once('functions.php');
 	autorisation_admin();
 ?>
 
@@ -34,14 +34,11 @@
       <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-    <div id="table_compte">
+		<?php if (empty($users)) : ?>
+			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
+		<?php else : ?>
 
-			<?php
-			if (empty($users))
-			{
-				echo "il n'y a pas de résultats pour votre recherche";
-			}
-			?>
+    <div id="table_compte">
 
 			<table>
         <thead>
@@ -51,7 +48,7 @@
            <th>email</th>
            <th>Role</th>
 					 <th> </th>
-					 <th><button type="button" name="button" id="bouton_ajouter"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
+					 <th><button class="btn btn-success" type="button" name="button" id="bouton_ajouter" onclick="window.location.href='account_Manager_add_user.php'">Ajouter</button></th>
           </tr>
         </thead>
         <tbody>
@@ -63,12 +60,12 @@
                    <td><?php echo $user['Role'];?></td>
                    <td>
 										 <form action="account_Manager_edit_user.php" method="post">
-											 <button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
+											 <button class="btn btn-blue" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
 										 </form>
 									 </td>
                    <td>
 									 	<form action="account_Manager_delete_user.php" method="post">
-										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
+										 	<button class="btn btn-danger" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
                    	</form>
 									</td>
                 </tr>
@@ -78,6 +75,7 @@
 
     </div>
 
+	<?php endif ?>
 
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>

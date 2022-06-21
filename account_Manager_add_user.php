@@ -10,7 +10,8 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-	include_once('account_Manager_functions.php');
+	// Autorisation admin
+	include_once('functions.php');
 	autorisation_admin();
 ?>
 
@@ -40,29 +41,37 @@
       <form action="account_Manager_submit_user.php" method="POST">
           <div class="mb-3">
               <label for="Prenom" class="form-label">Prenom</label>
-              <input type="text" class="form-control" id="Prenom" name="Prenom" aria-describedby="title-help">
+              <input type="text" class="form-control" id="Prenom" name="Prenom">
           </div>
           <div class="mb-3">
               <label for="Nom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="Nom" name="Nom" aria-describedby="title-help">
+              <input type="text" class="form-control" id="Nom" name="Nom">
           </div>
           <div class="mb-3">
               <label for="Email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="Email" name="Email" aria-describedby="title-help">
+              <input type="email" class="form-control" id="Email" name="Email">
+          </div>
+					<div class="mb-3">
+              <label for="MDP" class="form-label">Mot de passe</label>
+              <input type="text" class="form-control" id="MDP" name="MDP">
           </div>
           <div class="mb-3">
               <label for="Description" class="form-label">Description</label>
               <textarea class="form-control" placeholder="Écrivez la description ici" id="Description" name="Description"></textarea>
           </div>
-          <div class="mb-3">
+					<div class="mb-3">
+							<input type="radio" name="Role" value="Visiteur">
               <label for="Role" class="form-label">Visiteur</label>
-              <input type="radio" class="form-check-input" name="Role" value="Visiteur">
-              <label for="Role" class="form-label">Editeur</label>
+
               <input type="radio" name="Role" value="Editeur">
-              <label for="Role" class="form-label">Invité</label>
+              <label for="Role" class="form-label">Editeur</label>
+
               <input type="radio" name="Role" value="Invité">
-              <label for="Role" class="form-label">Admin</label>
+              <label for="Role" class="form-label">Invité</label>
+
               <input type="radio" name="Role" value="Admin">
+              <label for="Role" class="form-label">Admin</label>
+
           </div>
           <button type="submit" class="btn btn-primary">Valider</button>
       </form>

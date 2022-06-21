@@ -9,6 +9,10 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+	// Autorisation admin
+	include_once('functions.php');
+	autorisation_admin();
 ?>
 
 <?php
@@ -30,20 +34,13 @@ $Id_Profil = $postData['user'];
 ?>
 
 <?php
-try
-{
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+include("connect.php");
 
 // Ecriture de la requête
 $sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
 
 // Préparation
-$userStatement = $mysqlClient->prepare($sqlQuery);
+$userStatement = $PDO->prepare($sqlQuery);
 
 // Exécution ! l'utilisateur est maintenant en base de données
 $userStatement->execute([
@@ -55,7 +52,7 @@ $users = $userStatement->fetchAll();
 $sqlQuery = 'DELETE FROM Profil WHERE Id_Profil=:Id_Profil';
 
 // Préparation
-$delete_user = $mysqlClient->prepare($sqlQuery);
+$delete_user = $PDO->prepare($sqlQuery);
 
 // Exécution ! l'utilisateur est maintenant supprimé de la base de données
 $delete_user->execute([
@@ -68,9 +65,9 @@ $delete_user->execute([
 $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 // Préparation
-$edited_user = $mysqlClient->prepare($sqlQuery);
+$edited_user = $PDO->prepare($sqlQuery);
 
-// Exécution ! l'utilisateur est maintenant en base de données
+// Exécution ! le changelog est maintenant mis à jour
 
 foreach ($users as $user) {
 	$Email = $user['email'];
@@ -85,6 +82,20 @@ $edited_user->execute([
 		'Date_de_modification' => date('d-m-y H:i:s'),
 		'Description' => "Suppression du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 ]);
+
+// envoie du mail à l'Utilisateur
+
+$mail = <<<MAIL
+				Bonjour $Prenom $Nom,<br /><br />
+				Votre compte $Role associé au mail : $Email a été supprimé.<br /><br />
+				Nous espérons que votre expérience ait été agréable.<br /><br />
+				Nous vous remercions de votre confiance.
+				MAIL;
+
+include_once('sendmail.php');
+sendmail($Email,$mail);
+
+
 ?>
 
 
