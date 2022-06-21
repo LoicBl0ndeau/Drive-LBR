@@ -113,7 +113,7 @@ $Role = strip_tags($postData['Role']);
 			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 			// Préparation
-			$edited_user = $mysqlClient->prepare($sqlQuery);
+			$edited_user = $PDO->prepare($sqlQuery);
 
 			// Exécution ! l'utilisateur est maintenant en base de données
 			$edited_user->execute([
