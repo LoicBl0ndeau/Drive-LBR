@@ -1,3 +1,45 @@
+function mois(month){
+  switch (month) {
+    case 1:
+      month = "Janvier";
+    break;
+    case 2:
+      month = "Février";
+    break;
+    case 3:
+      month = "Mars";
+    break;
+    case 4:
+      month = "Avril";
+    break;
+    case 5:
+      month = "Mai";
+    break;
+    case 6:
+      month = "Juin";
+    break;
+    case 7:
+      month = "Juillet";
+    break;
+    case 8:
+      month = "Août";
+    break;
+    case 9:
+      month = "Septembre";
+    break;
+    case 10:
+      month = "Octobre";
+    break;
+    case 11:
+      month = "Novembre";
+    break;
+    case 12:
+      month = "Décembre";
+    break;
+  }
+  return month;
+}
+
 function img_media_open(){
   $('.img_media').off("click",img_media_open);
   $('.player').off("click",player_open);
@@ -73,6 +115,74 @@ $(document).ready(function(){
   $('.nom_tag').on("click",function(){
     $(this).toggleClass('tag_clicked');
   });
+
+  $('#checked_croissant').on("click",function(){
+    if($('#checked_croissant').is(':checked')){
+      $('#checked_croissant+label').text('Croissant');
+    }
+    else{
+      $('#checked_croissant+label').text('Décroissant');
+    }
+    for (var i = 0; i < $('.container_media').length; i++) {
+      $($('.container_media')[i]).insertAfter($('#trier_par'));
+      $($('.titre_container_media')[i]).insertAfter($('#trier_par'));
+    }
+  });
+  $('#radio_dates').on("click",function(){
+    var dates = [];
+    for (var i = 0; i < $('.marge').length; i++) {
+      if(dates.indexOf($($('.container_informations')[i]).find('.date_ajout').text()) == -1){
+        dates.push($($('.container_informations')[i]).find('.date_ajout').text());
+      }
+    }
+    dates.sort();
+    if($('#checked_croissant').is(':checked') === false){
+      dates.reverse();
+    }
+    $('.titre_container_media').remove();
+    var media_dates = "";
+    for (var i = 0; i < dates.length; i++) {
+      media_dates += "<h1 style='text-align: center;' class='titre_container_media'>"+new Date(dates[i]).getDate()+" "+mois(parseInt(new Date(dates[i]).getMonth()+1))+" "+new Date(dates[i]).getFullYear()+"</h1><div class='container_media'>";
+      for (var j = 0; j < $('.marge').length; j++) {
+        for (var k = 0; k < $('.marge').length; k++) {
+          if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.date_ajout').text() == dates[i]){
+            media_dates += $("<div>").append($($('.marge')[j]).clone()).html();
+          }
+        }
+      }
+      media_dates += "</div>";
+    }
+    $('.container_media').remove();
+    $(media_dates).insertAfter($('#trier_par'));
+  });
+  $('#radio_auteurs').on("click",function(){
+    var auteurs = [];
+    for (var i = 0; i < $('.marge').length; i++) {
+      if(auteurs.indexOf($($('.container_informations')[i]).find('.mail_auteurs').text()) == -1){
+        auteurs.push($($('.container_informations')[i]).find('.mail_auteurs').text());
+      }
+    }
+    auteurs.sort();
+    if($('#checked_croissant').is(':checked') === false){
+      auteurs.reverse();
+    }
+    $('.titre_container_media').remove();
+    var media_auteur = "";
+    for (var i = 0; i < auteurs.length; i++) {
+      media_auteur += "<h1 style='text-align: center;' class='titre_container_media'>"+auteurs[i]+"</h1><div class='container_media'>";
+      for (var j = 0; j < $('.marge').length; j++) {
+        for (var k = 0; k < $('.marge').length; k++) {
+          if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.mail_auteurs').text() == auteurs[i]){
+            media_auteur += $("<div>").append($($('.marge')[j]).clone()).html();
+          }
+        }
+      }
+      media_auteur += "</div>";
+    }
+    $('.container_media').remove();
+    $(media_auteur).insertAfter($('#trier_par'));
+  });
+
   $.contextMenu({
     selector: '.img_media, .player',
     zIndex: 50,
@@ -81,7 +191,7 @@ $(document).ready(function(){
         name: "Informations",
         callback: function(itemKey, opt){
           $('.container_informations').css("transform","translateX(-130%)");
-          $('[id_media=container_inf_'+opt.$trigger.attr("id_media")+']').css("transform","translateX(0px)");
+          $('[id_media=container_inf_'+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0px)");
         }
       },
       addTags: {

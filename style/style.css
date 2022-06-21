@@ -643,6 +643,47 @@ h5 {
     padding: 1rem 1rem;
 }
 
+#trier_par
+{
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.bouton_trier_par, #bouton_checked_croissant
+{
+  cursor: pointer;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  transition: .2s;
+}
+
+input[name="radio_trie"], #checked_croissant
+{
+  display: none;
+}
+
+.bouton_trier_par:hover, input[name="radio_trie"]:checked+label
+{
+  color: white;
+  background-color: #3672B3;
+}
+
+#bouton_checked_croissant:hover
+{
+  background-color: #BDE4FC;
+}
+
+#checked_croissant:checked+label
+{
+  background-color: #BDE4FC;
+}
+
 .container_media
 {
   display: flex;
@@ -741,9 +782,6 @@ h5 {
   border-radius: 8px;
   text-align: center;
   color: white;
-
-
-
 }
 
 #ajouttag{
