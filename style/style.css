@@ -411,6 +411,7 @@ text-align: center;
 thead
 {
   top: 80px;
+  height: 50px;
   position:-webkit-sticky;
   position: sticky;
   background-color: #A02026;
@@ -900,4 +901,25 @@ h5 {
     border-color: #198754;
     color: #fff;
     background-color: #198754;
+}
+
+
+.btn-blue {
+    border-color: #3671B3;
+    color: #fff;
+    background-color: #3671B3;
+}
+
+.btn-blue:hover {
+    border-color: #2B5A8F;
+    color: #fff;
+    background-color: #2B5A8F;
+}
+
+.btn-check:focus + .btn-blue,
+.btn-blue:focus {
+    border-color: #2B5A8F;
+    color: #fff;
+    background-color: #2B5A8F;
+    box-shadow: 0 0 0 .25rem rgba(189,228,252,.5);
 }

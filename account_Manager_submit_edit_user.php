@@ -31,7 +31,7 @@ if (
 {
   echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
 				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>');
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>');
   return;
 }
 
@@ -88,25 +88,46 @@ $Role = strip_tags($postData['Role']);
 			$errorMessage = sprintf('L\'adresse email semble déjà utilisé, l\'utilisateur n\'est pas enregistré');
 		}
 		else {
-			include("connect.php");
+			if (isset($postData['MDP_changed']) && $postData['MDP_changed'] = "1") {
 
-			// Ecriture de la requête
-			$sqlQuery = 'UPDATE profil SET MDP = :MDP, email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
+				include("connect.php");
 
-			// Préparation
-			$edited_user = $PDO->prepare($sqlQuery);
+				// Ecriture de la requête
+				$sqlQuery = 'UPDATE profil SET MDP = :MDP, email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
 
-			// Exécution ! l'utilisateur est maintenant en base de données
-			$edited_user->execute([
-			    'Id_Profil' => $Id_Profil,
-					'MDP' => $MDP_sha256,
-			    'email' => $Email,
-			    'Nom' => $Nom,
-			    'Prenom' => $Prenom,
-			    'Description' => $Description,
-			    'Role' => $Role,
-			]);
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
 
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+				    'Id_Profil' => $Id_Profil,
+						'MDP' => $MDP_sha256,
+				    'email' => $Email,
+				    'Nom' => $Nom,
+				    'Prenom' => $Prenom,
+				    'Description' => $Description,
+				    'Role' => $Role,
+				]);
+			}
+			else {
+				include("connect.php");
+
+				// Ecriture de la requête
+				$sqlQuery = 'UPDATE profil SET email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+						'Id_Profil' => $Id_Profil,
+						'email' => $Email,
+						'Nom' => $Nom,
+						'Prenom' => $Prenom,
+						'Description' => $Description,
+						'Role' => $Role,
+				]);
+			}
 			//   ajout d'une ligne dans le changelog
 
 			// Ecriture de la requête
@@ -132,7 +153,7 @@ $Role = strip_tags($postData['Role']);
         <div class="alert alert-danger" role="alert">
             <?php echo $errorMessage; ?>
         </div>
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 
 			<?php else: ?>
 

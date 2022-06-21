@@ -48,7 +48,7 @@
            <th>email</th>
            <th>Role</th>
 					 <th> </th>
-					 <th><button type="button" name="button" id="bouton_ajouter"><a href="account_Manager_add_user.php">Ajouter</a></button></th>
+					 <th><button class="btn btn-success" type="button" name="button" id="bouton_ajouter" onclick="window.location.href='account_Manager_add_user.php'">Ajouter</button></th>
           </tr>
         </thead>
         <tbody>
@@ -60,12 +60,12 @@
                    <td><?php echo $user['Role'];?></td>
                    <td>
 										 <form action="account_Manager_edit_user.php" method="post">
-											 <button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
+											 <button class="btn btn-blue" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
 										 </form>
 									 </td>
                    <td>
 									 	<form action="account_Manager_delete_user.php" method="post">
-										 	<button type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
+										 	<button class="btn btn-danger" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
                    	</form>
 									</td>
                 </tr>
