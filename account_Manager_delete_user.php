@@ -61,10 +61,11 @@ $users = $userStatement->fetchAll();
         Êtes vous sûr de vouloir supprimer le compte de <?php foreach ($users as $user) {
           echo $user['Prenom'] . " " . $user['Nom'] . " dont l'id est : " . $user['Id_Profil'];
         } ?><br>
-        La suppression est définitive <br><br><br>
+        La suppression est définitive <br><br>
 				<form action="account_Manager_submit_delete_user.php" method="post">
         	<button class="btn btn-danger" type="submit" name="user" value="<?php echo $Id_Profil ?>">SUPPRIMER</button>
 				</form>
+				<br>
         <button class="btn btn-success" type="button" name="button" onclick="window.location.href='account_Manager_accueil.php';">RETOUR</button>
     </div>
   </body>

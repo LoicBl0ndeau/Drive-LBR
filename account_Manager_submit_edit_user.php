@@ -142,6 +142,18 @@ $Role = strip_tags($postData['Role']);
 			    'Date_de_modification' => date('d-m-y H:i:s'),
 			    'Description' => "Modification du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
+
+			// envoie du mail à l'Utilisateur
+
+			$mail = <<<MAIL
+							Bonjour $Prenom $Nom,<br /><br />
+							Nous avons détécté une modification de votre compte $Role associé au mail : $Email <br /><br />
+							Nous vous remercions de votre confiance.
+							MAIL;
+
+			include_once('sendmail.php');
+			sendmail($Email,$mail);
+
 		}
 
 		?>
