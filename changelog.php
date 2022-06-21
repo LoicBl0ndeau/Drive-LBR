@@ -10,9 +10,9 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-	include_once('account_Manager_functions.php');
+	// Autorisation admin
+	include_once('functions.php');
 	autorisation_admin();
-	
 ?>
 
 <!DOCTYPE html>
@@ -35,14 +35,11 @@
       <?php include_once('changelog_header.php'); ?>
     </header>
 
-		<div id="table_compte">
+		<?php if (empty($changelogs)) : ?>
+			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
+		<?php else : ?>
 
-			<?php
-			if (empty($changelogs))
-			{
-				echo "il n'y a pas de résultats pour votre recherche"."<br />";
-			}
-			?>
+		<div id="table_compte">
 
 			<table>
         <thead>
@@ -66,6 +63,8 @@
       </table>
 
     </div>
+
+	<?php endif ?>
 
 	  <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>

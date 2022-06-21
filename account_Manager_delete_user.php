@@ -10,7 +10,8 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-	include_once('account_Manager_functions.php');
+	// Autorisation admin
+	include_once('functions.php');
 	autorisation_admin();
 ?>
 
@@ -27,20 +28,13 @@ if (
 
 $Id_Profil = $postData['Id_Profil'];
 
-try
-{
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+include("connect.php");
 
 // Ecriture de la requête
 $sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
 
 // Préparation
-$userStatement = $mysqlClient->prepare($sqlQuery);
+$userStatement = $PDO->prepare($sqlQuery);
 
 // Exécution ! l'utilisateur est maintenant en base de données
 $userStatement->execute([
@@ -60,7 +54,6 @@ $users = $userStatement->fetchAll();
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<title>Account Manager Drive - Les Briques Rouges</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body class="d-flex flex-column min-vh-100">
@@ -72,7 +65,7 @@ $users = $userStatement->fetchAll();
 				<form action="account_Manager_submit_delete_user.php" method="post">
         	<button class="btn btn-danger" type="submit" name="user" value="<?php echo $Id_Profil ?>">SUPPRIMER</button>
 				</form>
-        <button class="btn btn-success" type="button" name="button" onclick="window.location.href='http://localhost/drive_lbr/account_Manager_accueil.php';">RETOUR</button>
+        <button class="btn btn-success" type="button" name="button" onclick="window.location.href='account_Manager_accueil.php';">RETOUR</button>
     </div>
   </body>
 </html>

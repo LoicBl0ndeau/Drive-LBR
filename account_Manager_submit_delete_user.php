@@ -9,6 +9,10 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+	// Autorisation admin
+	include_once('functions.php');
+	autorisation_admin();
 ?>
 
 <?php
@@ -30,20 +34,13 @@ $Id_Profil = $postData['user'];
 ?>
 
 <?php
-try
-{
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+include("connect.php");
 
 // Ecriture de la requête
 $sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
 
 // Préparation
-$userStatement = $mysqlClient->prepare($sqlQuery);
+$userStatement = $PDO->prepare($sqlQuery);
 
 // Exécution ! l'utilisateur est maintenant en base de données
 $userStatement->execute([

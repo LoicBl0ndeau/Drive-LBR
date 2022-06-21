@@ -10,7 +10,8 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 
-	include_once('account_Manager_functions.php');
+	// Autorisation admin
+	include_once('functions.php');
 	autorisation_admin();
 ?>
 
@@ -29,20 +30,13 @@ $Id_Profil = $postData['Id_Profil'];
 
 //echo $Id_Profil;
 
-try
-{
-	$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-}
-catch (Exception $e)
-{
-        die('Erreur : ' . $e->getMessage());
-}
+include("connect.php");
 
 // Ecriture de la requête
 $sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
 
 // Préparation
-$userStatement = $mysqlClient->prepare($sqlQuery);
+$userStatement = $PDO->prepare($sqlQuery);
 
 // Exécution ! l'utilisateur est maintenant en base de données
 $userStatement->execute([
@@ -81,33 +75,41 @@ $edit_users = $userStatement->fetchAll();
 	      <form action="account_Manager_submit_edit_user.php" method="POST">
 					<div class="mb-3">
 							<label for="Id_Profil" class="form-label">Id_Profil</label>
-							<input type="text" class="form-control" id="Id_Profil" name="Id_Profil" aria-describedby="title-help" value="<?php echo $user['Id_Profil'] ?>" readonly="readonly">
+							<input type="text" class="form-control" id="Id_Profil" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>" readonly="readonly">
 					</div>
           <div class="mb-3">
               <label for="Prenom" class="form-label">Prenom</label>
-              <input type="text" class="form-control" id="Prenom" name="Prenom" aria-describedby="title-help" value="<?php echo $user['Prenom'] ?>">
+              <input type="text" class="form-control" id="Prenom" name="Prenom" value="<?php echo $user['Prenom'] ?>">
           </div>
           <div class="mb-3">
               <label for="Nom" class="form-label">Nom</label>
-              <input type="text" class="form-control" id="Nom" name="Nom" aria-describedby="title-help" value="<?php echo $user['Nom'] ?>">
+              <input type="text" class="form-control" id="Nom" name="Nom" value="<?php echo $user['Nom'] ?>">
           </div>
           <div class="mb-3">
               <label for="Email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="Email" name="Email" aria-describedby="title-help" value="<?php echo $user['email'] ?>">
+              <input type="email" class="form-control" id="Email" name="Email" value="<?php echo $user['email'] ?>">
+          </div>
+					<div class="mb-3">
+              <label for="MDP" class="form-label">Mot de passe</label>
+              <input type="text" class="form-control" id="MDP" name="MDP" value="<?php echo $user['MDP'] ?> le mot de passe est haché">
           </div>
           <div class="mb-3">
               <label for="Description" class="form-label">Description</label>
               <textarea class="form-control" placeholder="Écrivez la description ici" id="Description" name="Description" ><?php echo $user['Description'] ?></textarea>
           </div>
           <div class="mb-3">
+							<input type="radio" name="Role" value="Visiteur">
               <label for="Role" class="form-label">Visiteur</label>
-              <input type="radio" name="Role" value="Visiteur">
-              <label for="Role" class="form-label">Editeur</label>
+
               <input type="radio" name="Role" value="Editeur">
-              <label for="Role" class="form-label">Invité</label>
+              <label for="Role" class="form-label">Editeur</label>
+
               <input type="radio" name="Role" value="Invité">
-              <label for="Role" class="form-label">Admin</label>
+              <label for="Role" class="form-label">Invité</label>
+
               <input type="radio" name="Role" value="Admin">
+              <label for="Role" class="form-label">Admin</label>
+
           </div>
           <button type="submit" class="btn btn-primary">Valider</button>
 	      </form>

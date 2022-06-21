@@ -9,6 +9,10 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+	// Autorisation admin
+	include_once('functions.php');
+	autorisation_admin();
 ?>
 
 <?php
@@ -19,19 +23,24 @@ if (
     !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
     !isset($_POST['Nom']) || empty($_POST['Nom']) ||
 		(!isset($_POST['Email']) || !filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) ||
+    !isset($_POST['MDP']) || empty($_POST['MDP']) ||
     !isset($_POST['Description']) || empty($_POST['Description'])||
     !isset($_POST['Role']) || empty($_POST['Role'])
     )
 {
 	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+				<div class="container alert alert-danger" role="alert">
 				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>');
+				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				</div>');
   return;
 }
 
 $Prenom = strip_tags($postData['Prenom']);
 $Nom = strip_tags($postData['Nom']);
 $Email = strip_tags($postData['Email']);
+$MDP = strip_tags($postData['MDP']);
+$MDP_sha256 = hash('sha256', strip_tags($postData['MDP']));
 $Description = strip_tags($postData['Description']);
 $Role = strip_tags($postData['Role']);
 
@@ -80,24 +89,19 @@ $Role = strip_tags($postData['Role']);
 			$errorMessage = sprintf('L\'adresse email semble déjà utilisé, l\'utilisateur n\'est pas enregistré');
 		}
 		else {
-			try
-			{
-				$mysqlClient = new PDO('mysql:host=localhost;dbname=lbr;charset=utf8', 'root');
-			}
-			catch (Exception $e)
-			{
-			        die('Erreur : ' . $e->getMessage());
-			}
+
+			include("connect.php");
 
 			// Ecriture de la requête
-			$sqlQuery = 'INSERT INTO profil(email, Nom, Prenom, Description, Role) VALUES (:email, :Nom, :Prenom, :Description, :Role)';
+			$sqlQuery = 'INSERT INTO profil(email, MDP, Nom, Prenom, Description, Role) VALUES (:email, :MDP, :Nom, :Prenom, :Description, :Role)';
 
 			// Préparation
-			$insertRecipe = $mysqlClient->prepare($sqlQuery);
+			$insertRecipe = $PDO->prepare($sqlQuery);
 
 			// Exécution ! l'utilisateur est maintenant en base de données
 			$insertRecipe->execute([
 			    'email' => $Email,
+					'MDP' => $MDP_sha256,
 			    'Nom' => $Nom,
 			    'Prenom' => $Prenom,
 			    'Description' => $Description,
@@ -118,7 +122,23 @@ $Role = strip_tags($postData['Role']);
 					'Date_de_modification' => date('d-m-y H:i:s'),
 					'Description' => "Création d'un compte : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
-		}
+
+		// envoie du mail à l'Utilisateur
+
+		$mail = <<<MAIL
+						Bonjour $Prenom $Nom,<br /><br />
+						Vous avez maintenant un compte $Role associé au mail : $Email <br /><br />
+						Votre mot de passe est : $MDP <br /><br />
+						Il vous sera demander pour vous connecter au
+						<a href="https://www.lesbriquesrouges.fr/" style="font-size:15px;line-height:18px;font-family:'open-sans',sans-serif;color:#000000;font-weight:normal;text-decoration:underline" target="_blank">site</a>.<br /><br />
+						Dans un souci de sécurité, nous vous invitons à le modifier dès la première connexion.
+						Nous vous remercions de votre confiance.
+						MAIL;
+
+		include_once('sendmail.php');
+		sendmail($Email,$mail);
+
+	}
 
 		?>
 
@@ -142,6 +162,7 @@ $Role = strip_tags($postData['Role']);
 							<p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
 							<p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
 							<p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
+							<p class="card-text"><b>Mot de passe</b> : <?php echo($MDP); ?></p>
 							<p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
 							<p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
 					</div>

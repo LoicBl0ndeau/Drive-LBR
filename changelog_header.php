@@ -1,6 +1,5 @@
 <?php
     include_once('changelog_variables.php');
-    //include_once('func_AM.php');
 ?>
 
 <a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
