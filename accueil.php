@@ -146,7 +146,9 @@
     <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
+
 		<div id="trier_par">Trier par :</div>
+
 		<?php
 			function mois($mois) {
 				switch ($mois) {
@@ -214,7 +216,10 @@
 					$reqEmail = $PDO->prepare("SELECT email FROM profil WHERE Id_Profil=?");
 					$reqEmail->execute(array($media['Auteur_Id']));
 					$resEmail = $reqEmail->fetch();
-					echo "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: ".$resEmail['email']."<br /><br />Date d'ajout: ".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
+					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: ".$resEmail['email']."<br /><br />Date d'ajout: ".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
+					echo <<<END
+						<script>$('body').append("{$appendInfos}")</script>
+						END;
 				}
 			}
 	 	?>

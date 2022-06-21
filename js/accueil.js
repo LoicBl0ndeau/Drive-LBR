@@ -36,6 +36,17 @@ function fermerLecteur(){
 }
 
 $(document).ready(function(){
+  $('#container_categories').on("wheel", function(evt){
+    if(evt.originalEvent.wheelDeltaX == 0){
+      evt.preventDefault();
+      if(evt.originalEvent.wheelDelta <= 0){
+        $('#container_categories').scrollLeft($('#container_categories').scrollLeft()+15);
+      }
+      else{
+        $('#container_categories').scrollLeft($('#container_categories').scrollLeft()-15);
+      }
+    }
+  });
   $('#importer_file').on("change",function(){
     $('#form_import').submit();
   });
