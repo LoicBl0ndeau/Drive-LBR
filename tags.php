@@ -13,7 +13,7 @@
 //	echo "test";
 
 
-
+//Ajouter une Catégorie de Tags
 	if(isset($_SESSION['random_ok_tag'], $_POST['randomformCAT']) && $_POST['randomformCAT'] == $_SESSION['random_ok_tag']){
 		//echo("tst");
 
@@ -53,6 +53,8 @@
 			}
 		}
 	}
+
+//Ajouter un Tag
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomformTAG'] == $_SESSION['random_ok_tag']){
 	if (isset($_POST['boutonvalidetag'])) {
 		//echo('ee');
@@ -81,9 +83,9 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 						if($same_tag== 0){
 							require('connect.php');
 							//echo('bou');
-							$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
+							$query = "INSERT INTO tag(Nom,Créateur,Id_Catégorie) values(?,?,?)";
 							$resultStatement = $PDO->prepare($query);
-							$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil']));
+							$resultStatement->execute(array($_POST['input_tag'],$_SESSION['loggedUser']['Id_Profil'],$_POST['id_cat_clicked']));
 							$result = $resultStatement->fetchAll();
 
 						}
@@ -240,6 +242,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
 		Nom du tag:</br>
 		<input type="text" id="input_tag" name="input_tag" placeholder='Entrer le nom ici' /></br>
 		<input type="hidden" name="randomformTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+		<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 		<input type="submit" id="boutonvalidetag" name="boutonvalidetag" value="Valider"/>
 </form>
 

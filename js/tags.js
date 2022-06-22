@@ -30,8 +30,14 @@ $(document).ready(function(){
     $('*:not(html,body)').css("filter","blur(0)");
   });
   $('#plus_tag').on("click",function(){
-    $('#ajouttag').css("transform","translate(0,-50%)");
-    $('#mask_tag').css("transform","translateX(0)");
-    $('*:not(#mask_tag,html,body, #ajouttag,#ajouttag *)').css("filter","blur(2px)");
+    if($('input[name="radio_cat"]:checked+label').attr("id_cat")){
+      $('.id_cat_clicked').val($('input[name="radio_cat"]:checked+label').attr("id_cat"));
+      $('#ajouttag').css("transform","translate(0,-50%)");
+      $('#mask_tag').css("transform","translateX(0)");
+      $('*:not(#mask_tag,html,body, #ajouttag,#ajouttag *)').css("filter","blur(2px)");
+    }
+    else{
+      alert("Veuillez d'abord sélectionner une catégorie");
+    }
   });
 });
