@@ -154,6 +154,8 @@ $(document).ready(function(){
     }
     $('.container_media').remove();
     $(media_dates).insertAfter($('#trier_par'));
+    $('.img_media').on("click",img_media_open);
+    $('.player').on("click",player_open);
   });
   $('#radio_auteurs').on("click",function(){
     var auteurs = [];
@@ -181,6 +183,8 @@ $(document).ready(function(){
     }
     $('.container_media').remove();
     $(media_auteur).insertAfter($('#trier_par'));
+    $('.img_media').on("click",img_media_open);
+    $('.player').on("click",player_open);
   });
 
   $.contextMenu({
