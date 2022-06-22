@@ -81,6 +81,8 @@
 		<?php include_once('mask_profil.php'); ?>
 
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
+		<div id="trier_par">Trier par :<input type="radio" id="radio_dates" name="radio_trie" checked /><label class="bouton_trier_par" for="radio_dates">Dates</label><input type="radio" id="radio_auteurs" name="radio_trie" /><label class="bouton_trier_par" for="radio_auteurs">Auteurs</label><input type="radio" id="radio_mes_photos" name="radio_trie" /><label class="bouton_trier_par" for="radio_mes_photos">Mes photos</label><input type="checkbox" id="checked_croissant" checked /><label id="bouton_checked_croissant" for="checked_croissant">Croissant</label></div>
+
 		<?php
 			function mois($mois) {
 				switch ($mois) {
@@ -127,24 +129,39 @@
 			$res = $req->fetchAll();
 			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
 			$dateOlder = NULL;
+			$compteur_container_media = 0;
 			foreach ($res as $media) {
 				if($media['Corbeille'] == 1){
 					if($dateOlder != date_create($media['Date_de_publication'])){
 						if($dateOlder == NULL){
 							$dateOlder = date_create($media['Date_de_publication']);
-							echo "<h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+							echo "<h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
 						}
 						else{
 							$dateOlder = date_create($media['Date_de_publication']);
-							echo "</div><h1 style='text-align: center;'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+							echo "</div><h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
 						}
+						$compteur_container_media += 1;
 					}
-					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-						echo "<div class='marge'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+					if($media['Auteur_Id'] == $_SESSION['loggedUser']['Id_Profil']){
+						$isMediaFromLoggedUser = 1; //True
 					}
 					else{
-						echo "<div class='marge'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						$isMediaFromLoggedUser = 0; //False
 					}
+					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+					}
+					else{
+						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+					}
+					$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
+					$reqEmail->execute(array($media['Auteur_Id']));
+					$resEmail = $reqEmail->fetchAll();
+					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
+					echo <<<END
+						<script>$('body').append("{$appendInfos}")</script>
+						END;
 				}
 			}
 	 	?>
