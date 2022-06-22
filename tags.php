@@ -119,6 +119,33 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
 	}
 }
 
+//Modifier nom du tag
+if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifTAG']) && $_POST['randomformModifTAG'] == $_SESSION['random_ok_tag']){
+	if(isset($_POST['boutonModiftag'])){
+		if(empty($_POST['input_modif_tag'])){
+			echo '<script>alert("Nom du tag vide");</script>';
+		}
+		else if($_POST['id_tag_clicked'] == 0){
+			echo '<script>alert("Vous ne pouvez pas modifier ce tag");</script>';
+		}
+		else{
+			require('connect.php');
+			$query = "UPDATE tag SET Nom = ? WHERE Id_Tag=?";
+			$resultStatement = $PDO->prepare($query);
+			$resultStatement->execute(array($_POST['input_modif_tag'],$_POST['id_tag_clicked']));
+		}
+	}
+}
+
+//Supprimer Tag
+if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['randomformSuppTAG'] == $_SESSION['random_ok_tag']){
+	if(isset($_POST['boutonSupptag'])){
+		require('connect.php');
+		$query = "DELETE FROM tag WHERE Id_Tag = ?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['id_tag_clicked']));
+	}
+}
 
 
 	unset($_POST['randomformTAG']);
@@ -171,7 +198,12 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
     								'<path d="M0,1H5" transform="translate(15.536 5.429) rotate(45)" fill="none" stroke="#000" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1.5"/>'.
 									'</svg>';
 				foreach ($catego as $cat) {
-					echo '<div class="container_tags_options"><span class="pen_modifier_cat">'.$penSvg.'</span><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label><span class="delete_cat">✖</span></div></br>';
+					if($cat['Id_Catégorie'] == 0){
+						echo '<div class="container_tags_options"><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label></div></br>';
+					}
+					else{
+						echo '<div class="container_tags_options"><span class="pen_modifier_cat">'.$penSvg.'</span><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label><span class="delete_cat">✖</span></div></br>';
+					}
 				}
 
 
@@ -192,7 +224,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
 			//echo $nbrcat[0];
 			foreach ($nbrcat as $id_cat) {
 				//echo $id_cat[0];
-				$sqlQuery = 'SELECT Nom from tag where Id_Catégorie=?';
+				$sqlQuery = 'SELECT * from tag where Id_Catégorie=?';
 				$recipesStatement = $PDO->prepare($sqlQuery);
 				$recipesStatement->execute(array($id_cat[0]));
 				$nametags=$recipesStatement->fetchAll();
@@ -201,10 +233,14 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
 									 '</svg>';
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
-					echo "<div class='container_tags_options'><span class='move_tag'>".$moveSvg."</span><div class='tag'>".$nametag[0]."</div><span class='delete_tag'>✖</span></div>";
+					if($nametag['Id_Catégorie'] == 0){
+						echo "<div class='container_tags_options'><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div></div>";
+					}
+					else{
+						echo "<div class='container_tags_options'><span class='move_tag'>".$moveSvg."</span><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div><span class='delete_tag'>✖</span></div>";
+					}
 				}
 				echo "</div>";
-
 			}
 
 			?>
@@ -244,8 +280,24 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['ran
 		<input type="hidden" name="randomformTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 		<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 		<input type="submit" id="boutonvalidetag" name="boutonvalidetag" value="Valider"/>
-</form>
+	</form>
+	<form method="post" id="modifiertag" name='modifiertag'>
 
+			Modifier le nom du tag:</br>
+			<input type="text" id="input_modif_tag" name="input_modif_tag" placeholder='Entrer le nouveau nom ici' /></br>
+			<input type="hidden" name="randomformModifTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+			<input type="hidden" class="id_tag_clicked" name="id_tag_clicked" />
+			<input type="submit" name="boutonModiftag" value="Valider"/>
+
+	</form>
+	<form method="post" id="supptag" name='supptag'>
+
+			Voulez-vous vraiment supprimer ce tag ?</br>
+			<input type="hidden" name="randomformSuppTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+			<input type="hidden" class="id_tag_clicked" name="id_tag_clicked" />
+			<input type="submit" name="boutonSupptag" value="Valider"/>
+
+	</form>
 	<div id="mask_tag"></div>
 
 </body>
