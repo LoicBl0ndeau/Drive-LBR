@@ -29,6 +29,12 @@ $(document).ready(function(){
     $('.id_tag_clicked').val($(this).parent().find("div").attr("id_tag"));
     $('*:not(#mask_tag,html,body, #supptag,#supptag *)').css("filter","blur(2px)");
   });
+  $('.move_tag').on("click",function(){
+    $('#movetag').css("transform","translate(0,-50%)");
+    $('#mask_tag').css("transform","translateX(0)");
+    $('.id_tag_clicked').val($(this).parent().find("div").attr("id_tag"));
+    $('*:not(#mask_tag,html,body, #movetag,#movetag *)').css("filter","blur(2px)");
+  });
   $('#plus_cat').on("click",function(){
     $('#ajoutcat').css("transform","translate(0,-50%)");
     $('#mask_tag').css("transform","translateX(0)");
@@ -36,6 +42,7 @@ $(document).ready(function(){
   });
   $('#mask_tag').on("click",function(){
     $('#ajoutcat').css("transform","translate(-100vw,-50%)");
+      $('#movetag').css("transform","translate(-100vw,-50%)");
     $('#supptag').css("transform","translate(-100vw,-50%)");
     $('#modifiercat').css("transform","translate(-100vw,-50%)");
     $('#mask_tag').css("transform","translateX(-100vw)");

@@ -147,6 +147,16 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 	}
 }
 
+//Move un Tag
+if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['randomformMoveTAG'] == $_SESSION['random_ok_tag']){
+	if(isset($_POST['boutonMovetag'])){
+		require('connect.php');
+		$query = "UPDATE tag SET Id_Catégorie = ? WHERE Id_Tag=?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['cat_choisie'],$_POST['id_tag_clicked']));
+	}
+}
+
 
 	unset($_POST['randomformTAG']);
 	unset($_POST['randomformCAT']);
@@ -199,10 +209,10 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 									'</svg>';
 				foreach ($catego as $cat) {
 					if($cat['Id_Catégorie'] == 0){
-						echo '<div class="container_tags_options"><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label></div></br>';
+						echo '<div class="container_tags_options"><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label></div><br />';
 					}
 					else{
-						echo '<div class="container_tags_options"><span class="pen_modifier_cat">'.$penSvg.'</span><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label><span class="delete_cat">✖</span></div></br>';
+						echo '<div class="container_tags_options"><span class="pen_modifier_cat">'.$penSvg.'</span><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label><span class="delete_cat">✖</span></div><br />';
 					}
 				}
 
@@ -233,7 +243,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 									 '</svg>';
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
-					if($nametag['Id_Catégorie'] == 0){
+					if($nametag['Id_Tag'] == 0){
 						echo "<div class='container_tags_options'><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div></div>";
 					}
 					else{
@@ -249,8 +259,8 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
   </div>
 	<form method="post" id="ajoutcat" name='ajoutcat'>
 
-			Nom de la catégorie:</br>
-			<input type="text" id="input_cat" name="input_cat" placeholder='Entrer le nom ici' /></br>
+			Nom de la catégorie:<br />
+			<input type="text" id="input_cat" name="input_cat" placeholder='Entrer le nom ici' /><br />
 			<input type="hidden" name="randomformCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 
 			<input type="submit" id="boutonvalidecat" name="boutonvalidecat" value="Valider"/>
@@ -258,8 +268,8 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 	</form>
 	<form method="post" id="modifiercat" name='modifiercat'>
 
-			Modifier le nom de la catégorie:</br>
-			<input type="text" id="input_modif_cat" name="input_modif_cat" placeholder='Entrer le nouveau nom ici' /></br>
+			Modifier le nom de la catégorie:<br />
+			<input type="text" id="input_modif_cat" name="input_modif_cat" placeholder='Entrer le nouveau nom ici' /><br />
 			<input type="hidden" name="randomformModifCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 			<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 			<input type="submit" name="boutonModifcat" value="Valider"/>
@@ -267,7 +277,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 	</form>
 	<form method="post" id="suppcat" name='suppcat'>
 
-			Voulez-vous vraiment supprimer cette catégorie ?</br>
+			Voulez-vous vraiment supprimer cette catégorie ?<br />
 			<input type="hidden" name="randomformSuppCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 			<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 			<input type="submit" name="boutonSuppcat" value="Valider"/>
@@ -275,16 +285,35 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 	</form>
 
 	<form method="post" id="ajouttag" name='ajouttag'>
-		Nom du tag:</br>
-		<input type="text" id="input_tag" name="input_tag" placeholder='Entrer le nom ici' /></br>
+		Nom du tag:<br />
+		<input type="text" id="input_tag" name="input_tag" placeholder='Entrer le nom ici' /><br />
 		<input type="hidden" name="randomformTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 		<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 		<input type="submit" id="boutonvalidetag" name="boutonvalidetag" value="Valider"/>
 	</form>
+	<form method="post" id="movetag" name='movetag'>
+
+			<label for="cat_choisie">Dans quelle catégorie voulez-vous<br />déplacer ce tag ?</label><br />
+			<select name="cat_choisie" id="cat_choisie">
+				<?php
+					require('connect.php');
+					$sqlQuery = 'SELECT * from categorie';
+					$recipesStatement = $PDO->query($sqlQuery);
+					$listCat=$recipesStatement->fetchAll();
+					foreach ($listCat as $cat) {
+						echo "<option value='".$cat['Id_Catégorie']."'>".$cat['Nom']."</option>";
+					}
+				?>
+			</select><br />
+			<input type="hidden" name="randomformMoveTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+			<input type="hidden" class="id_tag_clicked" name="id_tag_clicked" />
+			<input type="submit" name="boutonMovetag" value="Valider"/>
+
+	</form>
 	<form method="post" id="modifiertag" name='modifiertag'>
 
-			Modifier le nom du tag:</br>
-			<input type="text" id="input_modif_tag" name="input_modif_tag" placeholder='Entrer le nouveau nom ici' /></br>
+			Modifier le nom du tag:<br />
+			<input type="text" id="input_modif_tag" name="input_modif_tag" placeholder='Entrer le nouveau nom ici' /><br />
 			<input type="hidden" name="randomformModifTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 			<input type="hidden" class="id_tag_clicked" name="id_tag_clicked" />
 			<input type="submit" name="boutonModiftag" value="Valider"/>
@@ -292,7 +321,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['ran
 	</form>
 	<form method="post" id="supptag" name='supptag'>
 
-			Voulez-vous vraiment supprimer ce tag ?</br>
+			Voulez-vous vraiment supprimer ce tag ?<br />
 			<input type="hidden" name="randomformSuppTAG" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 			<input type="hidden" class="id_tag_clicked" name="id_tag_clicked" />
 			<input type="submit" name="boutonSupptag" value="Valider"/>

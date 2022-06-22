@@ -771,7 +771,7 @@ input[name="radio_trie"], #checked_croissant
   }
 }
 
-#ajoutcat, #ajouttag, #modifiercat, #suppcat, #modifiertag, #supptag
+#ajoutcat, #ajouttag, #modifiercat, #suppcat, #modifiertag, #supptag, #movetag
 {
   width: 50vmin;
   max-height: calc(50vmin * 4 / 3);
@@ -787,7 +787,7 @@ input[name="radio_trie"], #checked_croissant
   color: white;
 }
 
-#ajouttag *, #ajoutcat *, #modifiercat *, #suppcat *, #modifiertag *, #supptag *
+#ajouttag *, #ajoutcat *, #modifiercat *, #suppcat *, #modifiertag *, #supptag *, #movetag *
 {
   font-size: 10px
   padding: 5px;
