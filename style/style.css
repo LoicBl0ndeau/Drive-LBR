@@ -364,7 +364,7 @@ input[type=file]{
 }
 
 #container_tags{
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
 
@@ -373,25 +373,23 @@ input[type=file]{
 }
 
 #catégories_de_tags{
-  text-align: center;
-  width: 50vw;
-  height: 50%;
-  display: block;
-
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
 }
 
 #Tags{
-  text-align: center;
-  width: 50vw;
-
-
-
-
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px;
 }
 
 .plus {
-  margin-left:50%;
-  transform: translateX(-50%);
   color: red;
   display: flex;
   align-items: center;
@@ -837,37 +835,73 @@ input[name="radio_trie"], #checked_croissant
   justify-content: center;
 }
 
-.tag{
-  text-align: center;
-  background-color: #D72E2A;
-  color: white;
-  width: 10vw;
-  border:1px solid black;
-  margin-bottom: 10px;
-  border-radius: 20px;
-}
-
 .container_tags_par_cat
 {
-  display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   display: none;
 }
 
-.cat{
-  text-align: center;
-  background-color: #D72E2A;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  width: 10vw;
-  border:1px solid black;
-  margin-bottom: 10px;
-  border-radius: 20px;
-
+.container_tags_options, .move_tag
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.move_tag
+{
+  cursor: pointer;
+}
+
+.delete_cat, .delete_tag
+{
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pen_modifier_cat
+{
+  cursor: pointer;
+  display: flex;
+}
+
+.tag
+{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.cat, .tag
+{
+  text-align: center;
+  margin-left: 6px;
+  margin-right: 6px;
+  background-color: white;
+  cursor: pointer;
+  max-width: 30vw;
+  border:1px solid black;
+  padding: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 7px;
+  transition: .2s;
+}
+
+input[name="radio_cat"]
+{
+  display: none;
+}
+
+input[name="radio_cat"]:checked+label, .cat:hover
+{
+  color: white;
+  background-color: #3671B3;
+}
 
 .alert {
     position: relative;
