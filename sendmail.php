@@ -8,7 +8,7 @@ function sendmail( string $Email, string $mail)
   $expediteur = 'contact@drivelbr.local';
   //$copie = 'contact@drivelbr.local';
   $copie_cachee = 'contact@drivelbr.local';
-  $objet = 'Nouveau Compte LBR'; // Objet du message
+  $objet = 'Compte Drive LBR'; // Objet du message
   $headers  = 'MIME-Version: 1.0' . "\n"; // Version MIME
   $headers .= 'Content-type: text/html; charset=utf-8'."\n"; // l'en-tete Content-type pour le format HTML
   $headers .= 'Reply-To: '.$expediteur."\n"; // Mail de reponse
