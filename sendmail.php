@@ -101,8 +101,8 @@ function sendmail( string $Email, string $mail)
                                                 <tbody>
                                                   <tr>
                                                     <td valign="top" style="text-align:center;font-size:20px;line-height:26px;font-family:'open-sans',sans-serif;color:#000000;padding-top:20px;padding-bottom:10px">
-                                                      Informations sur votre inscription<br />
-                                                      au Drive des Briques Rouges
+                                                      Informations sur votre compte<br />
+                                                      Drive des Briques Rouges
                                                     </td>
                                                   </tr>
                                                 </tbody>
