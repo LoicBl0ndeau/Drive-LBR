@@ -91,7 +91,7 @@ $edit_users = $userStatement->fetchAll();
           </div>
 					<div class="mb-3">
               <label for="MDP" class="form-label">Mot de passe</label>
-              <input type="text" class="form-control" id="MDP" name="MDP" value="<?php echo $user['MDP'] ?>">
+              <input type="text" class="form-control" id="MDP" name="MDP">
 							<input type="checkbox" name="MDP_changed" value="1">Modifier le mot de passe</input>
           </div>
           <div class="mb-3">
