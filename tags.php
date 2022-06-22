@@ -92,6 +92,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 	}
 }
 
+//Modifier Nom de la Catégorie
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['randomformModifCAT'] == $_SESSION['random_ok_tag']){
 	if(isset($_POST['boutonModifcat'])){
 		if(empty($_POST['input_modif_cat'])){
@@ -103,6 +104,16 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['ra
 			$resultStatement = $PDO->prepare($query);
 			$resultStatement->execute(array($_POST['input_modif_cat'],$_POST['id_cat_clicked']));
 		}
+	}
+}
+
+//Supprimer Catégorie
+if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['randomformSuppCAT'] == $_SESSION['random_ok_tag']){
+	if(isset($_POST['boutonSuppcat'])){
+		require('connect.php');
+		$query = "DELETE FROM categorie WHERE Id_Catégorie = ?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['id_cat_clicked']));
 	}
 }
 
@@ -212,11 +223,18 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['ra
 			Modifier le nom de la catégorie:</br>
 			<input type="text" id="input_modif_cat" name="input_modif_cat" placeholder='Entrer le nouveau nom ici' /></br>
 			<input type="hidden" name="randomformModifCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
-			<input type="hidden" id="id_cat_clicked" name="id_cat_clicked" />
+			<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 			<input type="submit" name="boutonModifcat" value="Valider"/>
 
 	</form>
+	<form method="post" id="suppcat" name='suppcat'>
 
+			Voulez-vous vraiment supprimer cette catégorie ?</br>
+			<input type="hidden" name="randomformSuppCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+			<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
+			<input type="submit" name="boutonSuppcat" value="Valider"/>
+
+	</form>
 
 	<form method="post" id="ajouttag" name='ajouttag'>
 		Nom du tag:</br>

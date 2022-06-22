@@ -7,8 +7,14 @@ $(document).ready(function(){
     $('#modifiercat').css("transform","translate(0,-50%)");
     $('#mask_tag').css("transform","translateX(0)");
     $('#input_modif_cat').attr("placeholder","Modifier: "+$(this).parent().find("label").text());
-    $('#id_cat_clicked').val($(this).parent().find("label").attr("id_cat"));
+    $('.id_cat_clicked').val($(this).parent().find("label").attr("id_cat"));
     $('*:not(#mask_tag,html,body, #modifiercat,#modifiercat *)').css("filter","blur(2px)");
+  });
+  $('.delete_cat').on("click",function(){
+    $('#suppcat').css("transform","translate(0,-50%)");
+    $('#mask_tag').css("transform","translateX(0)");
+    $('.id_cat_clicked').val($(this).parent().find("label").attr("id_cat"));
+    $('*:not(#mask_tag,html,body, #suppcat,#suppcat *)').css("filter","blur(2px)");
   });
   $('#plus_cat').on("click",function(){
     $('#ajoutcat').css("transform","translate(0,-50%)");
@@ -20,6 +26,7 @@ $(document).ready(function(){
     $('#modifiercat').css("transform","translate(-100vw,-50%)");
     $('#mask_tag').css("transform","translateX(-100vw)");
     $('#ajouttag').css("transform","translate(-100vw,-50%)");
+    $('#suppcat').css("transform","translate(-100vw,-50%)");
     $('*:not(html,body)').css("filter","blur(0)");
   });
   $('#plus_tag').on("click",function(){
