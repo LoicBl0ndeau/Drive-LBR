@@ -132,7 +132,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
   ?>
   <div id="container_tags">
     <span id="catégories_de_tags">
-      <h1>Catégories de tags</h1>
+      <h1 style="text-align: center;margin-bottom: 10px;">Catégories de tags</h1>
 
         <div class="plus" id="plus_cat">+</div><br/>
 				<?php
@@ -140,10 +140,13 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 				$sqlQuery = 'SELECT * FROM categorie';
 				$recipesStatement = $PDO->query($sqlQuery);
 				$catego = $recipesStatement->fetchAll();
-
-							foreach ($catego as $cat) {
-									echo '<div class="cat" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</div></br>';
-							}
+				$penSvg = '<svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'.
+										'<path d="M0,2A2,2,0,0,1,2,0H4A2,2,0,0,1,6,2V18L3,23,0,18Z" transform="translate(18.01 2.247) rotate(45)" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="1.5"/>'.
+    								'<path d="M0,1H5" transform="translate(15.536 5.429) rotate(45)" fill="none" stroke="#000" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1.5"/>'.
+									'</svg>';
+				foreach ($catego as $cat) {
+					echo '<div class="container_tags_options"><span class="pen_modifier_cat">'.$penSvg.'</span><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label><span class="delete_cat">✖</span></div></br>';
+				}
 
 
 
@@ -167,9 +170,12 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 				$recipesStatement = $PDO->prepare($sqlQuery);
 				$recipesStatement->execute(array($id_cat[0]));
 				$nametags=$recipesStatement->fetchAll();
+				$moveSvg = '<svg height="20" width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;" xml:space="preserve">'.
+											'<path id="XMLID_92_" d="M325.606,154.394l-37.5-37.5c-4.289-4.291-10.744-5.572-16.347-3.252c-5.605,2.322-9.26,7.791-9.26,13.858V150H180V67.5h22.5c6.067,0,11.536-3.655,13.858-9.26c2.321-5.605,1.038-12.057-3.252-16.347l-37.5-37.5c-5.857-5.858-15.355-5.858-21.213,0l-37.5,37.5c-4.29,4.29-5.573,10.742-3.252,16.347c2.322,5.605,7.792,9.26,13.858,9.26H150V150H67.5v-22.5c0-6.067-3.655-11.537-9.26-13.858c-5.606-2.321-12.058-1.038-16.347,3.252l-37.5,37.5c-5.858,5.858-5.858,15.355,0,21.213l37.5,37.5c2.87,2.87,6.705,4.394,10.61,4.394c1.932,0,3.881-0.374,5.737-1.142c5.605-2.322,9.26-7.792,9.26-13.858V180H150v82.5h-22.5c-6.067,0-11.537,3.655-13.858,9.26c-2.321,5.605-1.038,12.057,3.252,16.347l37.5,37.5C157.322,328.536,161.161,330,165,330s7.678-1.464,10.606-4.394l37.5-37.5c4.29-4.29,5.573-10.742,3.252-16.347c-2.322-5.605-7.791-9.26-13.858-9.26H180V180h82.5v22.5c0,6.067,3.654,11.537,9.26,13.858c1.855,0.769,3.805,1.142,5.737,1.142c3.903,0,7.74-1.524,10.609-4.394l37.5-37.5C331.465,169.749,331.465,160.252,325.606,154.394z"/>'.
+									 '</svg>';
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
-					echo "<div class='tag'>".$nametag[0]."</div>";
+					echo "<div class='container_tags_options'><span class='move_tag'>".$moveSvg."</span><div class='tag'>".$nametag[0]."</div><span class='delete_tag'>✖</span></div>";
 				}
 				echo "</div>";
 

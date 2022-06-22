@@ -1,9 +1,7 @@
 $(document).ready(function(){
   $('.cat').on("click",function(){
     $('.container_tags_par_cat').css("display","none");
-    $('.cat').css("background-color","#D72E2A");
-      $('.container_tags_par_cat[id_cat='+$(this).attr("id_cat")+']').css("display","flex");
-      $('.cat[id_cat='+$(this).attr("id_cat")+']').css("background-color","#FF890A");
+    $('.container_tags_par_cat[id_cat='+$(this).attr("id_cat")+']').css("display","flex");
   });
 
 
