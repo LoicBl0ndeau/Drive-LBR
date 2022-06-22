@@ -788,8 +788,6 @@ input[name="radio_trie"], #checked_croissant
 }
 
 #ajouttag{
-
-
   width: 50vmin;
   max-height: calc(50vmin * 4 / 3);
   position: fixed;
@@ -802,10 +800,6 @@ input[name="radio_trie"], #checked_croissant
   border-radius: 8px;
   text-align: center;
   color: white;
-
-
-
-
 }
 
 #ajouttag *{

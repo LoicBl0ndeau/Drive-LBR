@@ -195,23 +195,31 @@
 			$res = $req->fetchAll();
 			$extensionsImage = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png', 'image/tiff', 'image/bmp', 'image/svg+xml', 'image/x-xbitmap', 'image/jxl', 'image/webp', 'image/x-icon', 'image/avif'];
 			$dateOlder = NULL;
+			$compteur_container_media = 0;
 			foreach ($res as $media) {
 				if($media['Corbeille'] == 0){
 					if($dateOlder != date_create($media['Date_de_publication'])){
 						if($dateOlder == NULL){
 							$dateOlder = date_create($media['Date_de_publication']);
-							echo "<h1 style='text-align: center;' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+							echo "<h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
 						}
 						else{
 							$dateOlder = date_create($media['Date_de_publication']);
-							echo "</div><h1 style='text-align: center;' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media'>";
+							echo "</div><h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
 						}
+						$compteur_container_media += 1;
 					}
-					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-						echo "<div class='marge' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+					if($media['Auteur_Id'] == $_SESSION['loggedUser']['Id_Profil']){
+						$isMediaFromLoggedUser = 1; //True
 					}
 					else{
-						echo "<div class='marge' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						$isMediaFromLoggedUser = 0; //False
+					}
+					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+					}
+					else{
+						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
 					}
 					$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
 					$reqEmail->execute(array($media['Auteur_Id']));
