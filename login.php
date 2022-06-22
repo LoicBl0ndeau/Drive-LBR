@@ -27,7 +27,7 @@
 			<label for="mdp">Mot de passe</label><br />
       <input type="password" class="saisie" id="mdp" name="mdp" placeholder="Entrez votre mot de passe" /><i class="bi bi-eye-slash" id="togglePassword"></i><br />
 			<div class="mdpOublie">
-				<a href="">Mot de passe oublié ?</a><br />
+				<a href="forgotten_password.php">Mot de passe oublié ?</a><br />
 			</div>
 			<br />
 			<br />
