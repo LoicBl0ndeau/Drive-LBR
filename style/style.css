@@ -771,7 +771,7 @@ input[name="radio_trie"], #checked_croissant
   }
 }
 
-#ajoutcat{
+#ajoutcat, #ajouttag, #modifiercat{
 
   width: 50vmin;
   max-height: calc(50vmin * 4 / 3);
@@ -787,29 +787,7 @@ input[name="radio_trie"], #checked_croissant
   color: white;
 }
 
-#ajouttag{
-  width: 50vmin;
-  max-height: calc(50vmin * 4 / 3);
-  position: fixed;
-  left: calc(50vw - 50vmin / 2);
-  top: 50%;
-  z-index: 100;
-  transform: translate(-100vw,-50%);
-  transition: transform .5s;
-  background-color: #D72E2A;
-  border-radius: 8px;
-  text-align: center;
-  color: white;
-}
-
-#ajouttag *{
-  font-size: 10px
-  padding: 5px;
-  margin: 8px;
-}
-
-
-#ajoutcat *{
+#ajouttag *, #ajoutcat *, #modifiercat *{
   font-size: 10px
   padding: 5px;
   margin: 8px;

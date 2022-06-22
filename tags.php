@@ -19,7 +19,7 @@
 
 		if (isset($_POST['boutonvalidecat'])) {
 			if(empty($_POST['input_cat'])){
-				echo('nom de la catégorie vide');
+				echo '<script>alert("Nom de la catégorie vide");</script>';
 			}
 
 			else{
@@ -31,16 +31,16 @@
 
 				$same_cat = 0;
 							foreach ($catego as $cat) {
-									if ($cat['Nom'] === $_POST['input_cat']) {
+									if ($cat['Nom'] == $_POST['input_cat']) {
 													$same_cat++;
-											echo "le nom semble déjà utilisé";
+											echo "<script>alert('Le nom semble déjà utilisé');</script>";
 									}
 											else {
 										//echo('oklm');
 									}
 							}
 							//echo $same_cat;
-							if($same_cat=== 0){
+							if($same_cat== 0){
 								//echo('eeeee');
 								require('connect.php');
 								$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
@@ -57,7 +57,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 	if (isset($_POST['boutonvalidetag'])) {
 		//echo('ee');
 		if(empty($_POST['input_tag'])){
-			echo('nom du tag vide');
+			echo '<script>alert("nom du tag vide");</script>';
 		}
 
 		else{
@@ -69,16 +69,16 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 
 			$same_tag = 0;
 						foreach ($tags as $tag) {
-								if ($tag['Nom'] === $_POST['input_tag']) {
+								if ($tag['Nom'] == $_POST['input_tag']) {
 												$same_tag++;
-										echo "le nom semble déjà utilisé";
+										echo "<script>alert('le nom semble déjà utilisé');</script>";
 								}
 										else {
 									//echo('oklm');
 								}
 						}
 						//echo $same_tag;
-						if($same_tag=== 0){
+						if($same_tag== 0){
 							require('connect.php');
 							//echo('bou');
 							$query = "INSERT INTO tag(Nom,Créateur) values(?,?)";
@@ -92,6 +92,19 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 	}
 }
 
+if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['randomformModifCAT'] == $_SESSION['random_ok_tag']){
+	if(isset($_POST['boutonModifcat'])){
+		if(empty($_POST['input_modif_cat'])){
+			echo '<script>alert("Nom de la catégorie vide");</script>';
+		}
+		else{
+			require('connect.php');
+			$query = "UPDATE categorie SET Nom = ? WHERE Id_Catégorie=?";
+			$resultStatement = $PDO->prepare($query);
+			$resultStatement->execute(array($_POST['input_modif_cat'],$_POST['id_cat_clicked']));
+		}
+	}
+}
 
 
 
@@ -171,7 +184,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 				$recipesStatement->execute(array($id_cat[0]));
 				$nametags=$recipesStatement->fetchAll();
 				$moveSvg = '<svg height="20" width="20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 330 330" style="enable-background:new 0 0 330 330;" xml:space="preserve">'.
-											'<path id="XMLID_92_" d="M325.606,154.394l-37.5-37.5c-4.289-4.291-10.744-5.572-16.347-3.252c-5.605,2.322-9.26,7.791-9.26,13.858V150H180V67.5h22.5c6.067,0,11.536-3.655,13.858-9.26c2.321-5.605,1.038-12.057-3.252-16.347l-37.5-37.5c-5.857-5.858-15.355-5.858-21.213,0l-37.5,37.5c-4.29,4.29-5.573,10.742-3.252,16.347c2.322,5.605,7.792,9.26,13.858,9.26H150V150H67.5v-22.5c0-6.067-3.655-11.537-9.26-13.858c-5.606-2.321-12.058-1.038-16.347,3.252l-37.5,37.5c-5.858,5.858-5.858,15.355,0,21.213l37.5,37.5c2.87,2.87,6.705,4.394,10.61,4.394c1.932,0,3.881-0.374,5.737-1.142c5.605-2.322,9.26-7.792,9.26-13.858V180H150v82.5h-22.5c-6.067,0-11.537,3.655-13.858,9.26c-2.321,5.605-1.038,12.057,3.252,16.347l37.5,37.5C157.322,328.536,161.161,330,165,330s7.678-1.464,10.606-4.394l37.5-37.5c4.29-4.29,5.573-10.742,3.252-16.347c-2.322-5.605-7.791-9.26-13.858-9.26H180V180h82.5v22.5c0,6.067,3.654,11.537,9.26,13.858c1.855,0.769,3.805,1.142,5.737,1.142c3.903,0,7.74-1.524,10.609-4.394l37.5-37.5C331.465,169.749,331.465,160.252,325.606,154.394z"/>'.
+											'<path d="M325.606,154.394l-37.5-37.5c-4.289-4.291-10.744-5.572-16.347-3.252c-5.605,2.322-9.26,7.791-9.26,13.858V150H180V67.5h22.5c6.067,0,11.536-3.655,13.858-9.26c2.321-5.605,1.038-12.057-3.252-16.347l-37.5-37.5c-5.857-5.858-15.355-5.858-21.213,0l-37.5,37.5c-4.29,4.29-5.573,10.742-3.252,16.347c2.322,5.605,7.792,9.26,13.858,9.26H150V150H67.5v-22.5c0-6.067-3.655-11.537-9.26-13.858c-5.606-2.321-12.058-1.038-16.347,3.252l-37.5,37.5c-5.858,5.858-5.858,15.355,0,21.213l37.5,37.5c2.87,2.87,6.705,4.394,10.61,4.394c1.932,0,3.881-0.374,5.737-1.142c5.605-2.322,9.26-7.792,9.26-13.858V180H150v82.5h-22.5c-6.067,0-11.537,3.655-13.858,9.26c-2.321,5.605-1.038,12.057,3.252,16.347l37.5,37.5C157.322,328.536,161.161,330,165,330s7.678-1.464,10.606-4.394l37.5-37.5c4.29-4.29,5.573-10.742,3.252-16.347c-2.322-5.605-7.791-9.26-13.858-9.26H180V180h82.5v22.5c0,6.067,3.654,11.537,9.26,13.858c1.855,0.769,3.805,1.142,5.737,1.142c3.903,0,7.74-1.524,10.609-4.394l37.5-37.5C331.465,169.749,331.465,160.252,325.606,154.394z"/>'.
 									 '</svg>';
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
@@ -180,20 +193,6 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 				echo "</div>";
 
 			}
-			/*for ($i=0; $i <$nbrcat[0] ; $i++) {
-				$sqlQuery = 'SELECT COUNT(*) from tag WHERE Id_Categorie=;
-				$recipesStatement = $PDO->query($sqlQuery);
-				$nbrtag=$recipesStatement->fetch();
-				echo
-				for ($i=0; $i < ; $i++) {
-					// code...
-				}
-			}*/
-
-
-
-
-
 
 			?>
 
@@ -208,7 +207,15 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomf
 			<input type="submit" id="boutonvalidecat" name="boutonvalidecat" value="Valider"/>
 
 	</form>
+	<form method="post" id="modifiercat" name='modifiercat'>
 
+			Modifier le nom de la catégorie:</br>
+			<input type="text" id="input_modif_cat" name="input_modif_cat" placeholder='Entrer le nouveau nom ici' /></br>
+			<input type="hidden" name="randomformModifCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
+			<input type="hidden" id="id_cat_clicked" name="id_cat_clicked" />
+			<input type="submit" name="boutonModifcat" value="Valider"/>
+
+	</form>
 
 
 	<form method="post" id="ajouttag" name='ajouttag'>
