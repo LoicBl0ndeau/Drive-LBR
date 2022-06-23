@@ -722,12 +722,51 @@ input[name="radio_trie"], #checked_croissant
   z-index: 8;
 }
 
+#ajouter_tags
+{
+  position: fixed;
+  top: 0;
+  background: rgba(255,255,255,.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
+  z-index: 21;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: transform 1s;
+  transform: translateX(-100vw);
+}
+
+#fermer_ajouter_tags
+{
+  cursor: pointer;
+  font-size: 30px;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+
+.elem_tag
+{
+  cursor: pointer;
+  color: white;
+  background-color: #3671B3;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 8px;
+  font-size: 17px;
+}
+
 .container_informations
 {
   position: fixed;
   z-index: 20;
   bottom: 0;
   left: 0;
+  overflow: auto;
   top: 0;
   width: 340px;
   padding: 10px;

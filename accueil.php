@@ -149,6 +149,28 @@
 
 		<div id="trier_par">Trier par :<input type="radio" id="radio_dates" name="radio_trie" checked /><label class="bouton_trier_par" for="radio_dates">Dates</label><input type="radio" id="radio_auteurs" name="radio_trie" /><label class="bouton_trier_par" for="radio_auteurs">Auteurs</label><input type="radio" id="radio_mes_photos" name="radio_trie" /><label class="bouton_trier_par" for="radio_mes_photos">Mes photos</label><input type="checkbox" id="checked_croissant" checked /><label id="bouton_checked_croissant" for="checked_croissant">Croissant</label></div>
 
+		<div id="ajouter_tags">
+			<span id="fermer_ajouter_tags">✖</span>
+			<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>
+			<span id="list_tags">
+				<?php
+					$req = $PDO->query("SELECT * FROM categorie");
+					$res = $req->fetchAll();
+					$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie = ?");
+					foreach ($res as $categorie) {
+						echo "<div style='margin: 10px;display: flex;flex-direction: column;align-items: center;justify-content: center;'><h3 style='font-weight: bold;text-align: center;'>".$categorie['Nom']."</h3><span>";
+						$reqTags->execute(array($categorie['Id_Catégorie']));
+						$resTags = $reqTags->fetchAll();
+						foreach ($resTags as $tag) {
+							if($tag['Id_Tag'] != 0){
+								echo "<span class='elem_tag' id_tag='".$tag['Id_Tag']."'>".$tag['Nom']."</span>";
+							}
+						}
+						echo "</span></div>";
+					}
+				?>
+			</span>
+		</div>
 		<?php
 			function mois($mois) {
 				switch ($mois) {

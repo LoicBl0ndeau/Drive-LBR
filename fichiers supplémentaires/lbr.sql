@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 22 juin 2022 à 20:24
--- Version du serveur : 8.0.27
+-- Généré le : jeu. 23 juin 2022 à 09:57
+-- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `caractériser`;
 CREATE TABLE IF NOT EXISTS `caractériser` (
-  `Id_fichier` int NOT NULL,
-  `Id_Tag` int NOT NULL,
+  `Id_fichier` int(11) NOT NULL,
+  `Id_Tag` int(11) NOT NULL,
   PRIMARY KEY (`Id_fichier`,`Id_Tag`),
   KEY `Id_Tag` (`Id_Tag`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `caractériser` (
 
 DROP TABLE IF EXISTS `categorie`;
 CREATE TABLE IF NOT EXISTS `categorie` (
-  `Id_Catégorie` int NOT NULL AUTO_INCREMENT,
+  `Id_Catégorie` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(50) NOT NULL,
   `Créateur` varchar(50) NOT NULL,
   PRIMARY KEY (`Id_Catégorie`)
@@ -66,10 +66,10 @@ INSERT INTO `categorie` (`Id_Catégorie`, `Nom`, `Créateur`) VALUES
 
 DROP TABLE IF EXISTS `fichier`;
 CREATE TABLE IF NOT EXISTS `fichier` (
-  `Id_fichier` int NOT NULL AUTO_INCREMENT,
+  `Id_fichier` int(11) NOT NULL AUTO_INCREMENT,
   `Type` varchar(50) DEFAULT NULL,
   `Titre` varchar(50) NOT NULL,
-  `Auteur_Id` int DEFAULT NULL,
+  `Auteur_Id` int(11) DEFAULT NULL,
   `Taille` varchar(50) DEFAULT NULL,
   `Date_de_publication` date DEFAULT NULL,
   `Commentaire` varchar(50) DEFAULT NULL,
@@ -86,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `fichier` (
 
 DROP TABLE IF EXISTS `gérer`;
 CREATE TABLE IF NOT EXISTS `gérer` (
-  `Id_Profil` int NOT NULL,
-  `Id_Tag` int NOT NULL,
+  `Id_Profil` int(11) NOT NULL,
+  `Id_Tag` int(11) NOT NULL,
   PRIMARY KEY (`Id_Profil`,`Id_Tag`),
   KEY `Id_Tag` (`Id_Tag`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `gérer` (
 
 DROP TABLE IF EXISTS `log_`;
 CREATE TABLE IF NOT EXISTS `log_` (
-  `Id_Log_` int NOT NULL AUTO_INCREMENT,
+  `Id_Log_` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(50) DEFAULT NULL,
   `Date_de_modification` varchar(50) DEFAULT NULL,
   `Description` varchar(256) DEFAULT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `log_` (
 
 DROP TABLE IF EXISTS `profil`;
 CREATE TABLE IF NOT EXISTS `profil` (
-  `Id_Profil` int NOT NULL AUTO_INCREMENT,
+  `Id_Profil` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
   `MDP` varchar(100) DEFAULT NULL,
   `Nom` varchar(50) DEFAULT NULL,
@@ -144,8 +144,8 @@ INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description
 
 DROP TABLE IF EXISTS `publier_modifier`;
 CREATE TABLE IF NOT EXISTS `publier_modifier` (
-  `Id_Profil` int NOT NULL,
-  `Id_fichier` int NOT NULL,
+  `Id_Profil` int(11) NOT NULL,
+  `Id_fichier` int(11) NOT NULL,
   PRIMARY KEY (`Id_Profil`,`Id_fichier`),
   KEY `Id_fichier` (`Id_fichier`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -158,20 +158,24 @@ CREATE TABLE IF NOT EXISTS `publier_modifier` (
 
 DROP TABLE IF EXISTS `tag`;
 CREATE TABLE IF NOT EXISTS `tag` (
-  `Id_Tag` int NOT NULL AUTO_INCREMENT,
+  `Id_Tag` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(50) DEFAULT NULL,
   `Créateur` varchar(50) DEFAULT NULL,
-  `Id_Catégorie` int DEFAULT '1',
+  `Id_Catégorie` int(11) DEFAULT '1',
   PRIMARY KEY (`Id_Tag`),
   KEY `Id_Catégorie` (`Id_Catégorie`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tag`
 --
 
 INSERT INTO `tag` (`Id_Tag`, `Nom`, `Créateur`, `Id_Catégorie`) VALUES
-(0, 'sans tags', '1', 0);
+(0, 'sans tags', '1', 0),
+(1, '2022', '4', 1),
+(2, '2021', '4', 1),
+(3, 'Scène 1', '4', 2),
+(4, 'Camping', '4', 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
