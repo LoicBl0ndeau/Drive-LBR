@@ -327,6 +327,12 @@ input[type=file]{
 {
   width: 2px;
   background-color: #757575;
+
+}
+#container_profil_stats span:nth-child(4)
+{
+  width: 2px;
+  background-color: #757575;
 }
 
 #container_profil_buttons
