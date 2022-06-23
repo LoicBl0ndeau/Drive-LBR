@@ -7,7 +7,7 @@
 
 
 
-<form method="post" class="recherche_account_manager">
+<form method="post" id="recherche_account_manager" class="recherche_account_manager">
   <div id="scearch_bar">
     <input type="text" id="text_scearch_bar" placeholder="Tapez le nom d'un utilisateur" name="recherche"/>
     <button type="submit" id="bouton_submit" class="invisible"></button>
@@ -21,14 +21,12 @@
    <div id="bascule_account_manager">
      <!-- c'est la bascule -->
      <input type="checkbox" id="toggle" class="checkbox invisible" name="null">
-     <label for="toggle" class="bascule"></label>
+     <label for="toggle" id="bascule" class="bascule"></label>
      <span class="tooltiptext">Afficher les utilisateurs supprimés</span>
    </div>
-  </form>
-</div>
+</form>
 
 
 <div id="container_header_right">
-	</label>
 	<img src="images/pdp_user.jpg" alt="pdp_utilisateur" id="pdp_user" />
 </div>
