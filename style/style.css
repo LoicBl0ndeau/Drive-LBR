@@ -753,9 +753,31 @@ input[name="radio_trie"], #checked_croissant
 {
   cursor: pointer;
   color: white;
-  background-color: #3671B3;
   border-radius: 5px;
   padding: 5px;
+  margin: 8px;
+  font-size: 17px;
+  background-color: #3671B3;
+}
+
+#list_tags
+{
+  text-align: center;
+}
+
+.tag_souhaite
+{
+  display: none;
+}
+
+.tag_souhaite:checked+label
+{
+  background-color: #BDE4FC;
+}
+
+input[name='boutonvalideAddTag']
+{
+  cursor: pointer;
   margin: 8px;
   font-size: 17px;
 }
