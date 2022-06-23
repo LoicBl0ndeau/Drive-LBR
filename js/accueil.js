@@ -89,8 +89,11 @@ $(document).ready(function(){
       }
     }
   });
-  $('#fermer_ajouter_tags').on("click",function(){
-    $('#ajouter_tags').css("transform","translateX(-100vw)");
+  $('.fermer_ajouter_tags').on("click",function(){
+    $('.ajouter_tags').css("transform","translateX(-100vw)");
+  });
+  $('.fermer_supprimer_tags').on("click",function(){
+    $('.supprimer_tags').css("transform","translateX(-100vw)");
   });
   $('#importer_file').on("change",function(){
     $('#form_import').submit();
@@ -226,12 +229,16 @@ $(document).ready(function(){
       addTags: {
         name: "Ajouter des tags",
         callback: function(itemKey, opt){
-          $('#ajouter_tags').css("transform","translateX(0)");
+          $('.ajouter_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
           $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
         }
       },
       delTags: {
-        name: "Supprimer des tags"
+        name: "Supprimer des tags",
+        callback: function(itemKey, opt){
+          $('.supprimer_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
+          $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
+        }
       },
       supprimer: {
         name: "Supprimer",

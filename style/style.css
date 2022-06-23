@@ -730,7 +730,7 @@ input[name="radio_trie"], #checked_croissant
   z-index: 8;
 }
 
-#ajouter_tags
+.ajouter_tags, .supprimer_tags
 {
   position: fixed;
   top: 0;
@@ -748,7 +748,7 @@ input[name="radio_trie"], #checked_croissant
   transform: translateX(-100vw);
 }
 
-#fermer_ajouter_tags
+.fermer_ajouter_tags, .fermer_supprimer_tags
 {
   cursor: pointer;
   font-size: 30px;
@@ -768,22 +768,22 @@ input[name="radio_trie"], #checked_croissant
   background-color: #3671B3;
 }
 
-#list_tags
+.list_tags, .list_tags_supprimer
 {
   text-align: center;
 }
 
-.tag_souhaite
+.tag_souhaite, .tag_supprimer_souhaite
 {
   display: none;
 }
 
-.tag_souhaite:checked+label
+.tag_souhaite:checked+label, .tag_supprimer_souhaite:checked+label
 {
   background-color: #BDE4FC;
 }
 
-input[name='boutonvalideAddTag']
+input[name='boutonvalideAddTag'], input[name='boutonvalideSuppTag']
 {
   cursor: pointer;
   margin: 8px;
