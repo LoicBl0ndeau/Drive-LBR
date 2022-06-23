@@ -39,9 +39,20 @@ $Id_Profil = strip_tags($postData['Id_Profil']);
 $Prenom = strip_tags($postData['Prenom']);
 $Nom = strip_tags($postData['Nom']);
 $Email = strip_tags($postData['Email']);
+$MDP = strip_tags($postData['MDP']);
 $MDP_sha256 = hash('sha256', strip_tags($postData['MDP']));
 $Description = strip_tags($postData['Description']);
 $Role = strip_tags($postData['Role']);
+
+if (!check_mdp_format($MDP))
+{
+	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+				<div class="container alert alert-danger" role="alert">
+				Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\au moins 8 caractères.
+				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				</div>');
+	return;
+}
 
 ?>
 
