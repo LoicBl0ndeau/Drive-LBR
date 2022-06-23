@@ -49,7 +49,7 @@ $userStatement->execute([
 $users = $userStatement->fetchAll();
 
 // Ecriture de la requête
-$sqlQuery = 'DELETE FROM Profil WHERE Id_Profil=:Id_Profil';
+$sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE Id_Profil = :Id_Profil';
 
 // Préparation
 $delete_user = $PDO->prepare($sqlQuery);
@@ -57,6 +57,7 @@ $delete_user = $PDO->prepare($sqlQuery);
 // Exécution ! l'utilisateur est maintenant supprimé de la base de données
 $delete_user->execute([
     'Id_Profil' => $Id_Profil,
+		'MDP' => NULL,
 ]);
 
 //   ajout d'une ligne dans le changelog
