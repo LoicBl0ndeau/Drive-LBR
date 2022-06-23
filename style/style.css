@@ -105,6 +105,14 @@ header > a
   border-radius: 50%;
 }
 
+#container_header_center
+{
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  padding: 5px;
+}
+
 #container_header_right
 {
   display: flex;
@@ -759,9 +767,31 @@ input[name="radio_trie"], #checked_croissant
 {
   cursor: pointer;
   color: white;
-  background-color: #3671B3;
   border-radius: 5px;
   padding: 5px;
+  margin: 8px;
+  font-size: 17px;
+  background-color: #3671B3;
+}
+
+#list_tags
+{
+  text-align: center;
+}
+
+.tag_souhaite
+{
+  display: none;
+}
+
+.tag_souhaite:checked+label
+{
+  background-color: #BDE4FC;
+}
+
+input[name='boutonvalideAddTag']
+{
+  cursor: pointer;
   margin: 8px;
   font-size: 17px;
 }
@@ -1048,4 +1078,85 @@ input[name="radio_cat"]:checked+label, .cat:hover
     color: #fff;
     background-color: #2B5A8F;
     box-shadow: 0 0 0 .25rem rgba(189,228,252,.5);
+}
+
+
+.invisible {
+  display: none;
+}
+
+.bascule {
+  display: inline-block;
+
+  height: 32px;
+  width: 50px;
+
+  background: gray;
+
+  position: relative;
+
+  transition: all .3s;
+
+  border-radius: 16px;
+
+  cursor: pointer;
+}
+
+.bascule:after {
+  content: "";
+
+  height: 20px;
+  width: 20px;
+
+  background: white;
+
+  position: absolute;
+
+  top: 6px;
+  left: 5px;
+
+  transition: all .3s;
+
+  border-radius: 50%;
+}
+
+.checkbox:checked + .bascule:after {
+  transform: translateX(20px);
+}
+
+.checkbox:checked + .bascule {
+  background: green;
+}
+
+.recherche_account_manager{
+  display: flex;
+}
+
+#bascule_account_manager
+{
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: white;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+#bascule_account_manager .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  top: 60px;
+  margin-left: -35px; /* Use half of the width, to center the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+#bascule_account_manager:hover .tooltiptext {
+  visibility: visible;
 }

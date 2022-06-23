@@ -24,6 +24,7 @@
 		<link rel="stylesheet" type="text/css" href="style/style.css" />
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="js/account_manager.js"></script>
 		<title>Account Manager Drive - Les Briques Rouges</title>
 
 	</head>
