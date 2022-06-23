@@ -65,7 +65,7 @@ $delete_user->execute([
 $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 // Préparation
-$edited_user = $PDO->prepare($sqlQuery);
+$deleted_user = $PDO->prepare($sqlQuery);
 
 // Exécution ! le changelog est maintenant mis à jour
 
@@ -77,7 +77,7 @@ foreach ($users as $user) {
 	$Role = $user['Role'];
 }
 
-$edited_user->execute([
+$deleted_user->execute([
 		'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 		'Date_de_modification' => date('d-m-y H:i:s'),
 		'Description' => "Suppression du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
@@ -98,41 +98,45 @@ sendmail($Email,$mail);
 
 ?>
 
+<?php if ($Id_Profil === $_SESSION['loggedUser']['Id_Profil']) : ?>
+	<?php echo "<meta http-equiv='refresh' content='0; url=logout.php' />"; ?>
+<?php else : ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="initial-scale=1.0" />
-		<meta name="Auteurs" content="Loïc BLONDEAU;Louis BOUBERT;Martin CAPELLE;Ilies BENSLAMA" />
-		<link rel="stylesheet" type="text/css" href="style/style.css" />
-		<link rel="icon" href="images/favicon.ico" />
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<title>Account Manager Drive - Les Briques Rouges</title>
-  </head>
+	<!DOCTYPE html>
+	<html lang="fr">
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta name="viewport" content="initial-scale=1.0" />
+			<meta name="Auteurs" content="Loïc BLONDEAU;Louis BOUBERT;Martin CAPELLE;Ilies BENSLAMA" />
+			<link rel="stylesheet" type="text/css" href="style/style.css" />
+			<link rel="icon" href="images/favicon.ico" />
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<title>Account Manager Drive - Les Briques Rouges</title>
+	  </head>
 
-  <body class="d-flex flex-column min-vh-100">
+	  <body class="d-flex flex-column min-vh-100">
 
-      <!-- Navigation -->
-    <header>
-      <?php include_once('account_Manager_header.php'); ?>
-    </header>
+	      <!-- Navigation -->
+	    <header>
+	      <?php include_once('account_Manager_header.php'); ?>
+	    </header>
 
-      <div class="container">
+	      <div class="container">
 
-        <h1>Utilisateur supprimé !</h1>
+	        <h1>Utilisateur supprimé !</h1>
 
-        <div class="card">
-	        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
-        </div>
-      </div>
+	        <div class="card">
+		        <a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+	        </div>
+			</div>
 
-			<!-- Page Profil -->
-			<?php include_once('mask_profil.php'); ?>
+				<!-- Page Profil -->
+				<?php include_once('mask_profil.php'); ?>
 
-			<?php
-				echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
-			?>
+				<?php
+					echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>";
+				?>
 
-	</body>
-</html>
+		</body>
+	</html>
+<?php endif ?>
