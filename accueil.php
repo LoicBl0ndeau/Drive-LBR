@@ -62,7 +62,7 @@
 				}
 			}
 			else{
-				echo "<script>alert('Erreur lors de l'upload. Erreur n°".$_FILES['media']['error'][$i]."');</script>";
+				echo "<script>alert('Erreur lors de l\'upload. Erreur n°".$_FILES['media']['error'][$i].". Voir https://www.php.net/manual/fr/features.file-upload.errors.php');</script>";
 			}
 		}
 	}
