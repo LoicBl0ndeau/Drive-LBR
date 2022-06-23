@@ -14,6 +14,8 @@
 	if(isset($_SESSION['random_OK'], $_POST['randomformAddTAG']) && $_POST['randomformAddTAG'] == $_SESSION['random_OK']){
 		if(isset($_POST['boutonvalideAddTag'])){
 			include("connect.php");
+			$req=$PDO->prepare("DELETE FROM caractériser WHERE Id_fichier=? AND Id_Tag=0");
+			$req->execute(array($_POST['id_fichier']));
 			$req=$PDO->prepare("insert into caractériser(Id_fichier,Id_Tag) values(?,?)");
 			foreach ($_POST['tag_souhaite'] as $tag_souhaite) {
 				$req->execute(array($_POST['id_fichier'],str_replace("tag_souhaite_","",$tag_souhaite)));
@@ -56,6 +58,8 @@
 						$req=$PDO->query("SHOW TABLE STATUS FROM lbr LIKE 'fichier'");
 						$res = $req->fetch();
 						$Id_fichier = $res['Auto_increment'];
+						$req = $PDO->prepare("insert into caractériser(Id_fichier,Id_Tag) values(?,0)");
+						$req->execute(array($Id_fichier));
 						mkdir("upload/".$Id_fichier, 0700);
 						$nomFichier = basename($_FILES["media"]["name"][$i]);
 						$chemin = "upload/".$Id_fichier."/".$nomFichier;

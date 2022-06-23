@@ -100,6 +100,15 @@
 			?>
 			<br />vidéos
 		</span>
+		<span></span>
+		<span>
+			<?php $req=$PDO->prepare("SELECT SUM(Taille) FROM fichier where Auteur_Id=?");
+			$req->execute(array($_SESSION["loggedUser"]["Id_Profil"]));
+			$res = $req->fetch();
+			echo round(0.000001*$res[0],2).'</br>Mo';
+
+
+			 ?>
   </div>
   <div id="container_profil_buttons">
     <button type="button">Mon profil</button>
@@ -107,6 +116,7 @@
 <?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
     <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
 		<button type="button" onclick="window.location.href='changelog.php';" >Changelog</button> <!-- c'est en attendant le bon menu -->
+		<button type="button" onclick="window.location.href='stockage.php';">Stockage</button>
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
