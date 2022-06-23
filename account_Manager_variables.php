@@ -1,5 +1,7 @@
 <?php
 
+
+
 include("connect.php");
 
 // Si tout va bien, on peut continuer
@@ -18,11 +20,22 @@ else {
 	//echo('recherche : ' . $recherche);
 }
 
+if (!isset($_POST['null']))
+{
+	//echo "unchecked";
+	$null = "IS NOT NULL";
+}
+else
+{
+	//echo "checked";
+	$null = "IS NULL";
+}
+
 
 
 
 // On récupère tout le contenu de la table recipes
-$sqlQuery = 'SELECT * FROM profil WHERE MDP IS NOT NULL AND (Nom LIKE "%' . $recherche . '%" OR Prenom LIKE "%' . $recherche . '%" OR email LIKE "%' . $recherche . '%" OR Role LIKE "%' . $recherche . '%" OR Id_Profil LIKE "%' . $recherche . '%") ORDER BY Nom;';
+$sqlQuery = 'SELECT * FROM profil WHERE MDP ' . $null . ' AND (Nom LIKE "%' . $recherche . '%" OR Prenom LIKE "%' . $recherche . '%" OR email LIKE "%' . $recherche . '%" OR Role LIKE "%' . $recherche . '%" OR Id_Profil LIKE "%' . $recherche . '%") ORDER BY Nom;';
 $recipesStatement = $PDO->prepare($sqlQuery);
 $recipesStatement->execute();
 $users = $recipesStatement->fetchAll();
