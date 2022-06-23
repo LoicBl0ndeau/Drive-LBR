@@ -10,6 +10,17 @@
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
+<?php //ajouter un tag à un media
+	if(isset($_SESSION['random_OK'], $_POST['randomformAddTAG']) && $_POST['randomformAddTAG'] == $_SESSION['random_OK']){
+		if(isset($_POST['boutonvalideAddTag'])){
+			include("connect.php");
+			$req=$PDO->prepare("insert into caractériser(Id_fichier,Id_Tag) values(?,?)");
+			foreach ($_POST['tag_souhaite'] as $tag_souhaite) {
+				$req->execute(array($_POST['id_fichier'],str_replace("tag_souhaite_","",$tag_souhaite)));
+			}
+		}
+	}
+?>
 <?php //download
 	if(isset($_POST['src_download'])){
 		$file = $_POST['src_download'];
@@ -149,6 +160,31 @@
 
 		<div id="trier_par">Trier par :<input type="radio" id="radio_dates" name="radio_trie" checked /><label class="bouton_trier_par" for="radio_dates">Dates</label><input type="radio" id="radio_auteurs" name="radio_trie" /><label class="bouton_trier_par" for="radio_auteurs">Auteurs</label><input type="radio" id="radio_mes_photos" name="radio_trie" /><label class="bouton_trier_par" for="radio_mes_photos">Mes photos</label><input type="checkbox" id="checked_croissant" checked /><label id="bouton_checked_croissant" for="checked_croissant">Croissant</label></div>
 
+		<div id="ajouter_tags">
+			<span id="fermer_ajouter_tags">✖</span>
+			<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>
+			<form id="list_tags" method="post">
+				<?php
+					$req = $PDO->query("SELECT * FROM categorie");
+					$res = $req->fetchAll();
+					$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie = ?");
+					foreach ($res as $categorie) {
+						echo "<div style='margin: 10px;display: flex;flex-direction: column;align-items: center;justify-content: center;'><h3 style='font-weight: bold;text-align: center;'>".$categorie['Nom']."</h3><span>";
+						$reqTags->execute(array($categorie['Id_Catégorie']));
+						$resTags = $reqTags->fetchAll();
+						foreach ($resTags as $tag) {
+							if($tag['Id_Tag'] != 0){
+								echo "<input type='checkbox' name='tag_souhaite[]' class='tag_souhaite' id='tag_souhaite_".$tag['Id_Tag']."' value='tag_souhaite_".$tag['Id_Tag']."' /><label class='elem_tag' for='tag_souhaite_".$tag['Id_Tag']."' id_tag='".$tag['Id_Tag']."'>".$tag['Nom']."</label>";
+							}
+						}
+						echo "</span></div>";
+					}
+				?>
+				<input type="hidden" name="id_fichier" />
+				<input type="hidden" name="randomformAddTAG" value="<?php echo $_SESSION['random_OK']; ?>" />
+				<input type="submit" name="boutonvalideAddTag" value="Valider" />
+			</form>
+		</div>
 		<?php
 			function mois($mois) {
 				switch ($mois) {
@@ -224,7 +260,18 @@
 					$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
 					$reqEmail->execute(array($media['Auteur_Id']));
 					$resEmail = $reqEmail->fetchAll();
-					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <br /></div>";
+					$reqTags = $PDO->prepare("SELECT * FROM caractériser WHERE Id_fichier=?");
+					$reqTags->execute(array($media['Id_fichier']));
+					$resTags = $reqTags->fetchAll();
+					$list_tags = "";
+					$reqNomTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Tag=?");
+					foreach ($resTags as $tag) {
+						$reqNomTags->execute(array($tag['Id_Tag']));
+						$resNomTags = $reqNomTags->fetch();
+						$list_tags .= $resNomTags['Nom'].", ";
+					}
+					$list_tags = substr($list_tags,0,-2);
+					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: ".$list_tags."<br /></div>";
 					echo <<<END
 						<script>$('body').append("{$appendInfos}")</script>
 						END;
