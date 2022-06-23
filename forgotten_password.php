@@ -74,8 +74,14 @@
 						$message = "Un mail a été envoyé à $email";
             echo "<script>$('#info_login').text(\"".$message."\");$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='5; url=login.php' />";
 
-            $bytes = openssl_random_pseudo_bytes(4);
-            $MDP = bin2hex($bytes);
+						$comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890/[\'\/~`\!@#$%^&*()_-+={}[]|;:"<>,.?]/';
+						$pass = array();
+						$combLen = strlen($comb) - 1;
+						for ($i = 0; $i < 8; $i++) {
+								$n = rand(0, $combLen);
+								$pass[] = $comb[$n];
+						}
+						$MDP = implode($pass);
             $MDP_sha256 = hash('sha256', strip_tags($MDP));
 
 
