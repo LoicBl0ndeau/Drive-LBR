@@ -31,9 +31,6 @@ else
 	$null = "IS NULL";
 }
 
-
-
-
 // On récupère tout le contenu de la table recipes
 $sqlQuery = 'SELECT * FROM profil WHERE MDP ' . $null . ' AND (Nom LIKE "%' . $recherche . '%" OR Prenom LIKE "%' . $recherche . '%" OR email LIKE "%' . $recherche . '%" OR Role LIKE "%' . $recherche . '%" OR Id_Profil LIKE "%' . $recherche . '%") ORDER BY Nom;';
 $recipesStatement = $PDO->prepare($sqlQuery);

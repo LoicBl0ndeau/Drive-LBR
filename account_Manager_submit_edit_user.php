@@ -24,14 +24,17 @@ if (
   !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
   !isset($_POST['Nom']) || empty($_POST['Nom']) ||
 	(!isset($_POST['Email']) || !filter_var($_POST['Email'], FILTER_VALIDATE_EMAIL)) ||
-  !isset($_POST['MDP']) || empty($_POST['MDP'])||
   !isset($_POST['Description']) || empty($_POST['Description'])||
   !isset($_POST['Role']) || empty($_POST['Role'])
   )
 {
-  echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+				<div class="container">
+				<div class="container alert alert-danger" role="alert">
 				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
-				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>');
+				</div>
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
+				</div>');
   return;
 }
 
@@ -39,24 +42,10 @@ $Id_Profil = strip_tags($postData['Id_Profil']);
 $Prenom = strip_tags($postData['Prenom']);
 $Nom = strip_tags($postData['Nom']);
 $Email = strip_tags($postData['Email']);
-$MDP = strip_tags($postData['MDP']);
-$MDP_sha256 = hash('sha256', strip_tags($postData['MDP']));
 $Description = strip_tags($postData['Description']);
 $Role = strip_tags($postData['Role']);
 
-if (!check_mdp_format($MDP))
-{
-	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
-				<div class="container alert alert-danger" role="alert">
-				Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\au moins 8 caractères.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
-				</div>');
-	return;
-}
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -78,28 +67,45 @@ if (!check_mdp_format($MDP))
     </header>
 
 		<?php
+		// On vérifie que le mail n'est pas déjà utilisé
 
-		// Validation du formulaire
+		include_once('functions.php');
+		$all_users = all_users();
+
 		$same_email = 0;
-			foreach ($users as $user) {
-			    if ( ($user['email'] === $Email) && !($user['Id_Profil'] === $Id_Profil) ) {
-						$same_email++;
-			        //echo "le mail semble déjà utilisé";
-			    }
-					else {
-						//echo "le mail semble ne jamais avoir été utilisé";
-			      //$errorMessage = sprintf('le mail semble ne jamais avoir été utilisé');
-			    }
-			}
-			//echo $same_email;
-		?>
+		foreach ($all_users as $user)
+		{
+			if (($user['email'] === $Email) && !($user['Id_Profil'] === $Id_Profil))
+			{
+				$same_email++;
+	    }
+		}
 
-		<?php
-		if ($same_email) {
+		if ($same_email)
+		{
 			$errorMessage = sprintf('L\'adresse email semble déjà utilisé, l\'utilisateur n\'est pas enregistré');
 		}
-		else {
-			if (isset($postData['MDP_changed']) && $postData['MDP_changed'] = "1") {
+		else
+		{
+			//echo "le mail semble ne jamais avoir été utilisé";
+      //$errorMessage = sprintf('le mail semble ne jamais avoir été utilisé');
+			if (isset($postData['MDP_changed']) && $postData['MDP_changed'] = "1")
+			{
+				if (!isset($_POST['MDP']) || empty($_POST['MDP']) || !check_mdp_format($_POST['MDP']))
+				{
+					echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
+								<div class="container">
+								<div class="alert alert-danger" role="alert">
+								Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\'au moins 8 caractères.
+								</div>
+								<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
+								</div>');
+					return;
+				}
+
+				$MDP = strip_tags($postData['MDP']);
+				$MDP_sha256 = hash('sha256', strip_tags($postData['MDP']));
+
 
 				include("connect.php");
 
@@ -120,7 +126,8 @@ if (!check_mdp_format($MDP))
 				    'Role' => $Role,
 				]);
 			}
-			else {
+			else
+			{
 				include("connect.php");
 
 				// Ecriture de la requête
@@ -138,7 +145,20 @@ if (!check_mdp_format($MDP))
 						'Description' => $Description,
 						'Role' => $Role,
 				]);
+	    }
+			if ($Id_Profil === $_SESSION['loggedUser']['Id_Profil'])
+			{
+				//echo "Vous avez modifié votre propre compte";
+				$_SESSION['loggedUser'] = [
+					'Id_Profil' => $Id_Profil,
+					'email' => $Email,
+					'Nom' => $Nom,
+					'Prenom' => $Prenom,
+					'Description' => $Description,
+					'Role' => $Role,
+				];
 			}
+
 			//   ajout d'une ligne dans le changelog
 
 			// Ecriture de la requête
@@ -154,7 +174,7 @@ if (!check_mdp_format($MDP))
 			    'Description' => "Modification du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 			]);
 
-			// envoie du mail à l'Utilisateur
+			// envoi du mail à l'Utilisateur
 
 			$mail = <<<MAIL
 							Bonjour $Prenom $Nom,<br /><br />
@@ -164,54 +184,37 @@ if (!check_mdp_format($MDP))
 
 			include_once('sendmail.php');
 			sendmail($Email,$mail);
-
 		}
-
 		?>
 
-    <div class="container">
+		<div class="container">
 
 			<!-- si message d'erreur on l'affiche -->
-	    <?php if(isset($errorMessage)) : ?>
-        <div class="alert alert-danger" role="alert">
-            <?php echo $errorMessage; ?>
-        </div>
+			<?php if(isset($errorMessage)) : ?>
+				<div class="alert alert-danger" role="alert">
+						<?php echo $errorMessage; ?>
+				</div>
 				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 
 			<?php else: ?>
+				<h1>Utilisateur bien modifié</h1>
 
-        <h1>Utilisateur bien modifié</h1>
+				<div class="card">
 
-        <div class="card">
-
-          <div class="card-body">
-              <h5 class="card-title">Rappel de vos informations</h5>
-              <p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
-              <p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
-              <p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
-              <p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
-              <p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
-          </div>
+					<div class="card-body">
+							<h5 class="card-title">Rappel de vos informations</h5>
+							<p class="card-text"><b>Prenom</b> : <?php echo($Prenom); ?></p>
+							<p class="card-text"><b>Nom</b> : <?php echo($Nom); ?></p>
+							<p class="card-text"><b>Email</b> : <?php echo($Email); ?></p>
+							<p class="card-text"><b>Description</b> : <?php echo strip_tags($Description); ?></p>
+							<p class="card-text"><b>Rôle</b> : <?php echo($Role); ?></p>
+					</div>
 					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
 				</div>
 
 			<?php endif; ?>
 
-			<?php if($Id_Profil === $_SESSION['loggedUser']['Id_Profil'])
-			{
-				//echo "Vous avez modifié votre propre compte";
-				$_SESSION['loggedUser'] = [
-					'Id_Profil' => $Id_Profil,
-					'email' => $Email,
-					'Nom' => $Nom,
-					'Prenom' => $Prenom,
-					'Description' => $Description,
-					'Role' => $Role,
-				];
-			}
-			?>
-
-    </div>
+		</div>
 
 		<!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>
