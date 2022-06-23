@@ -260,6 +260,21 @@ function sendmail( string $Email, string $mail)
 
   if (mail($destinataire, $objet, $message, $headers)) {
     //echo "Email envoyé avec succès à $destinataire ... <br><br><br>";
+
+    include("connect.php");
+    
+    // Ecriture de la requête
+    $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+    // Préparation
+    $edited_user = $PDO->prepare($sqlQuery);
+
+    // Exécution ! l'utilisateur est maintenant en base de données
+    $edited_user->execute([
+        'Nom' => 'Boite mail',
+        'Date_de_modification' => date('d-m-y H:i:s'),
+        'Description' => "Envoi d'un mail à : $Email",
+    ]);
   } else {
     echo '<div class="container alert alert-danger" role="alert">Échec de l\'envoi de l\'email...</div>';
   }
