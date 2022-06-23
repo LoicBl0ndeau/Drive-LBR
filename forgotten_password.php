@@ -61,9 +61,8 @@
   						'Description' => $result[0]['Description'],
   						'Role' => $result[0]['Role']
   					];
-  					echo "<script>$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='1.5; url=login.php' />";
 
-            foreach ($users as $user) {
+						foreach ($users as $user) {
               $Id_Profil = $user['Id_Profil'];
   						$email = $user['email'];
   						$Nom = $user['Nom'];
@@ -72,6 +71,8 @@
   						$Role = $user['Role'];
             }
 
+						$message = "Un mail a été envoyé à $email";
+            echo "<script>$('#info_login').text(\"".$message."\");$('.rocket').css('animation','3s launch');</script><meta http-equiv='refresh' content='5; url=login.php' />";
 
             $bytes = openssl_random_pseudo_bytes(4);
             $MDP = bin2hex($bytes);
