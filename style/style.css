@@ -53,7 +53,7 @@ header > a
 
 @media only screen and (max-width: 750px)
 {
-  header a[href='accueil.php']
+  #logo_longueur_blanc
   {
     display: none;
   }
@@ -95,9 +95,25 @@ header > a
   }
 }
 
-#logo_longueur_blanc
+@media only screen and (max-width: 302px)
+{
+  #text_scearch_bar
+  {
+    font-size: 4vw !important;
+  }
+}
+
+#logo_longueur_blanc, .logo_longueur_blanc
 {
   height: 70px;
+}
+
+@media only screen and (max-width: 350px)
+{
+  .logo_longueur_blanc
+  {
+    display: none;
+  }
 }
 
 #scearch_bar
@@ -466,16 +482,16 @@ table
 width: 100%;
 border-collapse: collapse;
 text-align: center;
+display: inline-table;
+overflow: auto;
 }
 
 thead
 {
-  top: 80px;
   height: 50px;
   position:-webkit-sticky;
   position: sticky;
   background-color: #A02026;
-
 }
 
 th
@@ -801,7 +817,7 @@ input[name="radio_trie"], #checked_croissant
   bottom: 0;
   left: 0;
   right: 0;
-  transition: transform 1s;
+  transition: transform .8s;
   transform: translateX(-100vw);
 }
 
@@ -894,6 +910,20 @@ input[name='boutonvalideAddTag'], input[name='boutonvalideSuppTag']
   {
     height: auto;
     width: 200px;
+  }
+
+  .fermer_ajouter_tags, .fermer_supprimer_tags
+  {
+    top: 5px;
+    right: 5px;
+  }
+
+  #profil
+  {
+    max-height: 80vh;
+    width: 90vw;
+    position: fixed;
+    left: calc(50vw - 90vw / 2);
   }
 }
 
