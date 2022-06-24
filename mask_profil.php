@@ -46,12 +46,20 @@
 <div id="mask_profil"></div>
 <div id="profil">
   <div id="container_profil_top">
-    <a id="container_deconnexion">
-      <span>Déconnexion</span>
-      <svg fill="none" height="24" stroke-width="1.5" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12H19M19 12L16 15M19 12L16 9" stroke="#FFFF" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M19 6V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V18" stroke="#FFFF" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
+		<div style="display: flex;justify-content: space-between;">
+			<a href="accueil.php" style="margin: 5px;">
+				<svg version="1.1" fill="#FFFF" width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 251.479 251.479" style="enable-background:new 0 0 251.479 251.479;" xml:space="preserve">
+					<path d="M209.355,135.551c-4.143,0-7.5,3.358-7.5,7.5v76.109H49.634v-76.109c0-4.142-3.357-7.5-7.5-7.5c-4.143,0-7.5,3.358-7.5,7.5v83.609c0,4.142,3.357,7.5,7.5,7.5h167.221c4.143,0,7.5-3.358,7.5-7.5v-83.609C216.855,138.909,213.497,135.551,209.355,135.551z" />
+					<path d="M249.282,137.748L131.035,19.515c-2.928-2.929-7.677-2.928-10.606,0L2.197,137.748c-2.929,2.929-2.929,7.678,0,10.606c1.465,1.464,3.385,2.197,5.304,2.197c1.92,0,3.839-0.732,5.304-2.197l112.929-112.93l112.943,112.93c2.928,2.929,7.677,2.928,10.607-0.001C252.211,145.425,252.211,140.676,249.282,137.748z"/>
+				</svg>
+			</a>
+			<a id="container_deconnexion">
+	      <span>Déconnexion</span>
+	      <svg fill="none" height="24" stroke-width="1.5" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12H19M19 12L16 15M19 12L16 9" stroke="#FFFF" stroke-linecap="round" stroke-linejoin="round"/>
+	        <path d="M19 6V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V18" stroke="#FFFF" stroke-linecap="round" stroke-linejoin="round"/>
+	      </svg>
+	    </a>
+		</div>
     <div id="container_pdp_profil">
       <label for="changer_pdp" id="pdp">
           <img src="<?php include("connect.php");$req=$PDO->prepare("SELECT * FROM profil where email=?");$req->execute(array($_SESSION['loggedUser']['email']));$res = $req->fetchAll()[0]['pdp'];echo $res; ?>" alt="pdp_utilisateur" id="pdp_profil" />
@@ -111,7 +119,7 @@
 			 ?>
   </div>
   <div id="container_profil_buttons">
-    <button type="button">Mon profil</button>
+    <button id="mon_profil" type="button">Mon profil</button>
 
 <?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
     <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
@@ -120,6 +128,9 @@
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
+	<div id="container_profil_page">
+		C'est là qu'on va mettre les données du profil !!
+	</div>
 </div>
 
 <script type="text/javascript">

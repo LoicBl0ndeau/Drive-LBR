@@ -197,7 +197,7 @@
 			foreach ($res as $fichier) {
 				echo '<div class="ajouter_tags" id_fichier="'.$fichier['Id_fichier'].'">';
 					echo '<span class="fermer_ajouter_tags">✖</span>';
-					echo '<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>';
+					echo '<h2 style="text-align: center;">Cliquer sur les tags que vous souhaitez ajouter :</h2>';
 					echo '<form class="list_tags" method="post">';
 							$tagAssocie = array();
 							$reqTagUtilise = $PDO->prepare("SELECT Id_Tag FROM caractériser WHERE Id_fichier = ?");
@@ -239,7 +239,7 @@
 			foreach ($res as $fichier) {
 				echo '<div class="supprimer_tags" id_fichier="'.$fichier['Id_fichier'].'">';
 					echo '<span class="fermer_supprimer_tags">✖</span>';
-					echo '<h2>Cliquer sur les tags que vous souhaitez supprimer :</h2>';
+					echo '<h2 style="text-align: center;">Cliquer sur les tags que vous souhaitez supprimer :</h2>';
 					echo '<form class="list_tags_supprimer" method="post">';
 							$req = $PDO->query("SELECT * FROM categorie");
 							$res = $req->fetchAll();
