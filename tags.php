@@ -220,8 +220,9 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
   <div id="container_tags">
     <span id="catégories_de_tags">
       <h1 style="text-align: center;margin-bottom: 10px;">Catégories de tags</h1>
-
+				<?php if($_SESSION["loggedUser"]["Role"]!="Invité") : ?>
         <div class="plus" id="plus_cat">+</div><br/>
+				<?php endif ?>
 				<?php
 				require('connect.php');
 				$sqlQuery = 'SELECT * FROM categorie';
@@ -232,7 +233,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
     								'<path d="M0,1H5" transform="translate(15.536 5.429) rotate(45)" fill="none" stroke="#000" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1.5"/>'.
 									'</svg>';
 				foreach ($catego as $cat) {
-					if($cat['Id_Catégorie'] == 0){
+					if($cat['Id_Catégorie'] == 0 || $_SESSION['loggedUser']['Role'] == "Invité"){
 						echo '<div class="container_tags_options"><input type="radio" id="radio_'.$cat['Id_Catégorie'].'" name="radio_cat" /><label class="cat" for="radio_'.$cat['Id_Catégorie'].'" id_cat="'.$cat['Id_Catégorie'].'">'.$cat['Nom'].'</label></div><br />';
 					}
 					else{
@@ -267,7 +268,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
 									 '</svg>';
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
-					if($nametag['Id_Tag'] == 0){
+					if($nametag['Id_Tag'] == 0 || $_SESSION['loggedUser']['Role'] == "Invité"){
 						echo "<div class='container_tags_options'><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div></div>";
 					}
 					else{
