@@ -71,6 +71,20 @@ if (
 
 		$_SESSION['loggedUser']['Prenom'] = $Prenom;
 
+		//   ajout d'une ligne dans le changelog
+		// Ecriture de la requête
+		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+				'Date_de_modification' => date('d-m-y H:i:s'),
+				'Description' => "Modification du Prenom par : $Prenom",
+		]);
+
 	}
 	if ($_POST['Nom'] != $_SESSION['loggedUser']['Nom']) {
 		//echo "vous avez modifié votre Nom";
@@ -92,6 +106,20 @@ if (
 		]);
 
 		$_SESSION['loggedUser']['Nom'] = $Nom;
+
+		//   ajout d'une ligne dans le changelog
+		// Ecriture de la requête
+		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+				'Date_de_modification' => date('d-m-y H:i:s'),
+				'Description' => "Modification du Nom par : $Nom",
+		]);
 
 	}
 }
@@ -146,6 +174,21 @@ if (
 				    'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 						'MDP' => $new_MDP
 				]);
+
+				//   ajout d'une ligne dans le changelog
+				// Ecriture de la requête
+				$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+						'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+						'Date_de_modification' => date('d-m-y H:i:s'),
+						'Description' => "Modification du mot de passe",
+				]);
+
 			}
 			elseif ($old_MDP != $actual_MDP['MDP'])
 			{
