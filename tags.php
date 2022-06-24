@@ -144,9 +144,30 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifTAG']) && $_POST['ra
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppTAG']) && $_POST['randomformSuppTAG'] == $_SESSION['random_ok_tag']){
 	if(isset($_POST['boutonSupptag'])){
 		require('connect.php');
+		$query = "SELECT * FROM caractériser WHERE Id_Tag=?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['id_tag_clicked']));
+		$fichierSansLeTag = $resultStatement->fetchAll();
+
+		$query = "DELETE FROM caractériser WHERE Id_Tag=?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['id_tag_clicked']));
+		foreach ($fichierSansLeTag as $isFichierSansTag) {
+			$query = "SELECT * FROM caractériser WHERE Id_fichier=?";
+			$resultStatement = $PDO->prepare($query);
+			$resultStatement->execute(array($isFichierSansTag['Id_fichier']));
+			$res = $resultStatement->fetchAll();
+			if(count($res) == 0){
+				$leFichierSansTag = $PDO->prepare("INSERT INTO caractériser(Id_fichier,Id_Tag) values(?,0)");
+				$leFichierSansTag->execute(array($isFichierSansTag['Id_fichier']));
+			}
+		}
+
 		$query = "DELETE FROM tag WHERE Id_Tag = ?";
 		$resultStatement = $PDO->prepare($query);
 		$resultStatement->execute(array($_POST['id_tag_clicked']));
+
+
 	}
 }
 
