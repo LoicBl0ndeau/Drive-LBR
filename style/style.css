@@ -711,6 +711,7 @@ input[name="radio_trie"], #checked_croissant
 .img_media
 {
   height: 200px;
+  max-width: 95vw;
   cursor: pointer;
   transition: transform 1s;
 }
@@ -726,6 +727,7 @@ input[name="radio_trie"], #checked_croissant
 
 .player video
 {
+  max-width: 95vw;
   height: 200px;
 }
 
@@ -734,6 +736,11 @@ input[name="radio_trie"], #checked_croissant
   position: absolute;
   height: 60px;
   z-index: 8;
+}
+
+.date_ajout
+{
+  display: none;
 }
 
 .ajouter_tags, .supprimer_tags

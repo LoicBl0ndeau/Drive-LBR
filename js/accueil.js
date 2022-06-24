@@ -40,6 +40,44 @@ function mois(month){
   return month;
 }
 
+function selectionDesTags(){
+  if($('.tag_clicked').length != 0){
+    var tagsSelection = [];
+    for (var i = 0; i < $('.tag_clicked').length; i++) { //On récupère les tags sélectionnés
+      tagsSelection.push($($('.tag_clicked')[i]).text());
+    }
+    for (var i = 0; i < $('.container_informations').length; i++) {
+      var tagsAssocies = $($('.container_informations')[i]).find(".liste_des_tags").text().split(', ');
+      var selectionner = false;
+      for (var j = 0; j < tagsAssocies.length; j++) {
+        if(tagsSelection.indexOf(tagsAssocies[j]) != -1){
+          selectionner = true;
+        }
+      }
+      if(selectionner === false){
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
+      }
+      else{
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","block");
+      }
+    }
+  }
+  else{
+    $('.marge').css("display","block");
+  }
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
+    var compteurMedia = 0;
+    for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
+      if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
+        compteurMedia++;
+      }
+    }
+    if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
+    }
+  }
+}
+
 function img_media_open(){
   $('.img_media').off("click",img_media_open);
   $('.player').off("click",player_open);
@@ -120,6 +158,7 @@ $(document).ready(function(){
   });
   $('.nom_tag').on("click",function(){
     $(this).toggleClass('tag_clicked');
+    selectionDesTags();
   });
 
   $('#checked_croissant').on("click",function(){
@@ -164,6 +203,7 @@ $(document).ready(function(){
     }
     $('.container_media').remove();
     $(media_dates).insertAfter($('#trier_par'));
+    selectionDesTags();
     $('.img_media').on("click",img_media_open);
     $('.player').on("click",player_open);
   });
@@ -197,12 +237,13 @@ $(document).ready(function(){
     }
     $('.container_media').remove();
     $(media_auteur).insertAfter($('#trier_par'));
+    selectionDesTags();
     $('.img_media').on("click",img_media_open);
     $('.player').on("click",player_open);
   });
   $('#radio_mes_photos').on("click",function(){
     $('.marge[isMediaFromLoggedUser="0"]').css("display","none");
-    for (var i = 0; i < $('.container_media').length; i++) {
+    for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
       var compteurMedia = 0;
       for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
         if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
