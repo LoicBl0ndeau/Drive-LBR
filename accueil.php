@@ -134,7 +134,7 @@
 			</div>
 			<div id="container_header_right">
 
-				<?php if($_SESSION["loggedUser"]["Role"]!="Visiteur") : ?> <!-- Si on est visiteur alors pas accès à l'importation des fichiers -->
+				<?php if($_SESSION["loggedUser"]["Role"]!="Lecture") : ?> <!-- Si on est Lecture alors pas accès à l'importation des fichiers -->
 				<label for="importer_file" id="importer">
 					<svg fill="#FFFF" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" width="27px" height="27px">
 	      		<path d="m153.7,171.5l81.9-88.1v265.3c0,11.3 9.1,20.4 20.4,20.4 11.3,0 20.4-9.1 20.4-20.4v-265.3l81.9,88.1c7.7,8.3 20.6,8.7 28.9,1.1 8.3-7.7 8.7-20.6 1.1-28.9l-117.3-126.2c-11.5-11.6-25.6-5.2-29.9,0l-117.3,126.2c-7.7,8.3-7.2,21.2 1.1,28.9 8.2,7.6 21.1,7.2 28.8-1.1z"/>
@@ -152,7 +152,7 @@
 			</div>
 		</header>
 		<nav>
-			<div></div>
+				<div></div>
 			<div id="container_categories">
 				<?php
 				 	include("connect.php");
@@ -169,11 +169,15 @@
 					}
 			 	?>
 			</div>
+			<div>
+				<?php if($_SESSION["loggedUser"]["Role"]!="Lecture") : ?>
 			<a href="tags.php" id="settings_cat_tag">
 				<svg version="1.1" style="width: 32px;height: 32px;" fill="#FFFF" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<path d="M29.181 19.070c-1.679-2.908-0.669-6.634 2.255-8.328l-3.145-5.447c-0.898 0.527-1.943 0.829-3.058 0.829-3.361 0-6.085-2.742-6.085-6.125h-6.289c0.008 1.044-0.252 2.103-0.811 3.070-1.679 2.908-5.411 3.897-8.339 2.211l-3.144 5.447c0.905 0.515 1.689 1.268 2.246 2.234 1.676 2.903 0.672 6.623-2.241 8.319l3.145 5.447c0.895-0.522 1.935-0.82 3.044-0.82 3.35 0 6.067 2.725 6.084 6.092h6.289c-0.003-1.034 0.259-2.080 0.811-3.038 1.676-2.903 5.399-3.894 8.325-2.219l3.145-5.447c-0.899-0.515-1.678-1.266-2.232-2.226zM16 22.479c-3.578 0-6.479-2.901-6.479-6.479s2.901-6.479 6.479-6.479c3.578 0 6.479 2.901 6.479 6.479s-2.901 6.479-6.479 6.479z"></path>
 				</svg>
 			</a>
+		<?php endif?>
+	</div>
 		</nav>
 
     <!-- Page Profil -->
@@ -187,7 +191,7 @@
 			foreach ($res as $fichier) {
 				echo '<div class="ajouter_tags" id_fichier="'.$fichier['Id_fichier'].'">';
 					echo '<span class="fermer_ajouter_tags">✖</span>';
-					echo '<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>';
+					echo '<h2 style="text-align: center;">Cliquer sur les tags que vous souhaitez ajouter :</h2>';
 					echo '<form class="list_tags" method="post">';
 							$tagAssocie = array();
 							$reqTagUtilise = $PDO->prepare("SELECT Id_Tag FROM caractériser WHERE Id_fichier = ?");
@@ -229,7 +233,7 @@
 			foreach ($res as $fichier) {
 				echo '<div class="supprimer_tags" id_fichier="'.$fichier['Id_fichier'].'">';
 					echo '<span class="fermer_supprimer_tags">✖</span>';
-					echo '<h2>Cliquer sur les tags que vous souhaitez supprimer :</h2>';
+					echo '<h2 style="text-align: center;">Cliquer sur les tags que vous souhaitez supprimer :</h2>';
 					echo '<form class="list_tags_supprimer" method="post">';
 							$req = $PDO->query("SELECT * FROM categorie");
 							$res = $req->fetchAll();

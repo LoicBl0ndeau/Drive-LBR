@@ -178,7 +178,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
 </head>
 <body>
   <header>
-    <a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
+    <a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" class="logo_longueur_blanc" /></a>
 
     <div id="container_header_right">
 
