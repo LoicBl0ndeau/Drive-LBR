@@ -63,7 +63,7 @@ $Role = strip_tags($postData['Role']);
 
       <!-- Navigation -->
     <header>
-      <?php include_once('account_Manager_header.php'); ?>
+      <?php include_once('account_Manager_header_lite.php'); ?>
     </header>
 
 		<?php

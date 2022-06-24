@@ -31,7 +31,7 @@
   <body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('account_Manager_header.php'); ?>
+      <?php include_once('account_Manager_header_lite.php'); ?>
     </header>
 
     <div class="container">

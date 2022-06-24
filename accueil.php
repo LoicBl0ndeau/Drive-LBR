@@ -87,6 +87,19 @@
 						$date = date('Y-m-d H:i:s',filemtime($chemin));
 						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur_Id,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
 			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Id_Profil'],$_FILES["media"]["size"][$i],$date,$chemin));
+						//   ajout d'une ligne dans le changelog
+						// Ecriture de la requête
+						$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+						// Préparation
+						$edited_user = $PDO->prepare($sqlQuery);
+
+						// Exécution ! l'utilisateur est maintenant en base de données
+						$edited_user->execute([
+								'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+								'Date_de_modification' => date('d-m-y H:i:s'),
+								'Description' => "Ajout de d'un média dans le drive : ".$_FILES['media']['name'][$i] . $_FILES['media']['type'][$i],
+						]);
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
