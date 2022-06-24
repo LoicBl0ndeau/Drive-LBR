@@ -40,14 +40,14 @@ function mois(month){
   return month;
 }
 
-function tagQuery(){
+function tagQuery(){ //Fonction qui gère la recherche avec la scearch_bar
   if($('#text_scearch_bar').val() != ''){
     var tagsSelection = $('#text_scearch_bar').val().split(';');
     var datesQuery = [];
     var extensionsQuery = [];
     var auteursQuery = [];
     var extensionsAutorisees = ['.ogm', '.wmv', '.mpg', '.webm', '.ogv', '.mov', '.asx', '.mpeg', '.mp4', '.m4v', '.avi','.jpg', '.jpeg', '.gif', '.png', '.tiff', '.pjp', '.jfif', '.bmp', '.svg', '.xbm', '.dib', '.jxl', '.svgz', '.webp', '.ico', '.tif', '.pjpeg', '.avif'];
-    for (var i = 0; i < tagsSelection.length; i++) {
+    for (var i = 0; i < tagsSelection.length; i++) { //on récupère chaque info taper au clavier
       if(tagsSelection[i].match(/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/) != null){
         datesQuery.push(tagsSelection[i]);
       }
@@ -58,7 +58,7 @@ function tagQuery(){
         auteursQuery.push(tagsSelection[i].toLowerCase());
       }
     }
-    for (var i = 0; i < $('.container_informations').length; i++) {
+    for (var i = 0; i < $('.container_informations').length; i++) { //Pour chaque fichier
       var extension = $($('.container_informations')[i]).find(".nom_fichier").text().split('.');
       extension = "."+extension[extension.length-1];
       extension = extension.toLowerCase();
@@ -120,21 +120,21 @@ function tagQuery(){
   }
 }
 
-function selectionDesTags(){
+function selectionDesTags(){ //fonction pour traiter les tags cliqués ou non dans le sélecteur
   if($('.tag_clicked').length != 0){
     var tagsSelection = [];
     for (var i = 0; i < $('.tag_clicked').length; i++) { //On récupère les tags sélectionnés
       tagsSelection.push($($('.tag_clicked')[i]).text());
     }
-    for (var i = 0; i < $('.container_informations').length; i++) {
-      var tagsAssocies = $($('.container_informations')[i]).find(".liste_des_tags").text().split(', ');
-      var selectionner = false;
+    for (var i = 0; i < $('.container_informations').length; i++) { //Pour chaque média
+      var tagsAssocies = $($('.container_informations')[i]).find(".liste_des_tags").text().split(', '); //tableau avec les tags du fichier
+      var selectionner = 0;
       for (var j = 0; j < tagsAssocies.length; j++) {
-        if(tagsSelection.indexOf(tagsAssocies[j]) != -1){
-          selectionner = true;
+        if(tagsSelection.indexOf(tagsAssocies[j]) != -1){ //Si le fichier possède les tags sélectionner alors on l'affiche !
+          selectionner++;
         }
       }
-      if(selectionner === false){
+      if(selectionner != tagsSelection.length){
         $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
       }
       else{
@@ -161,11 +161,11 @@ function selectionDesTags(){
   }
 }
 
-function trier_par_dates(){
+function trier_par_dates(){ //Quand on clique sur "trier par dates"
   $('.marge').css("display","flex");
   $('.titre_container_media').css("display","flex");
   var dates = [];
-  for (var i = 0; i < $('.marge').length; i++) {
+  for (var i = 0; i < $('.marge').length; i++) { //Pour chaque média on cherche sa date d'ajout
     if(dates.indexOf($($('.container_informations')[i]).find('.date_ajout').text()) == -1){
       dates.push($($('.container_informations')[i]).find('.date_ajout').text());
     }
@@ -198,7 +198,7 @@ function trier_par_dates(){
   $('.player').on("click",player_open);
 }
 
-function trier_par_auteurs(){
+function trier_par_auteurs(){ //Quand on clique sur "trier par: Auteurs"
   $('.marge').css("display","flex");
   $('.titre_container_media').css("display","flex");
   var auteurs = [];
@@ -235,7 +235,7 @@ function trier_par_auteurs(){
   $('.player').on("click",player_open);
 }
 
-function trier_par_mesPhotos(){
+function trier_par_mesPhotos(){ //Quand on clique sur "trier par: mes photos"
   $('.marge[isMediaFromLoggedUser="0"]').css("display","none");
   for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
     var compteurMedia = 0;
@@ -262,7 +262,7 @@ function player_open(){
   appendToLecteur($('video', this).clone().prop("controls", true),$('video', this).width(),$('video', this).height());
 }
 
-function appendToLecteur(elem,elemW,elemH){
+function appendToLecteur(elem,elemW,elemH){ //Pour agrandir l'image cliquée
   $('body').css("overflow","hidden");
   if(elemW > elemH){
     elem.css("max-width","100vw").css("max-height","100vh");
@@ -288,7 +288,7 @@ function fermerLecteur(){
 }
 
 $(document).ready(function(){
-  $('#container_categories').on("wheel", function(evt){
+  $('#container_categories').on("wheel", function(evt){ //Pour pouvoir scroll horizontalement dans le sélecteur de tags
     if(evt.originalEvent.wheelDeltaX == 0){
       evt.preventDefault();
       if(evt.originalEvent.wheelDelta <= 0){
@@ -325,7 +325,7 @@ $(document).ready(function(){
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
   $('.nom_categorie').on("click",function(){
-    if($(this).hasClass('cat_entered')){
+    if($(this).hasClass('cat_entered')){ //Pour bien coloré les catégorie de tag dans le sélécteur
       $('.nom_categorie:not([id_cat='+$(this).attr("id_cat")+'])').css("display","inline");
       $('.tag_de_cat_'+$(this).attr("id_cat")).css("display","none");
       if(!($('.tag_de_cat_'+$(this).attr("id_cat")).hasClass('tag_clicked'))){
@@ -359,6 +359,7 @@ $(document).ready(function(){
   $('#radio_dates').on("click",trier_par_dates);
   $('#radio_auteurs').on("click",trier_par_auteurs);
   $('#radio_mes_photos').on("click",trier_par_mesPhotos);
+  //La fonction contextMenu() fait appel au plugin pour le menu quand on fait un clic droit.
 if(sessionStorage.getItem('role')=='Admin'){
   $.contextMenu({
     selector: '.img_media, .player',
