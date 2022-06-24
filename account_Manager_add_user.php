@@ -63,8 +63,8 @@
 							<input type="radio" name="Role" value="Lecture">
               <label for="Role" class="form-label">Lecture</label>
 
-              <input type="radio" name="Role" value="Editeur">
-              <label for="Role" class="form-label">Editeur</label>
+              <input type="radio" name="Role" value="Ecriture">
+              <label for="Role" class="form-label">Ecriture</label>
 
               <input type="radio" name="Role" value="Invité">
               <label for="Role" class="form-label">Invité</label>
