@@ -17,13 +17,13 @@
 	if(isset($_SESSION['random_ok_tag'], $_POST['randomformCAT']) && $_POST['randomformCAT'] == $_SESSION['random_ok_tag']){
 		//echo("tst");
 
-		if (isset($_POST['boutonvalidecat'])) {
-			if(empty($_POST['input_cat'])){
+		if (isset($_POST['boutonvalidecat'])) {// si appuie sur le bouton valider
+			if(empty($_POST['input_cat'])){// si le champ est vide
 				echo '<script>alert("Nom de la catégorie vide");</script>';
 			}
 
 			else{
-				require('connect.php');
+				require('connect.php');// on regarde tout les catégories
 				$sqlQuery = 'SELECT Nom FROM categorie';
 				$recipesStatement = $PDO->prepare($sqlQuery);
 				$recipesStatement->execute();
@@ -31,7 +31,7 @@
 
 				$same_cat = 0;
 							foreach ($catego as $cat) {
-									if ($cat['Nom'] == $_POST['input_cat']) {
+									if ($cat['Nom'] == $_POST['input_cat']) {// si la catégorie existe déjà il y a une erreur
 													$same_cat++;
 											echo "<script>alert('Le nom semble déjà utilisé');</script>";
 									}
@@ -40,7 +40,7 @@
 									}
 							}
 							//echo $same_cat;
-							if($same_cat== 0){
+							if($same_cat== 0){// si la catégorie que l'on veut ajouter n'existe pas déjà on l'ajoute dans la base de donnée
 								//echo('eeeee');
 								require('connect.php');
 								$query = "INSERT INTO categorie(Nom,Créateur) values(?,?)";
@@ -54,7 +54,7 @@
 		}
 	}
 
-//Ajouter un Tag
+//Ajouter un Tag (c'est le même fonctionnement que pour les catégories)
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformTAG']) && $_POST['randomformTAG'] == $_SESSION['random_ok_tag']){
 	if (isset($_POST['boutonvalidetag'])) {
 		//echo('ee');
@@ -101,10 +101,28 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['ra
 			echo '<script>alert("Nom de la catégorie vide");</script>';
 		}
 		else{
+			require('connect.php');// on regarde tout les catégories
+			$sqlQuery = 'SELECT Nom FROM categorie';
+			$recipesStatement = $PDO->prepare($sqlQuery);
+			$recipesStatement->execute();
+			$catego = $recipesStatement->fetchAll();
+
+			$same_cat = 0;
+						foreach ($catego as $cat) {
+								if ($cat['Nom'] == $_POST['input_modif_cat']) {// si la catégorie existe déjà il y a une erreur
+												$same_cat++;
+										echo "<script>alert('Le nom semble déjà utilisé');</script>";
+								}
+										else {
+									//echo('oklm');
+								}
+						}
+						if($same_cat== 0){
 			require('connect.php');
 			$query = "UPDATE categorie SET Nom = ? WHERE Id_Catégorie=?";
 			$resultStatement = $PDO->prepare($query);
 			$resultStatement->execute(array($_POST['input_modif_cat'],$_POST['id_cat_clicked']));
+		}
 		}
 	}
 }
@@ -133,9 +151,27 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifTAG']) && $_POST['ra
 		}
 		else{
 			require('connect.php');
+			$sqlQuery = 'SELECT Nom FROM tag';
+			$recipesStatement = $PDO->prepare($sqlQuery);
+			$recipesStatement->execute();
+			$tags = $recipesStatement->fetchAll();
+
+			$same_tag = 0;
+						foreach ($tags as $tag) {
+								if ($tag['Nom'] == $_POST['input_modif_tag']) {
+												$same_tag++;
+										echo "<script>alert('le nom semble déjà utilisé');</script>";
+								}
+										else {
+									//echo('oklm');
+								}
+						}
+						if($same_tag== 0){
+			require('connect.php');
 			$query = "UPDATE tag SET Nom = ? WHERE Id_Tag=?";
 			$resultStatement = $PDO->prepare($query);
 			$resultStatement->execute(array($_POST['input_modif_tag'],$_POST['id_tag_clicked']));
+		}
 		}
 	}
 }
