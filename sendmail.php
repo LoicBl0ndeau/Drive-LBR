@@ -276,7 +276,7 @@ function sendmail( string $Email, string $mail)
         'Description' => "Envoi d'un mail à : $Email",
     ]);
   } else {
-    echo '<div class="container alert alert-danger" role="alert">Échec de l\'envoi de l\'email...</div>';
+    echo '<script>alert("Échec de l\'envoi de l\'email...");document.location.href="login.php";</script>';
   }
 }
 ?>
