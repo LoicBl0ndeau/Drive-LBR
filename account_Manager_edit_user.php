@@ -18,11 +18,9 @@
 <?php
 $postData = $_POST;
 
-if (
-    !isset($_POST['Id_Profil']) || empty($_POST['Id_Profil'])
-    )
+// on vérifie l'existence et la conformité des data
+if ( !isset($_POST['Id_Profil']) || empty($_POST['Id_Profil']) )
 {
-	echo('ça marche pas');
     return;
 }
 
@@ -38,10 +36,10 @@ $sqlQuery = 'SELECT * FROM profil WHERE Id_Profil = :Id_Profil';
 // Préparation
 $userStatement = $PDO->prepare($sqlQuery);
 
-// Exécution ! l'utilisateur est maintenant en base de données
 $userStatement->execute([
     'Id_Profil' => $Id_Profil
 ]);
+// Utile dans le pré-remplissage du formulaire
 $edit_users = $userStatement->fetchAll();
 
 ?>

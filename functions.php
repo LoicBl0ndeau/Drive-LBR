@@ -32,7 +32,7 @@ function all_users()
 {
   include("connect.php");
   // Si tout va bien, on peut continuer
-  // On récupère tout le contenu de la table profil
+  // On récupère tout le contenu de la table profil activé ou non (avec ou sans mot de passe)
   $sqlQuery = 'SELECT * FROM profil;';
   $recipesStatement = $PDO->prepare($sqlQuery);
   $recipesStatement->execute();

@@ -18,7 +18,7 @@
 <?php
 
 $postData = $_POST;
-
+// on vérifie l'existence et la conformité des data
 if (
   !isset($_POST['Id_Profil']) || empty($_POST['Id_Profil']) ||
   !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
@@ -113,10 +113,10 @@ $Role = strip_tags($postData['Role']);
 				$sqlQuery = 'UPDATE profil SET MDP = :MDP, email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
 
 				// Préparation
-				$edited_user = $PDO->prepare($sqlQuery);
+				$req = $PDO->prepare($sqlQuery);
 
 				// Exécution ! l'utilisateur est maintenant en base de données
-				$edited_user->execute([
+				$req->execute([
 				    'Id_Profil' => $Id_Profil,
 						'MDP' => $MDP_sha256,
 				    'email' => $Email,
@@ -134,10 +134,10 @@ $Role = strip_tags($postData['Role']);
 				$sqlQuery = 'UPDATE profil SET email = :email, Nom = :Nom, Prenom = :Prenom, Description = :Description, Role = :Role WHERE Id_Profil = :Id_Profil';
 
 				// Préparation
-				$edited_user = $PDO->prepare($sqlQuery);
+				$req = $PDO->prepare($sqlQuery);
 
 				// Exécution ! l'utilisateur est maintenant en base de données
-				$edited_user->execute([
+				$req->execute([
 						'Id_Profil' => $Id_Profil,
 						'email' => $Email,
 						'Nom' => $Nom,
@@ -165,10 +165,10 @@ $Role = strip_tags($postData['Role']);
 			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 			// Préparation
-			$edited_user = $PDO->prepare($sqlQuery);
+			$req = $PDO->prepare($sqlQuery);
 
-			// Exécution ! l'utilisateur est maintenant en base de données
-			$edited_user->execute([
+			// Exécution ! le changelog est maintenant mis à jour
+			$req->execute([
 			    'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 			    'Date_de_modification' => date('d-m-y H:i:s'),
 			    'Description' => "Modification du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",

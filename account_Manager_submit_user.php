@@ -1,4 +1,4 @@
-<?php
+req<?php
 	// Initialise la session
 	session_start();
 	// Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion
@@ -18,7 +18,7 @@
 <?php
 
 $postData = $_POST;
-
+// on vérifie l'existence et la conformité des data
 if (
     !isset($_POST['Prenom']) || empty($_POST['Prenom']) ||
     !isset($_POST['Nom']) || empty($_POST['Nom']) ||
@@ -117,10 +117,10 @@ if (!check_mdp_format($MDP))
 			$sqlQuery = 'INSERT INTO profil(email, MDP, Nom, Prenom, Description, Role) VALUES (:email, :MDP, :Nom, :Prenom, :Description, :Role)';
 
 			// Préparation
-			$insertRecipe = $PDO->prepare($sqlQuery);
+			$req = $PDO->prepare($sqlQuery);
 
 			// Exécution ! l'utilisateur est maintenant en base de données
-			$insertRecipe->execute([
+			$req->execute([
 			    'email' => $Email,
 					'MDP' => $MDP_sha256,
 			    'Nom' => $Nom,
@@ -135,10 +135,10 @@ if (!check_mdp_format($MDP))
 			$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 			// Préparation
-			$edited_user = $PDO->prepare($sqlQuery);
+			$req = $PDO->prepare($sqlQuery);
 
-			// Exécution ! l'utilisateur est maintenant en base de données
-			$edited_user->execute([
+			// Exécution ! le changelog est maintenant mis à jour
+			$req->execute([
 					'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 					'Date_de_modification' => date('d-m-y H:i:s'),
 					'Description' => "Création d'un compte : $Email / $Nom / $Prenom / $Description / $Role",

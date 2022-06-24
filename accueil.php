@@ -107,10 +107,10 @@ $compteur_changelog = 0;
 		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
 				'Description' => "Ajout de ".$compteur_changelog." média(s) dans le drive",

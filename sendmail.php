@@ -267,10 +267,10 @@ function sendmail_forgotten_password( string $Email, string $mail, string $MDP_s
     $sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE email = :email';
 
     // Préparation
-    $edited_user = $PDO->prepare($sqlQuery);
+    $req = $PDO->prepare($sqlQuery);
 
     // Exécution ! l'utilisateur est maintenant en base de données
-    $edited_user->execute([
+    $req->execute([
         'MDP' => $MDP_sha256,
         'email' => $email,
     ]);
@@ -279,10 +279,10 @@ function sendmail_forgotten_password( string $Email, string $mail, string $MDP_s
     $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
     // Préparation
-    $edited_user = $PDO->prepare($sqlQuery);
+    $req = $PDO->prepare($sqlQuery);
 
     // Exécution ! l'utilisateur est maintenant en base de données
-    $edited_user->execute([
+    $req->execute([
         'Nom' => 'Boite mail',
         'Date_de_modification' => date('d-m-y H:i:s'),
         'Description' => "Envoi d'un mail à : $Email",
@@ -559,10 +559,10 @@ function sendmail(string $Email, string $mail)
     $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
     // Préparation
-    $edited_user = $PDO->prepare($sqlQuery);
+    $req = $PDO->prepare($sqlQuery);
 
     // Exécution ! l'utilisateur est maintenant en base de données
-    $edited_user->execute([
+    $req->execute([
         'Nom' => 'Boite mail',
         'Date_de_modification' => date('d-m-y H:i:s'),
         'Description' => "Envoi d'un mail à : $Email",

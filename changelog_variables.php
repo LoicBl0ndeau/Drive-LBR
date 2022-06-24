@@ -18,10 +18,7 @@ else {
 	//echo('recherche : ' . $recherche);
 }
 
-
-
-
-// On récupère tout le contenu de la table recipes
+// On récupère tout le contenu de la table log_ avec les conditions de recherche s'il y en a 
 $sqlQuery = 'SELECT * FROM log_ WHERE Id_log_ LIKE "%' . $recherche . '%" OR Nom LIKE "%' . $recherche . '%" OR Date_de_modification LIKE "%' . $recherche . '%" OR Description LIKE "%' . $recherche . '%" ORDER BY Id_log_ DESC;';
 $changelogStatement = $PDO->prepare($sqlQuery);
 $changelogStatement->execute();

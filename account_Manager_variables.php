@@ -31,7 +31,7 @@ else
 	$null = "IS NULL";
 }
 
-// On récupère tout le contenu de la table recipes
+// On récupère tout le contenu de la table profil activé (avec mot de passe) avec les conditions de recherche s'il y en a
 $sqlQuery = 'SELECT * FROM profil WHERE MDP ' . $null . ' AND (Nom LIKE "%' . $recherche . '%" OR Prenom LIKE "%' . $recherche . '%" OR email LIKE "%' . $recherche . '%" OR Role LIKE "%' . $recherche . '%" OR Id_Profil LIKE "%' . $recherche . '%") ORDER BY Nom;';
 $recipesStatement = $PDO->prepare($sqlQuery);
 $recipesStatement->execute();

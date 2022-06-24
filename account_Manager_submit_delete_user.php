@@ -54,7 +54,7 @@ $sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE Id_Profil = :Id_Profil';
 // Préparation
 $delete_user = $PDO->prepare($sqlQuery);
 
-// Exécution ! l'utilisateur est maintenant supprimé de la base de données
+// Exécution ! l'utilisateur est maintenant n'a maintenant plus d'accès à son compte
 $delete_user->execute([
     'Id_Profil' => $Id_Profil,
 		'MDP' => NULL,
@@ -84,19 +84,6 @@ $deleted_user->execute([
 		'Description' => "Suppression du compte $Id_Profil : $Email / $Nom / $Prenom / $Description / $Role",
 ]);
 
-// envoie du mail à l'Utilisateur
-
-$mail = <<<MAIL
-				Bonjour $Prenom $Nom,<br /><br />
-				Votre compte $Role associé au mail : $Email a été supprimé.<br /><br />
-				Nous espérons que votre expérience ait été agréable.<br /><br />
-				Nous vous remercions de votre confiance.
-				MAIL;
-
-include_once('sendmail.php');
-sendmail($Email,$mail);
-
-
 ?>
 
 <?php if ($Id_Profil === $_SESSION['loggedUser']['Id_Profil']) : ?>
@@ -121,6 +108,22 @@ sendmail($Email,$mail);
 	    <header>
 	      <?php include_once('account_Manager_header_lite.php'); ?>
 	    </header>
+
+			<?php
+			// envoie du mail à l'Utilisateur
+
+			$mail = <<<MAIL
+							Bonjour $Prenom $Nom,<br /><br />
+							Votre compte $Role associé au mail : $Email a été supprimé.<br /><br />
+							Nous espérons que votre expérience ait été agréable.<br /><br />
+							Nous vous remercions de votre confiance.
+							MAIL;
+
+			include_once('sendmail.php');
+			sendmail($Email,$mail);
+
+ ?>
+
 
 	      <div class="container">
 

@@ -64,11 +64,13 @@
 							<td><?php echo $user['Role'];?></td>
 							<td>
 								<form action="account_Manager_edit_user.php" method="post">
+									<!-- Chaque bouton possède une value différente afin d'y assigner un utilisateur précis -->
 									<button class="btn btn-blue" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
 								</form>
 							</td>
 							<td>
 								<form action="account_Manager_delete_user.php" method="post">
+									<!-- Chaque bouton possède une value différente afin d'y assigner un utilisateur précis -->
 									<button class="btn btn-danger" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
 								</form>
 							</td>

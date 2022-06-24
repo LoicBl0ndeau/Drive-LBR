@@ -61,10 +61,10 @@ if (
 		$sqlQuery = 'UPDATE profil SET Prenom = :Prenom WHERE Id_Profil = :Id_Profil';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 				'Prenom' => $new_Prenom,
 		]);
@@ -76,10 +76,10 @@ if (
 		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
 				'Description' => "Modification interne du Prenom par : $new_Prenom",
@@ -97,10 +97,10 @@ if (
 		$sqlQuery = 'UPDATE profil SET Nom = :Nom WHERE Id_Profil = :Id_Profil';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 				'Nom' => $new_Nom,
 		]);
@@ -112,10 +112,10 @@ if (
 		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
 				'Description' => "Modification interne du Nom par : $new_Nom",
@@ -143,14 +143,14 @@ if (
 		$sqlQuery = 'SELECT MDP from profil WHERE Id_Profil = :Id_Profil';
 
 		// Préparation
-		$edited_user = $PDO->prepare($sqlQuery);
+		$req = $PDO->prepare($sqlQuery);
 
 		// Exécution ! l'utilisateur est maintenant en base de données
-		$edited_user->execute([
+		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil']
 		]);
 
-		$actual_MDPs = $edited_user->fetchAll();
+		$actual_MDPs = $req->fetchAll();
 
 		$old_MDP = hash('sha256', strip_tags($postData['old_MDP']));
 		$new_MDP = hash('sha256', strip_tags($postData['new_MDP']));
@@ -167,10 +167,10 @@ if (
 				$sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE Id_Profil = :Id_Profil';
 
 				// Préparation
-				$edited_user = $PDO->prepare($sqlQuery);
+				$req = $PDO->prepare($sqlQuery);
 
 				// Exécution ! l'utilisateur est maintenant en base de données
-				$edited_user->execute([
+				$req->execute([
 				    'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 						'MDP' => $new_MDP
 				]);
@@ -180,10 +180,10 @@ if (
 				$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
 				// Préparation
-				$edited_user = $PDO->prepare($sqlQuery);
+				$req = $PDO->prepare($sqlQuery);
 
 				// Exécution ! l'utilisateur est maintenant en base de données
-				$edited_user->execute([
+				$req->execute([
 						'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 						'Date_de_modification' => date('d-m-y H:i:s'),
 						'Description' => "Modification interne du mot de passe",
