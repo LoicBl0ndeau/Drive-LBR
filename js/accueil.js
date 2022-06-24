@@ -43,26 +43,68 @@ function mois(month){
 function tagQuery(){
   if($('#text_scearch_bar').val() != ''){
     var tagsSelection = $('#text_scearch_bar').val().split(';');
-    for (var i = 0; i < $('.container_informations').length; i++) {
-      var tagsAssocies = $($('.container_informations')[i]).find(".liste_des_tags").text().split(', ');
-      var selectionner = false;
-      for (var j = 0; j < tagsAssocies.length; j++) {
-        if(tagsSelection.indexOf(tagsAssocies[j]) != -1){
-          selectionner = true;
-        }
+    var datesQuery = [];
+    var extensionsQuery = [];
+    var auteursQuery = [];
+    var extensionsAutorisees = ['.ogm', '.wmv', '.mpg', '.webm', '.ogv', '.mov', '.asx', '.mpeg', '.mp4', '.m4v', '.avi','.jpg', '.jpeg', '.gif', '.png', '.tiff', '.pjp', '.jfif', '.bmp', '.svg', '.xbm', '.dib', '.jxl', '.svgz', '.webp', '.ico', '.tif', '.pjpeg', '.avif'];
+    for (var i = 0; i < tagsSelection.length; i++) {
+      if(tagsSelection[i].match(/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/) != null){
+        datesQuery.push(tagsSelection[i]);
       }
-      if(selectionner === false){
-          $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
+      else if(extensionsAutorisees.indexOf(tagsSelection[i].toLowerCase()) != -1){
+        extensionsQuery.push(tagsSelection[i].toLowerCase());
       }
       else{
+        auteursQuery.push(tagsSelection[i].toLowerCase());
+      }
+    }
+    for (var i = 0; i < $('.container_informations').length; i++) {
+      var extension = $($('.container_informations')[i]).find(".nom_fichier").text().split('.');
+      extension = "."+extension[extension.length-1];
+      extension = extension.toLowerCase();
+      var date = $($('.container_informations')[i]).find(".date_ajout_fr").text();
+      var auteur = [$($('.container_informations')[i]).find(".prenom").text().toLowerCase(),$($('.container_informations')[i]).find(".nom").text().toLowerCase(),$($('.container_informations')[i]).find(".prenom").text().toLowerCase()+" "+$($('.container_informations')[i]).find(".nom").text().toLowerCase(),$($('.container_informations')[i]).find(".nom").text().toLowerCase()+" "+$($('.container_informations')[i]).find(".prenom").text().toLowerCase()];
+      if(extensionsQuery.length == 0){
+        var selectionnerExtension = true;
+      }
+      else{
+        var selectionnerExtension = false;
+        if(extensionsQuery.indexOf(extension) != -1){
+          selectionnerExtension = true;
+        }
+      }
+      if(datesQuery.length == 0){
+        var selectionnerDate = true;
+      }
+      else{
+        var selectionnerDate = false;
+        if(datesQuery.indexOf(date) != -1){
+          selectionnerDate = true;
+        }
+      }
+      if(auteursQuery.length == 0){
+        var selectionnerAuteur = true;
+      }
+      else{
+        var selectionnerAuteur = false;
+        for (var j = 0; j < auteur.length; j++) {
+          if(auteursQuery.indexOf(auteur[j]) != -1){
+            selectionnerAuteur = true;
+          }
+        }
+      }
+      if(selectionnerExtension === true && selectionnerDate === true && selectionnerAuteur === true){
         $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","block");
+      }
+      else{
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
       }
     }
   }
   else{
     $('.marge').css("display","block");
   }
-  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut ajouter ou effacer le titre d'une catégorie de média s'il ne contient plus rien.
     var compteurMedia = 0;
     for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
       if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
@@ -72,17 +114,9 @@ function tagQuery(){
     if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
       $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
     }
-  }
-  switch($('input[name="radio_trie"]:checked+label').text()){ //pour savoir si on doit recréer le titre d'une catégorie de média.
-    case 'Dates':
-      trier_par_dates();
-    break;
-    case 'Auteurs':
-      trier_par_auteurs();
-    break;
-    case 'Mes photos':
-      trier_par_mesPhotos();
-    break;
+    else{
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","block");
+    }
   }
 }
 
@@ -111,7 +145,7 @@ function selectionDesTags(){
   else{
     $('.marge').css("display","block");
   }
-  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut ajouter ou effacer le titre d'une catégorie de média s'il ne contient plus rien.
     var compteurMedia = 0;
     for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
       if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
@@ -121,18 +155,10 @@ function selectionDesTags(){
     if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
       $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
     }
+    else{
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","block");
+    }
   }
-  /*switch($('input[name="radio_trie"]:checked+label').text()){ //pour savoir si on doit recréer le titre d'une catégorie de média.
-    case 'Dates':
-      trier_par_dates();
-    break;
-    case 'Auteurs':
-      trier_par_auteurs();
-    break;
-    case 'Mes photos':
-      trier_par_mesPhotos();
-    break;
-  }*/
 }
 
 function trier_par_dates(){
@@ -166,6 +192,8 @@ function trier_par_dates(){
   $('.container_media').remove();
   $(media_dates).insertAfter($('#trier_par'));
   selectionDesTags();
+  tagQuery();
+  $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;24/09/2021" par exemple.');
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
 }
@@ -201,6 +229,8 @@ function trier_par_auteurs(){
   $('.container_media').remove();
   $(media_auteur).insertAfter($('#trier_par'));
   selectionDesTags();
+  tagQuery();
+  $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;Nom" par exemple.');
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
 }
@@ -272,6 +302,11 @@ $(document).ready(function(){
   $('label[for=text_scearch_bar]').on("click",tagQuery);
   $('#text_scearch_bar').on("keypress",function(e){
     if(e.which == 13) {
+      tagQuery();
+    }
+  });
+  $('#text_scearch_bar').on("keydown",function(e){
+    if($('#text_scearch_bar').val() == '') {
       tagQuery();
     }
   });
