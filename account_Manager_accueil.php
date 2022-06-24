@@ -45,32 +45,32 @@
         <thead>
           <tr>
 						<th>Nom</th>
-           <th>Prenom</th>
-           <th>email</th>
-           <th>Role</th>
-					 <th> </th>
-					 <th><button class="btn btn-success" type="button" name="button" id="bouton_ajouter" onclick="window.location.href='account_Manager_add_user.php'">Ajouter</button></th>
+						<th>Prenom</th>
+						<th>email</th>
+						<th>Role</th>
+						<th> </th>
+						<th><button class="btn btn-success" type="button" name="button" id="bouton_ajouter" onclick="window.location.href='account_Manager_add_user.php'">Ajouter</button></th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach($users as $user) : ?>
-                <tr class="tab_body">
-								 	<td> <?php echo $user['Nom']?> </td>
-                   <td><?php echo $user['Prenom']?></td>
-                   <td><?php echo $user['email'];?></td>
-                   <td><?php echo $user['Role'];?></td>
-                   <td>
-										 <form action="account_Manager_edit_user.php" method="post">
-											 <button class="btn btn-blue" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
-										 </form>
-									 </td>
-                   <td>
-									 	<form action="account_Manager_delete_user.php" method="post">
-										 	<button class="btn btn-danger" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
-                   	</form>
-									</td>
-                </tr>
-          <?php endforeach ?>
+					<?php foreach($users as $user) : ?>
+						<tr class="tab_body">
+							<td><?php echo $user['Nom']?></td>
+							<td><?php echo $user['Prenom']?></td>
+							<td><?php echo $user['email'];?></td>
+							<td><?php echo $user['Role'];?></td>
+							<td>
+								<form action="account_Manager_edit_user.php" method="post">
+									<button class="btn btn-blue" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Modifier</button>
+								</form>
+							</td>
+							<td>
+								<form action="account_Manager_delete_user.php" method="post">
+									<button class="btn btn-danger" type="submit" name="Id_Profil" value="<?php echo $user['Id_Profil'] ?>">Supprimer</button>
+								</form>
+							</td>
+						</tr>
+					<?php endforeach ?>
         </tbody>
       </table>
 
