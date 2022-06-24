@@ -12,13 +12,31 @@
 ?>
 <?php //ajouter un tag à un media
 	if(isset($_SESSION['random_OK'], $_POST['randomformAddTAG']) && $_POST['randomformAddTAG'] == $_SESSION['random_OK']){
-		if(isset($_POST['boutonvalideAddTag'])){
+		if(isset($_POST['boutonvalideAddTag'],$_POST['id_fichier'],$_POST['tag_souhaite'])){
 			include("connect.php");
 			$req=$PDO->prepare("DELETE FROM caractériser WHERE Id_fichier=? AND Id_Tag=0");
 			$req->execute(array($_POST['id_fichier']));
 			$req=$PDO->prepare("insert into caractériser(Id_fichier,Id_Tag) values(?,?)");
 			foreach ($_POST['tag_souhaite'] as $tag_souhaite) {
 				$req->execute(array($_POST['id_fichier'],str_replace("tag_souhaite_","",$tag_souhaite)));
+			}
+		}
+	}
+?>
+<?php //supprimer un tag à un media
+	if(isset($_SESSION['random_OK'], $_POST['randomformSuppTAG']) && $_POST['randomformSuppTAG'] == $_SESSION['random_OK']){
+		if(isset($_POST['boutonvalideSuppTag'],$_POST['tag_supprimer_souhaite'],$_POST['id_fichier'])){
+			include("connect.php");
+			$req=$PDO->prepare("DELETE FROM caractériser WHERE Id_fichier=? AND Id_Tag=?");
+			foreach ($_POST['tag_supprimer_souhaite'] as $tag_supprimer_souhaite) {
+				$req->execute(array($_POST['id_fichier'],str_replace("tag_supprimer_souhaite_","",$tag_supprimer_souhaite)));
+			}
+			$req=$PDO->prepare("SELECT COUNT(*) FROM caractériser WHERE Id_fichier=?");
+			$req->execute(array($_POST['id_fichier']));
+			$nbrTagRestant = $req->fetch()[0];
+			if($nbrTagRestant == 0){
+				$req=$PDO->prepare("insert into caractériser(Id_fichier,Id_Tag) values(?,0)");
+				$req->execute(array($_POST['id_fichier']));
 			}
 		}
 	}
@@ -122,7 +140,7 @@
 	      		<path d="m153.7,171.5l81.9-88.1v265.3c0,11.3 9.1,20.4 20.4,20.4 11.3,0 20.4-9.1 20.4-20.4v-265.3l81.9,88.1c7.7,8.3 20.6,8.7 28.9,1.1 8.3-7.7 8.7-20.6 1.1-28.9l-117.3-126.2c-11.5-11.6-25.6-5.2-29.9,0l-117.3,126.2c-7.7,8.3-7.2,21.2 1.1,28.9 8.2,7.6 21.1,7.2 28.8-1.1z"/>
 	      		<path d="M480.6,341.2c-11.3,0-20.4,9.1-20.4,20.4V460H51.8v-98.4c0-11.3-9.1-20.4-20.4-20.4S11,350.4,11,361.6v118.8    c0,11.3,9.1,20.4,20.4,20.4h449.2c11.3,0,20.4-9.1,20.4-20.4V361.6C501,350.4,491.9,341.2,480.6,341.2z"/>
 					</svg>
-					Importer
+					<span>Importer</span>
 				</label>
 
 			<?php endif ?>
@@ -167,32 +185,88 @@
 		<?php echo "<script>$('#name').text('".$_SESSION['loggedUser']['Prenom']." ".$_SESSION['loggedUser']['Nom']."');$('#role').text('".$_SESSION['loggedUser']['Role']."');</script>"; ?>
 
 		<div id="trier_par">Trier par :<input type="radio" id="radio_dates" name="radio_trie" checked /><label class="bouton_trier_par" for="radio_dates">Dates</label><input type="radio" id="radio_auteurs" name="radio_trie" /><label class="bouton_trier_par" for="radio_auteurs">Auteurs</label><input type="radio" id="radio_mes_photos" name="radio_trie" /><label class="bouton_trier_par" for="radio_mes_photos">Mes photos</label><input type="checkbox" id="checked_croissant" checked /><label id="bouton_checked_croissant" for="checked_croissant">Croissant</label></div>
-
-		<div id="ajouter_tags">
-			<span id="fermer_ajouter_tags">✖</span>
-			<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>
-			<form id="list_tags" method="post">
-				<?php
-					$req = $PDO->query("SELECT * FROM categorie");
-					$res = $req->fetchAll();
-					$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie = ?");
-					foreach ($res as $categorie) {
-						echo "<div style='margin: 10px;display: flex;flex-direction: column;align-items: center;justify-content: center;'><h3 style='font-weight: bold;text-align: center;'>".$categorie['Nom']."</h3><span>";
-						$reqTags->execute(array($categorie['Id_Catégorie']));
-						$resTags = $reqTags->fetchAll();
-						foreach ($resTags as $tag) {
-							if($tag['Id_Tag'] != 0){
-								echo "<input type='checkbox' name='tag_souhaite[]' class='tag_souhaite' id='tag_souhaite_".$tag['Id_Tag']."' value='tag_souhaite_".$tag['Id_Tag']."' /><label class='elem_tag' for='tag_souhaite_".$tag['Id_Tag']."' id_tag='".$tag['Id_Tag']."'>".$tag['Nom']."</label>";
+		<?php
+			$req = $PDO->query("SELECT * FROM fichier");
+			$res = $req->fetchAll();
+			foreach ($res as $fichier) {
+				echo '<div class="ajouter_tags" id_fichier="'.$fichier['Id_fichier'].'">';
+					echo '<span class="fermer_ajouter_tags">✖</span>';
+					echo '<h2>Cliquer sur les tags que vous souhaitez ajouter :</h2>';
+					echo '<form class="list_tags" method="post">';
+							$tagAssocie = array();
+							$reqTagUtilise = $PDO->prepare("SELECT Id_Tag FROM caractériser WHERE Id_fichier = ?");
+							$reqTagUtilise->execute(array($fichier['Id_fichier']));
+							$resTagUtilise = $reqTagUtilise->fetchAll();
+							foreach ($resTagUtilise as $tagUtilise) {
+								array_push($tagAssocie,$tagUtilise['Id_Tag']);
 							}
-						}
-						echo "</span></div>";
-					}
-				?>
-				<input type="hidden" name="id_fichier" />
-				<input type="hidden" name="randomformAddTAG" value="<?php echo $_SESSION['random_OK']; ?>" />
-				<input type="submit" name="boutonvalideAddTag" value="Valider" />
-			</form>
-		</div>
+							$req = $PDO->query("SELECT * FROM categorie");
+							$res = $req->fetchAll();
+							$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie = ?");
+							foreach ($res as $categorie) {
+								echo "<div style='margin: 10px;display: flex;flex-direction: column;align-items: center;justify-content: center;'><h3 style='font-weight: bold;text-align: center;'>".$categorie['Nom']."</h3><span>";
+								$reqTags->execute(array($categorie['Id_Catégorie']));
+								$resTags = $reqTags->fetchAll();
+								$isTagInThisCat = false;
+								foreach ($resTags as $tag) {// pour chaque tag dans une catégorie
+										if($tag['Id_Tag'] != 0 && !(in_array($tag['Id_Tag'],$tagAssocie))){
+											$isTagInThisCat = true;
+											$randomIdForConnection = uniqid();
+											echo "<input type='checkbox' name='tag_souhaite[]' class='tag_souhaite' id='tag_souhaite_".$randomIdForConnection."' value='tag_souhaite_".$tag['Id_Tag']."' /><label class='elem_tag' for='tag_souhaite_".$randomIdForConnection."' id_tag='".$tag['Id_Tag']."'>".$tag['Nom']."</label>";
+										}
+								}
+								if($isTagInThisCat === false){
+									echo "Aucun tag à ajouter dans cette catégorie";
+								}
+								echo "</span></div>";
+							}
+						echo '<input type="hidden" name="id_fichier" />';
+						echo '<input type="hidden" name="randomformAddTAG" value="'.$_SESSION['random_OK'].'" />';
+						echo '<input type="submit" name="boutonvalideAddTag" value="Valider" />';
+					echo '</form>';
+				echo '</div>';
+			}
+		?>
+		<?php
+			$req = $PDO->query("SELECT * FROM fichier");
+			$res = $req->fetchAll();
+			foreach ($res as $fichier) {
+				echo '<div class="supprimer_tags" id_fichier="'.$fichier['Id_fichier'].'">';
+					echo '<span class="fermer_supprimer_tags">✖</span>';
+					echo '<h2>Cliquer sur les tags que vous souhaitez supprimer :</h2>';
+					echo '<form class="list_tags_supprimer" method="post">';
+							$req = $PDO->query("SELECT * FROM categorie");
+							$res = $req->fetchAll();
+							$reqTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Catégorie = ?");
+							foreach ($res as $categorie) {
+								echo "<div style='margin: 10px;display: flex;flex-direction: column;align-items: center;justify-content: center;'><h3 style='font-weight: bold;text-align: center;'>".$categorie['Nom']."</h3><span>";
+								$reqTags->execute(array($categorie['Id_Catégorie']));
+								$resTags = $reqTags->fetchAll();
+								$reqIsConcerned = $PDO->prepare("SELECT * FROM caractériser WHERE Id_Tag = ? AND Id_fichier=?");
+								$isTagInThisCat = false;
+								foreach ($resTags as $tag) {
+									$reqIsConcerned->execute(array($tag['Id_Tag'],$fichier['Id_fichier']));
+									$resIsConcerned = $reqIsConcerned->fetchAll();
+									foreach ($resIsConcerned as $concerned) {
+										if($tag['Id_Tag'] != 0){
+											$isTagInThisCat = true;
+											$randomIdForConnection = uniqid();
+											echo "<input type='checkbox' name='tag_supprimer_souhaite[]' class='tag_souhaite' id='tag_supprimer_souhaite_".$randomIdForConnection."' value='tag_supprimer_souhaite_".$tag['Id_Tag']."' /><label class='elem_tag' for='tag_supprimer_souhaite_".$randomIdForConnection."' id_tag='".$tag['Id_Tag']."'>".$tag['Nom']."</label>";
+										}
+									}
+								}
+								if($isTagInThisCat === false){
+									echo "Aucun tag à supprimer dans cette catégorie";
+								}
+								echo "</span></div>";
+							}
+						echo '<input type="hidden" name="id_fichier" />';
+						echo '<input type="hidden" name="randomformSuppTAG" value="'.$_SESSION['random_OK'].'" />';
+						echo '<input type="submit" name="boutonvalideSuppTag" value="Valider" />';
+					echo '</form>';
+				echo '</div>';
+			}
+		?>
 		<?php
 			function mois($mois) {
 				switch ($mois) {
@@ -279,7 +353,7 @@
 						$list_tags .= $resNomTags['Nom'].", ";
 					}
 					$list_tags = substr($list_tags,0,-2);
-					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: ".$list_tags."<br /></div>";
+					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <span class='liste_des_tags'>".$list_tags."</span><br /></div>";
 					echo <<<END
 						<script>$('body').append("{$appendInfos}")</script>
 						END;

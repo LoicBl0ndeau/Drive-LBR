@@ -29,9 +29,11 @@ if (
     )
 {
 	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
-				<div class="container alert alert-danger" role="alert">
+				<div class="container">
+				<div class="alert alert-danger" role="alert">
 				Il faut un Prénom, un Nom, une adresse mail, une Description et un Role valides pour soumettre le formulaire.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				</div>
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 				</div>');
   return;
 }
@@ -48,9 +50,11 @@ $Role = strip_tags($postData['Role']);
 if (!check_mdp_format($MDP))
 {
 	echo('<link rel="stylesheet" type="text/css" href="style/style.css" />
-				<div class="container alert alert-danger" role="alert">
-				Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\au moins 8 caractères.
-				<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+				<div class="container">
+				<div class="alert alert-danger" role="alert">
+				Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\'au moins 8 caractères.
+				</div>
+				<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 				</div>');
 	return;
 }
@@ -82,9 +86,13 @@ if (!check_mdp_format($MDP))
 
 		<?php
 
-		// Validation du formulaire
+		// On vérifie que le mail n'est pas déjà utilisé
+
+		include_once('functions.php');
+		$all_users = all_users();
+
 		$same_email = 0;
-			foreach ($users as $user) {
+			foreach ($all_users as $user) {
 			    if ($user['email'] === $Email) {
 						$same_email++;
 			        //echo "le mail semble déjà utilisé";
@@ -162,7 +170,7 @@ if (!check_mdp_format($MDP))
 	        <div class="alert alert-danger" role="alert">
 	            <?php echo $errorMessage; ?>
 	        </div>
-					<a class="btn btn-primary" href="account_Manager_accueil.php">Retour au gestionnaire</a>
+					<a class="btn btn-primary" onclick="history.back()">Retour au formulaire</a>
 
 			<?php else: ?>
 

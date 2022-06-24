@@ -49,7 +49,7 @@ $(document).ready(function(){
     $('#ajouttag').css("transform","translate(-100vw,-50%)");
     $('#suppcat').css("transform","translate(-100vw,-50%)");
     $('#modifiertag').css("transform","translate(-100vw,-50%)");
-    $('*:not(html,body)').css("filter","blur(0)");
+    $('*:not(html,body)').css("filter","");
   });
   $('#plus_tag').on("click",function(){
     if($('input[name="radio_cat"]:checked+label').attr("id_cat")){

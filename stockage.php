@@ -25,75 +25,65 @@
 		<link rel="icon" href="images/favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="js/changelog.js"></script>
-		<title>ChangeLog Drive - Les Briques Rouges</title>
+		<title>Stockage Drive - Les Briques Rouges</title>
 
 	</head>
 
 	<body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('changelog_header.php'); ?>
+      <?php include_once('stockage_header.php'); ?>
     </header>
-
-		<?php if (empty($changelogs)) : ?>
-			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
-		<?php else : ?>
 
 		<div id="table_compte">
 
 			<table>
         <thead>
           <tr>
-						<th>Nom</th>
-
+						<th>Utilisateur</th>
 						<th>espace utilisé</th>
           </tr>
         </thead>
         <tbody>
-<?php
-$query = 'SELECT SUM(Taille) FROM fichier ';
-$req = $PDO->query($query);
-$Total = $req->fetch();
-echo "<tr class='tab_body'>";
-  echo"<td>Total</td>";
-
-  echo"<td>".round(0.000001*$Total[0],2)." Mo</td>";
-echo"</tr>";
-
-      $resultStatement = $PDO->query('SELECT Id_Profil, Nom FROM Profil ');
-      $perso = $resultStatement->fetchAll();
-      foreach ($perso as $person) {
-        
+					<tr class='tab_body'>
+						<td>Total</td>
+						<td><?php echo round(0.000001*$Total[0],2) . " Mo"; ?></td>
+					</tr>
 
 
-        $query = 'SELECT SUM(Taille) FROM fichier WHERE Auteur_Id=?';
-        $req = $PDO->prepare($query);
-        $req->execute(array($person[0]));
-        $Tay = $req->fetchAll();
-        foreach($Tay as $tays){
-        echo "<tr class='tab_body'>";
-          echo"<td>".$person['Nom']."</td>";
+					<?php if (empty($users)) : ?>
+					</tbody>
+				</table>
 
-          echo"<td>".round(0.000001*$tays[0],2)." Mo</td>";
-        echo"</tr>";
+			</div>
 
-      }
+			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
 
-}
-?>
+					<?php else : ?>
 
-
-
-
-
-
+						<?php
+						      foreach ($users as $person)
+									{
+						        $query = 'SELECT SUM(Taille) FROM fichier WHERE Auteur_Id=?';
+						        $req = $PDO->prepare($query);
+						        $req->execute(array($person['Id_Profil']));
+						        $Tay = $req->fetchAll();
+						        foreach($Tay as $tays)
+										{
+											echo "<tr class='tab_body'>";
+							          echo"<td>".$person['Id_Profil']." : ".$person['email']."</td>";
+							          echo"<td>".round(0.000001*$tays[0],2)." Mo</td>";
+							        echo"</tr>";
+										}
+						      }
+						?>
 
         </tbody>
       </table>
 
     </div>
 
-	<?php endif ?>
+		<?php endif ?>
 
 	  <!-- Page Profil -->
 		<?php include_once('mask_profil.php'); ?>

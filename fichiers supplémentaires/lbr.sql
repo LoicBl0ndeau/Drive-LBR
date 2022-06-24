@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `log_` (
   `Date_de_modification` varchar(50) DEFAULT NULL,
   `Description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`Id_Log_`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `profil` (
   `Role` varchar(50) DEFAULT NULL,
   `pdp` varchar(100) NOT NULL DEFAULT 'images/pdp_user.jpg',
   PRIMARY KEY (`Id_Profil`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `profil`
@@ -132,9 +132,9 @@ CREATE TABLE IF NOT EXISTS `profil` (
 
 INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description`, `Role`, `pdp`) VALUES
 (1, 'louis.boubert.26@gmail.com', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Boubert', 'Louis', 'premier profil', 'Admin', 'images/pdp_user.jpg'),
-(3, 'capellemartin.27@gmail.com', '96f7e2d524182a8b9da4f9a7f3e120eabb9bebab0b75558949a302a6e57f6185', 'Capelle', 'Martin', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
-(4, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
-(5, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg');
+(2, 'capellemartin.27@gmail.com', '96f7e2d524182a8b9da4f9a7f3e120eabb9bebab0b75558949a302a6e57f6185', 'Capelle', 'Martin', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
+(3, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
+(4, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg');
 
 -- --------------------------------------------------------
 

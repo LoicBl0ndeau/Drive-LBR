@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  if (sessionStorage.getItem('morts') == 1) {
+  if (sessionStorage.getItem('afficher_les_users_supprimés') == 1) {
     $('#toggle').attr('checked', 'checked');
   }
   else {
@@ -9,10 +9,10 @@ $(document).ready(function(){
 
   $('#bascule').on("click",function(){
     if ($('#toggle').prop('checked')) {
-      sessionStorage.setItem('morts', 0);
+      sessionStorage.setItem('afficher_les_users_supprimés', 0);
     }
     else {
-      sessionStorage.setItem('morts', 1);
+      sessionStorage.setItem('afficher_les_users_supprimés', 1);
     }
     setTimeout(function(){
       $('#recherche_account_manager').submit();
