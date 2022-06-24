@@ -78,7 +78,7 @@ header > a
 
   #importer
   {
-    background: rgba(200,200,200,.9) !important;
+    background: rgba(215, 46, 42,.9) !important;
     border-radius: 50%;
     padding: 18px;
     position: fixed;
@@ -92,7 +92,6 @@ header > a
     width: 35px;
     height: 35px;
     margin-right: 0 !important;
-    fill: black;
   }
 }
 
