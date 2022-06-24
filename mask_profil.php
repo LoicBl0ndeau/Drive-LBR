@@ -111,7 +111,7 @@
 			 ?>
   </div>
   <div id="container_profil_buttons">
-    <button type="button">Mon profil</button>
+    <button id="mon_profil" type="button">Mon profil</button>
 
 <?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
     <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
@@ -120,6 +120,9 @@
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
+	<div id="container_profil_page">
+		C'est là qu'on va mettre les données du profil !!
+	</div>
 </div>
 
 <script type="text/javascript">

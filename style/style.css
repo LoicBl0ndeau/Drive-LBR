@@ -411,6 +411,13 @@ input[type=file]{
   background: #D72E2A;
 }
 
+#container_profil_page
+{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
             /* Modification pour la page gestionnaire de compte */
 
 #table_compte
