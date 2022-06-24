@@ -60,8 +60,8 @@
               <textarea class="form-control" placeholder="Écrivez la description ici" id="Description" name="Description"></textarea>
           </div>
 					<div class="mb-3">
-							<input type="radio" name="Role" value="Visiteur">
-              <label for="Role" class="form-label">Visiteur</label>
+							<input type="radio" name="Role" value="Lecture">
+              <label for="Role" class="form-label">Lecture</label>
 
               <input type="radio" name="Role" value="Editeur">
               <label for="Role" class="form-label">Editeur</label>
