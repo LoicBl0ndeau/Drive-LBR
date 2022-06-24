@@ -1,6 +1,6 @@
 <?php
 
-function sendmail( string $Email, string $mail)
+function sendmail( string $Email, string $mail, string $MDP_sha256)
 {
 
   $destinataire = $Email;
@@ -262,6 +262,18 @@ function sendmail( string $Email, string $mail)
     //echo "Email envoyé avec succès à $destinataire ... <br><br><br>";
 
     include("connect.php");
+
+    // Ecriture de la requête
+    $sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE email = :email';
+
+    // Préparation
+    $edited_user = $PDO->prepare($sqlQuery);
+
+    // Exécution ! l'utilisateur est maintenant en base de données
+    $edited_user->execute([
+        'MDP' => $MDP_sha256,
+        'email' => $email,
+    ]);
 
     // Ecriture de la requête
     $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';

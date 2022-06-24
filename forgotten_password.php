@@ -87,18 +87,6 @@
 
             include("connect.php");
 
-    				// Ecriture de la requête
-    				$sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE email = :email';
-
-    				// Préparation
-    				$edited_user = $PDO->prepare($sqlQuery);
-
-    				// Exécution ! l'utilisateur est maintenant en base de données
-    				$edited_user->execute([
-    						'MDP' => $MDP_sha256,
-    				    'email' => $email,
-    				]);
-
             // ajout d'une ligne dans le changelog
             // Ecriture de la requête
             $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
@@ -126,7 +114,7 @@
             MAIL;
 
         		include_once('sendmail.php');
-        		sendmail($email,$mail);
+        		sendmail($email,$mail,$MDP_sha256);
   				}
           else
           {
