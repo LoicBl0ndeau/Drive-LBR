@@ -221,8 +221,9 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
     <span id="catégories_de_tags">
       <h1 style="text-align: center;margin-bottom: 10px;">Catégories de tags</h1>
 				<?php if($_SESSION["loggedUser"]["Role"]!="Invité") : ?>
-        <div class="plus" id="plus_cat">+</div><br/>
+        <div class="plus" id="plus_cat">+</div>
 				<?php endif ?>
+				<br/>
 				<?php
 				require('connect.php');
 				$sqlQuery = 'SELECT * FROM categorie';
@@ -269,7 +270,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
 				echo "<div class='container_tags_par_cat' id_cat='".$id_cat[0]."'>";
 				foreach ($nametags as $nametag) {
 					if($nametag['Id_Tag'] == 0 || $_SESSION['loggedUser']['Role'] == "Invité"){
-						echo "<div class='container_tags_options'><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div></div>";
+						echo "<div class='container_tags_options'><div class='tag_pas_modifiable' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div></div>";
 					}
 					else{
 						echo "<div class='container_tags_options'><span class='move_tag'>".$moveSvg."</span><div class='tag' id_tag='".$nametag['Id_Tag']."'>".$nametag['Nom']."</div><span class='delete_tag'>✖</span></div>";

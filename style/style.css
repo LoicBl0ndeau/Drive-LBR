@@ -1039,13 +1039,13 @@ input[name='boutonvalideAddTag'], input[name='boutonvalideSuppTag']
   display: flex;
 }
 
-.tag
+.tag, .tag_pas_modifiable
 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.cat, .tag
+.cat, .tag, .tag_pas_modifiable
 {
   text-align: center;
   margin-left: 6px;
