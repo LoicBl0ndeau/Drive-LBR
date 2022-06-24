@@ -54,7 +54,7 @@ function sendmail( string $Email, string $mail)
                                                                           <tr>
                                                                             <td valign="top">
                                                                               <a href="https://www.lesbriquesrouges.fr/" style="display:block;text-decoration:none;color:#000000;font-weight:bold" target="_blank">
-                                                                                <img width="130" alt="LBR" src="https://www.lesbriquesrouges.fr/_nuxt/img/lesbriquesrouges.f55472d.png" border="0" style="display:block;font-size:16px;font-family:Arial,sans-serif;color:#000000;max-width:130px;font-weight:bold" />
+                                                                                <img width="130" alt="LBR" src="https://reflexhypnose.fr/images/logo_lbr.png" border="0" style="display:block;font-size:16px;font-family:Arial,sans-serif;color:#000000;max-width:130px;font-weight:bold" />
                                                                               </a>
                                                                             </td>
                                                                           </tr>
@@ -262,7 +262,7 @@ function sendmail( string $Email, string $mail)
     //echo "Email envoyé avec succès à $destinataire ... <br><br><br>";
 
     include("connect.php");
-    
+
     // Ecriture de la requête
     $sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
 
