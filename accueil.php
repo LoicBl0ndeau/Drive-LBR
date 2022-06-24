@@ -146,7 +146,7 @@ $compteur_changelog = 0;
 		<header>
 			<a href="accueil.php"><img src="images/logoLONGUEURBlanc.png" alt="logo_longueur_blanc" id="logo_longueur_blanc" /></a>
 			<div id="scearch_bar">
-				<input type="text" id="text_scearch_bar" placeholder='Tapez ".mp4;2021" par exemple.' />
+				<input type="text" id="text_scearch_bar" placeholder='Tapez ".mp4;24/09/2021" par exemple.' />
 				<label for="text_scearch_bar">
 					<svg fill="#FFFF" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px">
 						<path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"/>
@@ -337,47 +337,88 @@ $compteur_changelog = 0;
 			$compteur_container_media = 0;
 			foreach ($res as $media) {
 				if($media['Corbeille'] == 0){
-					if($dateOlder != date_create($media['Date_de_publication'])){
-						if($dateOlder == NULL){
-							$dateOlder = date_create($media['Date_de_publication']);
-							echo "<h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
-						}
-						else{
-							$dateOlder = date_create($media['Date_de_publication']);
-							echo "</div><h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
-						}
-						$compteur_container_media += 1;
-					}
 					if($media['Auteur_Id'] == $_SESSION['loggedUser']['Id_Profil']){
 						$isMediaFromLoggedUser = 1; //True
 					}
 					else{
 						$isMediaFromLoggedUser = 0; //False
 					}
-					if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
-						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+					if($_SESSION['loggedUser']['Role'] == "Invité"){
+						if($isMediaFromLoggedUser == 1){
+							if($dateOlder != date_create($media['Date_de_publication'])){
+								if($dateOlder == NULL){
+									$dateOlder = date_create($media['Date_de_publication']);
+									echo "<h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
+								}
+								else{
+									$dateOlder = date_create($media['Date_de_publication']);
+									echo "</div><h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
+								}
+								$compteur_container_media += 1;
+							}
+							if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+								echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+							}
+							else{
+								echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+							}
+							$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
+							$reqEmail->execute(array($media['Auteur_Id']));
+							$resEmail = $reqEmail->fetchAll();
+							$reqTags = $PDO->prepare("SELECT * FROM caractériser WHERE Id_fichier=?");
+							$reqTags->execute(array($media['Id_fichier']));
+							$resTags = $reqTags->fetchAll();
+							$list_tags = "";
+							$reqNomTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Tag=?");
+							foreach ($resTags as $tag) {
+								$reqNomTags->execute(array($tag['Id_Tag']));
+								$resNomTags = $reqNomTags->fetch();
+								$list_tags .= $resNomTags['Nom'].", ";
+							}
+							$list_tags = substr($list_tags,0,-2);
+							$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: <span class='nom_fichier'>".$media['Titre']."</span><br /><br />Auteur: <span class='mail_auteurs' style='display: none;'><span class='prenom'>".$resEmail[0]['Prenom']."</span> <span class='nom'>".$resEmail[0]['Nom']."</span> (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span><span class='date_ajout_fr'>".date('d/m/Y',strtotime($media['Date_de_publication']))."</span><br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <span class='liste_des_tags'>".$list_tags."</span><br /></div>";
+							echo <<<END
+								<script>$('body').append("{$appendInfos}")</script>
+								END;
+						}
 					}
 					else{
-						echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						if($dateOlder != date_create($media['Date_de_publication'])){
+							if($dateOlder == NULL){
+								$dateOlder = date_create($media['Date_de_publication']);
+								echo "<h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
+							}
+							else{
+								$dateOlder = date_create($media['Date_de_publication']);
+								echo "</div><h1 style='text-align: center;' titre_associe_container_media='".$compteur_container_media."' class='titre_container_media'>".$dateOlder->format('d')." ".mois($dateOlder->format('m'))." ".$dateOlder->format('Y')."</h1><div class='container_media' titre_associe_container_media='".$compteur_container_media."'>";
+							}
+							$compteur_container_media += 1;
+						}
+						if(in_array($media['Type'],$extensionsImage)){ //Si c'est une image
+							echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><img class='img_media' src='".$media['bin']."' alt='".$media['Titre']."' /></div>";
+						}
+						else{
+							echo "<div class='marge' isMediaFromLoggedUser='".$isMediaFromLoggedUser."' id_media='".$media['Id_fichier']."'><div class='player'><video><source src='".$media['bin']."' />Your browser does not support the video tag.</video><img src='images/play.png' class='play' alt='PLAY' /></div></div>";
+						}
+						$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
+						$reqEmail->execute(array($media['Auteur_Id']));
+						$resEmail = $reqEmail->fetchAll();
+						$reqTags = $PDO->prepare("SELECT * FROM caractériser WHERE Id_fichier=?");
+						$reqTags->execute(array($media['Id_fichier']));
+						$resTags = $reqTags->fetchAll();
+						$list_tags = "";
+						$reqNomTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Tag=?");
+						foreach ($resTags as $tag) {
+							$reqNomTags->execute(array($tag['Id_Tag']));
+							$resNomTags = $reqNomTags->fetch();
+							$list_tags .= $resNomTags['Nom'].", ";
+						}
+						$list_tags = substr($list_tags,0,-2);
+						$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: <span class='nom_fichier'>".$media['Titre']."</span><br /><br />Auteur: <span class='mail_auteurs' style='display: none;'><span class='prenom'>".$resEmail[0]['Prenom']."</span> <span class='nom'>".$resEmail[0]['Nom']."</span> (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span><span class='date_ajout_fr'>".date('d/m/Y',strtotime($media['Date_de_publication']))."</span><br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <span class='liste_des_tags'>".$list_tags."</span><br /></div>";
+						echo <<<END
+							<script>$('body').append("{$appendInfos}")</script>
+							END;
 					}
-					$reqEmail = $PDO->prepare("SELECT * FROM profil WHERE Id_Profil=?");
-					$reqEmail->execute(array($media['Auteur_Id']));
-					$resEmail = $reqEmail->fetchAll();
-					$reqTags = $PDO->prepare("SELECT * FROM caractériser WHERE Id_fichier=?");
-					$reqTags->execute(array($media['Id_fichier']));
-					$resTags = $reqTags->fetchAll();
-					$list_tags = "";
-					$reqNomTags = $PDO->prepare("SELECT * FROM tag WHERE Id_Tag=?");
-					foreach ($resTags as $tag) {
-						$reqNomTags->execute(array($tag['Id_Tag']));
-						$resNomTags = $reqNomTags->fetch();
-						$list_tags .= $resNomTags['Nom'].", ";
-					}
-					$list_tags = substr($list_tags,0,-2);
-					$appendInfos = "<div class='container_informations' id_media='container_inf_".$media['Id_fichier']."'><br /><h2 class='menu_informations'>Informations <span class='fermer_informations'>✖</span></h2><br />Nom: ".$media['Titre']."<br /><br />Auteur: <span class='mail_auteurs' style='display: none;'>".$resEmail[0]['Prenom']." ".$resEmail[0]['Nom']." (".$resEmail[0]['Description'].")</span>".$resEmail[0]['email']."<br /><br />Date d'ajout: <span class='date_ajout'>".$media['Date_de_publication']."</span>".date('d/m/Y',strtotime($media['Date_de_publication']))."<br /><br />Taille: ".round(0.000001*$media['Taille'], 2)." Mo (".$media['Taille']." octets)<br /><br />Tags: <span class='liste_des_tags'>".$list_tags."</span><br /></div>";
-					echo <<<END
-						<script>$('body').append("{$appendInfos}")</script>
-						END;
 				}
 			}
 	 	?>

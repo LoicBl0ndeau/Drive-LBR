@@ -287,8 +287,8 @@ if (
     <button id="mon_profil" type="button">Mon profil</button>
 
 <?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
-    <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Gestionnaire de compte</button> <!-- c'est en attendant le bon menu -->
-		<button type="button" onclick="window.location.href='changelog.php';" >Historique de modification</button> <!-- c'est en attendant le bon menu -->
+    <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Gestionnaire de compte</button>
+		<button type="button" onclick="window.location.href='changelog.php';" >Historique de modification</button>
 		<button type="button" onclick="window.location.href='stockage.php';">Stockage</button>
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
