@@ -9,6 +9,8 @@
 
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
+
+
 ?>
 <?php //ajouter un tag à un media
 	if(isset($_SESSION['random_OK'], $_POST['randomformAddTAG']) && $_POST['randomformAddTAG'] == $_SESSION['random_OK']){
@@ -119,6 +121,10 @@
 		<title>Drive - Les Briques Rouges</title>
 	</head>
   <body>
+		<?php
+			echo "<script> sessionStorage.setItem('role','".$_SESSION['loggedUser']['Role']."');</script>";
+		?>
+
 		<form method="post" id="download"><input type="hidden" name="src_download" /></form>
 		<form method="post" id="delete" enctype="multipart/form-data"><input type="hidden" name="delete" /><input type="hidden" name="randomdeleteOK" value="<?php echo $_SESSION['random_OK']; ?>" /></form>
 		<div id="lecteur"></div>
