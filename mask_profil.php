@@ -41,6 +41,171 @@
 	$_SESSION['random_ok_pdp'] = uniqid(); // nombre aléatoire unique
 ?>
 
+<?php
+
+$postData = $_POST;
+
+if (
+	isset($_POST['new_Prenom']) && !empty($_POST['new_Prenom']) &&
+	isset($_POST['new_Nom']) && !empty($_POST['new_Nom'])
+	)
+{
+	if ($_POST['new_Prenom'] != $_SESSION['loggedUser']['Prenom']) {
+		//echo "vous avez modifié votre Prénom";
+
+		$new_Prenom = strip_tags($postData['new_Prenom']);
+
+		include("connect.php");
+
+		// Ecriture de la requête
+		$sqlQuery = 'UPDATE profil SET Prenom = :Prenom WHERE Id_Profil = :Id_Profil';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
+				'Prenom' => $new_Prenom,
+		]);
+
+		$_SESSION['loggedUser']['Prenom'] = $new_Prenom;
+
+		//   ajout d'une ligne dans le changelog
+		// Ecriture de la requête
+		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+				'Date_de_modification' => date('d-m-y H:i:s'),
+				'Description' => "Modification interne du Prenom par : $new_Prenom",
+		]);
+
+	}
+	if ($_POST['new_Nom'] != $_SESSION['loggedUser']['Nom']) {
+		//echo "vous avez modifié votre Nom";
+
+		$new_Nom = strip_tags($postData['new_Nom']);
+
+		include("connect.php");
+
+		// Ecriture de la requête
+		$sqlQuery = 'UPDATE profil SET Nom = :Nom WHERE Id_Profil = :Id_Profil';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
+				'Nom' => $new_Nom,
+		]);
+
+		$_SESSION['loggedUser']['Nom'] = $new_Nom;
+
+		//   ajout d'une ligne dans le changelog
+		// Ecriture de la requête
+		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+				'Date_de_modification' => date('d-m-y H:i:s'),
+				'Description' => "Modification interne du Nom par : $new_Nom",
+		]);
+
+	}
+}
+
+if (
+	isset($_POST['old_MDP']) && !empty($_POST['old_MDP']) &&
+	isset($_POST['new_MDP']) && !empty($_POST['new_MDP']) &&
+	isset($_POST['new_MDP_confirmation']) && !empty($_POST['new_MDP_confirmation'])
+	)
+{
+	include_once('functions.php');
+	if (!check_mdp_format($_POST['new_MDP']) || !check_mdp_format($_POST['new_MDP_confirmation']))
+	{
+		echo '<script>alert("Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial pour un total d\'au moins 8 caractères.")</script>';
+	}
+	else
+	{
+		include("connect.php");
+
+		// Ecriture de la requête
+		$sqlQuery = 'SELECT MDP from profil WHERE Id_Profil = :Id_Profil';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil']
+		]);
+
+		$actual_MDPs = $edited_user->fetchAll();
+
+		$old_MDP = hash('sha256', strip_tags($postData['old_MDP']));
+		$new_MDP = hash('sha256', strip_tags($postData['new_MDP']));
+		$new_MDP_confirmation = hash('sha256', strip_tags($postData['new_MDP_confirmation']));
+
+		foreach ($actual_MDPs as $actual_MDP)
+		{
+			if (($old_MDP == $actual_MDP['MDP']) && ($new_MDP == $new_MDP_confirmation))
+			{
+				//echo '<script>alert("on accepte le mdp")</script>';
+				include("connect.php");
+
+				// Ecriture de la requête
+				$sqlQuery = 'UPDATE profil SET MDP = :MDP WHERE Id_Profil = :Id_Profil';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+				    'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
+						'MDP' => $new_MDP
+				]);
+
+				//   ajout d'une ligne dans le changelog
+				// Ecriture de la requête
+				$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+				// Préparation
+				$edited_user = $PDO->prepare($sqlQuery);
+
+				// Exécution ! l'utilisateur est maintenant en base de données
+				$edited_user->execute([
+						'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+						'Date_de_modification' => date('d-m-y H:i:s'),
+						'Description' => "Modification interne du mot de passe",
+				]);
+
+			}
+			elseif ($old_MDP != $actual_MDP['MDP'])
+			{
+				echo '<script>alert("L\'ancien mot de passe n\'est pas le bon !")</script>';
+			}
+			elseif ($new_MDP != $new_MDP_confirmation) {
+				echo '<script>alert("La confirmation du nouveau mot de passe n\'est pas concluante !")</script>';
+			}
+			else {
+				echo '<script>alert("Condition(s) manquante !!!!!!!! ")</script>';
+			}
+		}
+	}
+}
+
+?>
+
 
 
 <div id="mask_profil"></div>
@@ -122,33 +287,34 @@
     <button id="mon_profil" type="button">Mon profil</button>
 
 <?php if($_SESSION["loggedUser"]["Role"]=="Admin") : ?>
-    <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Account manager</button> <!-- c'est en attendant le bon menu -->
-		<button type="button" onclick="window.location.href='changelog.php';" >Changelog</button> <!-- c'est en attendant le bon menu -->
+    <button type="button" onclick="window.location.href='account_Manager_accueil.php';" >Gestionnaire de compte</button> <!-- c'est en attendant le bon menu -->
+		<button type="button" onclick="window.location.href='changelog.php';" >Historique de modification</button> <!-- c'est en attendant le bon menu -->
 		<button type="button" onclick="window.location.href='stockage.php';">Stockage</button>
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
 	<span id="container_profil_page">
-		<form class="" method="post">
+		<form method="post">
 			<div class="mb-3">
 					<label for="Prenom" class="form-label">Prenom</label>
-					<input type="text" class="form-control_PP" id="Prenom" name="Prenom" value="<?php echo $_SESSION['loggedUser']['Prenom'] ?>">
+					<input type="text" class="form-control_PP" id="Prenom" name="new_Prenom" value="<?php echo $_SESSION['loggedUser']['Prenom'] ?>">
 			</div>
 			<div class="mb-3">
 					<label for="Nom" class="form-label">Nom</label>
-					<input type="text" class="form-control_PP" id="Nom" name="Nom" value="<?php echo $_SESSION['loggedUser']['Nom'] ?>">
+					<input type="text" class="form-control_PP" id="Nom" name="new_Nom" value="<?php echo $_SESSION['loggedUser']['Nom'] ?>">
 			</div>
 			<input type="checkbox" name="MDP_changed" id="btn_modifier_le_mdp" value="1">Modifier le mot de passe</input>
 			<div class="mb-3" id="modifier_le_mdp">
 					<label for="old_MDP" class="form-label">Ancien Mot de passe</label>
-					<input type="text" class="form-control_PP" id="old_MDP" name="old_MDP">
+					<input type="password" class="form-control_PP" id="old_MDP" name="old_MDP">
 					<label for="new_MDP" class="form-label">Nouveau Mot de passe</label>
-					<input type="text" class="form-control_PP" id="new_MDP" name="new_MDP">
+					<input type="password" class="form-control_PP" id="new_MDP" name="new_MDP">
 					<label for="new_MDP_confirmation" class="form-label">Confirmation du nouveau Mot de passe</label>
-					<input type="text" class="form-control_PP" id="new_MDP_confirmation" name="new_MDP_confirmation">
+					<input type="password" class="form-control_PP" id="new_MDP_confirmation" name="new_MDP_confirmation">
 			</div>
-			<div class="mb-3">
+			<div style="display: flex;justify-content: space-between;">
 				<button type="submit">Valider</button>
+				<button id="mon_profil_escape" type="button">Retour</button>
 			</div>
 		</form>
 	</span>
@@ -171,6 +337,12 @@
 		$('#modifier_le_mdp').css("display","none");
 		$('#container_profil_buttons').css("display","none");
   });
+	$('#mon_profil_escape').on("click",function(){
+    $('#container_profil_page').css("display","none");
+		$('#container_profil_buttons').css("display","flex");
+  });
+
+
   $('#container_deconnexion *').on("click",function(){
     window.location.replace("logout.php");
   });

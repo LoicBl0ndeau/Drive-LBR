@@ -119,7 +119,7 @@ sendmail($Email,$mail);
 
 	      <!-- Navigation -->
 	    <header>
-	      <?php include_once('account_Manager_header.php'); ?>
+	      <?php include_once('account_Manager_header_lite.php'); ?>
 	    </header>
 
 	      <div class="container">

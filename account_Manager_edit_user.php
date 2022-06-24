@@ -63,7 +63,7 @@ $edit_users = $userStatement->fetchAll();
   <body class="d-flex flex-column min-vh-100">
       <!-- Navigation -->
     <header>
-      <?php include_once('account_Manager_header.php'); ?>
+      <?php include_once('account_Manager_header_lite.php'); ?>
     </header>
 
     <div class="container">
@@ -102,8 +102,8 @@ $edit_users = $userStatement->fetchAll();
 							<input type="radio" name="Role" value="Lecture">
               <label for="Role" class="form-label">Lecture</label>
 
-              <input type="radio" name="Role" value="Editeur">
-              <label for="Role" class="form-label">Editeur</label>
+              <input type="radio" name="Role" value="Ecriture">
+              <label for="Role" class="form-label">Ecriture</label>
 
               <input type="radio" name="Role" value="Invité">
               <label for="Role" class="form-label">Invité</label>

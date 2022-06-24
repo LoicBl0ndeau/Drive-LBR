@@ -81,7 +81,7 @@ if (!check_mdp_format($MDP))
 
       <!-- Navigation -->
     <header>
-      <?php include_once('account_Manager_header.php'); ?>
+      <?php include_once('account_Manager_header_lite.php'); ?>
     </header>
 
 		<?php
