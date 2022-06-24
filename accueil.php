@@ -66,6 +66,7 @@
 	unset($_POST['randomdeleteOK']);
 ?>
 <?php // importer des photos
+$compteur_changelog = 0;
 	if(isset($_SESSION['random_OK'], $_POST['randomformOK']) && $_POST['randomformOK'] == $_SESSION['random_OK']){ // Protection contre "actualiser la page"
 		$total_count = count($_FILES['media']['name']);
 		for( $i=0 ; $i < $total_count ; $i++ ) {
@@ -87,19 +88,7 @@
 						$date = date('Y-m-d H:i:s',filemtime($chemin));
 						$req=$PDO->prepare("insert into fichier(Type,Titre,Auteur_Id,Taille,Date_de_publication,bin) values(?,?,?,?,?,?)");
 			    	$req->execute(array($_FILES["media"]["type"][$i],$_FILES["media"]["name"][$i],$_SESSION['loggedUser']['Id_Profil'],$_FILES["media"]["size"][$i],$date,$chemin));
-						//   ajout d'une ligne dans le changelog
-						// Ecriture de la requête
-						$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
-
-						// Préparation
-						$edited_user = $PDO->prepare($sqlQuery);
-
-						// Exécution ! l'utilisateur est maintenant en base de données
-						$edited_user->execute([
-								'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
-								'Date_de_modification' => date('d-m-y H:i:s'),
-								'Description' => "Ajout de d'un média dans le drive : ".$_FILES['media']['name'][$i] . $_FILES['media']['type'][$i],
-						]);
+						$compteur_changelog++;
 					}
 					else{
 						echo "<script>alert('Erreur, mauvaise extension: .".$extension."');</script>";
@@ -113,6 +102,19 @@
 				echo "<script>alert('Erreur lors de l\'upload. Erreur n°".$_FILES['media']['error'][$i].". Voir https://www.php.net/manual/fr/features.file-upload.errors.php');</script>";
 			}
 		}
+		//   ajout d'une ligne dans le changelog
+		// Ecriture de la requête
+		$sqlQuery = 'INSERT INTO log_(Nom, Date_de_modification, Description) VALUES (:Nom, :Date_de_modification, :Description)';
+
+		// Préparation
+		$edited_user = $PDO->prepare($sqlQuery);
+
+		// Exécution ! l'utilisateur est maintenant en base de données
+		$edited_user->execute([
+				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
+				'Date_de_modification' => date('d-m-y H:i:s'),
+				'Description' => "Ajout de ".$compteur_changelog." média(s) dans le drive",
+		]);
 	}
 	unset($_POST['randomformOK']);
 	// Protection contre "actualiser la page" ou envoi depuis l'extérieur (vol de formulaire)
