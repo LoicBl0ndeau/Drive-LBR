@@ -128,15 +128,37 @@
 <?php endif ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
   </div>
-	<div id="container_profil_page">
-		C'est là qu'on va mettre les données du profil !!
-	</div>
+	<span id="container_profil_page">
+		<form class="" method="post">
+			<div class="mb-3">
+					<label for="Prenom" class="form-label">Prenom</label>
+					<input type="text" class="form-control_PP" id="Prenom" name="Prenom" value="<?php echo $_SESSION['loggedUser']['Prenom'] ?>">
+			</div>
+			<div class="mb-3">
+					<label for="Nom" class="form-label">Nom</label>
+					<input type="text" class="form-control_PP" id="Nom" name="Nom" value="<?php echo $_SESSION['loggedUser']['Nom'] ?>">
+			</div>
+			<input type="checkbox" name="MDP_changed" id="btn_modifier_le_mdp" value="1">Modifier le mot de passe</input>
+			<div class="mb-3" id="modifier_le_mdp">
+					<label for="old_MDP" class="form-label">Ancien Mot de passe</label>
+					<input type="text" class="form-control_PP" id="old_MDP" name="old_MDP">
+					<label for="new_MDP" class="form-label">Nouveau Mot de passe</label>
+					<input type="text" class="form-control_PP" id="new_MDP" name="new_MDP">
+					<label for="new_MDP_confirmation" class="form-label">Confirmation du nouveau Mot de passe</label>
+					<input type="text" class="form-control_PP" id="new_MDP_confirmation" name="new_MDP_confirmation">
+			</div>
+			<div class="mb-3">
+				<button type="submit">Valider</button>
+			</div>
+		</form>
+	</span>
 </div>
 
 <script type="text/javascript">
   $('#pdp_user').on("click",function(){
     $('#profil').css("transform","translate(0,-50%)");
     $('#mask_profil').css("transform","translateX(0)");
+		$('#container_profil_page').css("display","none");
     $('*:not(#mask_profil,html,body, #container_header_right, header, #profil,#profil *)').css("filter","blur(2px)");
   });
   $('#mask_profil').on("click",function(){
@@ -144,10 +166,28 @@
     $('#mask_profil').css("transform","translateX(100vw)");
     $('*:not(#mask_profil,html,body, #profil,#profil *)').css("filter","");
   });
+	$('#mon_profil').on("click",function(){
+    $('#container_profil_page').css("display","flex");
+		$('#modifier_le_mdp').css("display","none");
+		$('#container_profil_buttons').css("display","none");
+  });
   $('#container_deconnexion *').on("click",function(){
     window.location.replace("logout.php");
   });
   $('#changer_pdp').on("change",function(){
     $('#form_profil').submit();
   });
+
+	$('#btn_modifier_le_mdp').on('click', function(){
+	  isChecked = $(this).is(':checked')
+
+	  if(isChecked){
+	    $('#modifier_le_mdp').css("display","block");
+	  }
+	  else{
+	    $('#modifier_le_mdp').css("display","none");
+	  }
+	});
+
+
 </script>

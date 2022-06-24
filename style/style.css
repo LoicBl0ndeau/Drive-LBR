@@ -422,6 +422,7 @@ input[type=file]{
   transition: background .2s;
 }
 
+
 #container_profil_buttons button:hover
 {
   background: #D72E2A;
@@ -432,8 +433,25 @@ input[type=file]{
   display: flex;
   flex-direction: column;
   padding: 15px;
+  color: white;
 }
 
+#container_profil_page button
+{
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+  margin: 5px;
+  font-size: 20px;
+  transition: background .2s;
+}
+
+#container_profil_page button:hover
+{
+  background: #D72E2A;
+}
             /* Modification pour la page gestionnaire de compte */
 
 #table_compte
@@ -616,6 +634,25 @@ tr.tab_body:hover {background-color: lightgray;}
 
 textarea.form-control {
     min-height: calc(1.5em + (.75rem + 2px));
+}
+
+.form-control_PP
+{
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 96%;
+  padding: .375rem 2%;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
 .btn {
