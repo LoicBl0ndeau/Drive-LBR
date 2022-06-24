@@ -63,7 +63,7 @@ if (
 		// Préparation
 		$req = $PDO->prepare($sqlQuery);
 
-		// Exécution ! l'utilisateur est maintenant en base de données
+		// Exécution ! l'utilisateur est maintenant mise à jour en base de données
 		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 				'Prenom' => $new_Prenom,
@@ -78,7 +78,7 @@ if (
 		// Préparation
 		$req = $PDO->prepare($sqlQuery);
 
-		// Exécution ! l'utilisateur est maintenant en base de données
+		// Exécution ! le changelog est maintenant mis à jour
 		$req->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
@@ -99,7 +99,7 @@ if (
 		// Préparation
 		$req = $PDO->prepare($sqlQuery);
 
-		// Exécution ! l'utilisateur est maintenant en base de données
+		// Exécution ! l'utilisateur est maintenant mise à jour en base de données
 		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 				'Nom' => $new_Nom,
@@ -114,7 +114,7 @@ if (
 		// Préparation
 		$req = $PDO->prepare($sqlQuery);
 
-		// Exécution ! l'utilisateur est maintenant en base de données
+		// Exécution ! le changelog est maintenant mis à jour
 		$req->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
@@ -145,7 +145,6 @@ if (
 		// Préparation
 		$req = $PDO->prepare($sqlQuery);
 
-		// Exécution ! l'utilisateur est maintenant en base de données
 		$req->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil']
 		]);
@@ -169,7 +168,7 @@ if (
 				// Préparation
 				$req = $PDO->prepare($sqlQuery);
 
-				// Exécution ! l'utilisateur est maintenant en base de données
+				// Exécution ! l'utilisateur est maintenant mise à jour en base de données
 				$req->execute([
 				    'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
 						'MDP' => $new_MDP
@@ -182,7 +181,7 @@ if (
 				// Préparation
 				$req = $PDO->prepare($sqlQuery);
 
-				// Exécution ! l'utilisateur est maintenant en base de données
+				// Exécution ! le changelog est maintenant mis à jour
 				$req->execute([
 						'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 						'Date_de_modification' => date('d-m-y H:i:s'),
