@@ -46,14 +46,14 @@
 $postData = $_POST;
 
 if (
-	isset($_POST['Prenom']) && !empty($_POST['Prenom']) &&
-	isset($_POST['Nom']) && !empty($_POST['Nom'])
+	isset($_POST['new_Prenom']) && !empty($_POST['new_Prenom']) &&
+	isset($_POST['new_Nom']) && !empty($_POST['new_Nom'])
 	)
 {
-	if ($_POST['Prenom'] != $_SESSION['loggedUser']['Prenom']) {
+	if ($_POST['new_Prenom'] != $_SESSION['loggedUser']['Prenom']) {
 		//echo "vous avez modifié votre Prénom";
 
-		$Prenom = strip_tags($postData['Prenom']);
+		$new_Prenom = strip_tags($postData['Prenom']);
 
 		include("connect.php");
 
@@ -66,10 +66,10 @@ if (
 		// Exécution ! l'utilisateur est maintenant en base de données
 		$edited_user->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
-				'Prenom' => $Prenom,
+				'Prenom' => $new_Prenom,
 		]);
 
-		$_SESSION['loggedUser']['Prenom'] = $Prenom;
+		$_SESSION['loggedUser']['Prenom'] = $new_Prenom;
 
 		//   ajout d'une ligne dans le changelog
 		// Ecriture de la requête
@@ -82,14 +82,14 @@ if (
 		$edited_user->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
-				'Description' => "Modification interne du Prenom par : $Prenom",
+				'Description' => "Modification interne du Prenom par : $new_Prenom",
 		]);
 
 	}
-	if ($_POST['Nom'] != $_SESSION['loggedUser']['Nom']) {
+	if ($_POST['new_Nom'] != $_SESSION['loggedUser']['Nom']) {
 		//echo "vous avez modifié votre Nom";
 
-		$Nom = strip_tags($postData['Nom']);
+		$new_Nom = strip_tags($postData['Nom']);
 
 		include("connect.php");
 
@@ -102,10 +102,10 @@ if (
 		// Exécution ! l'utilisateur est maintenant en base de données
 		$edited_user->execute([
 				'Id_Profil' => $_SESSION['loggedUser']['Id_Profil'],
-				'Nom' => $Nom,
+				'Nom' => $new_Nom,
 		]);
 
-		$_SESSION['loggedUser']['Nom'] = $Nom;
+		$_SESSION['loggedUser']['Nom'] = $new_Nom;
 
 		//   ajout d'une ligne dans le changelog
 		// Ecriture de la requête
@@ -118,7 +118,7 @@ if (
 		$edited_user->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
-				'Description' => "Modification interne du Nom par : $Nom",
+				'Description' => "Modification interne du Nom par : $new_Nom",
 		]);
 
 	}
@@ -297,11 +297,11 @@ if (
 		<form method="post">
 			<div class="mb-3">
 					<label for="Prenom" class="form-label">Prenom</label>
-					<input type="text" class="form-control_PP" id="Prenom" name="Prenom" value="<?php echo $_SESSION['loggedUser']['Prenom'] ?>">
+					<input type="text" class="form-control_PP" id="Prenom" name="new_Prenom" value="<?php echo $_SESSION['loggedUser']['Prenom'] ?>">
 			</div>
 			<div class="mb-3">
 					<label for="Nom" class="form-label">Nom</label>
-					<input type="text" class="form-control_PP" id="Nom" name="Nom" value="<?php echo $_SESSION['loggedUser']['Nom'] ?>">
+					<input type="text" class="form-control_PP" id="Nom" name="new_Nom" value="<?php echo $_SESSION['loggedUser']['Nom'] ?>">
 			</div>
 			<input type="checkbox" name="MDP_changed" id="btn_modifier_le_mdp" value="1">Modifier le mot de passe</input>
 			<div class="mb-3" id="modifier_le_mdp">
