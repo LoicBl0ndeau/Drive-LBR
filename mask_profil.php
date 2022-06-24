@@ -53,7 +53,7 @@ if (
 	if ($_POST['new_Prenom'] != $_SESSION['loggedUser']['Prenom']) {
 		//echo "vous avez modifié votre Prénom";
 
-		$new_Prenom = strip_tags($postData['Prenom']);
+		$new_Prenom = strip_tags($postData['new_Prenom']);
 
 		include("connect.php");
 
@@ -89,7 +89,7 @@ if (
 	if ($_POST['new_Nom'] != $_SESSION['loggedUser']['Nom']) {
 		//echo "vous avez modifié votre Nom";
 
-		$new_Nom = strip_tags($postData['Nom']);
+		$new_Nom = strip_tags($postData['new_Nom']);
 
 		include("connect.php");
 
