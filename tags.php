@@ -113,6 +113,9 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformModifCAT']) && $_POST['ra
 if(isset($_SESSION['random_ok_tag'], $_POST['randomformSuppCAT']) && $_POST['randomformSuppCAT'] == $_SESSION['random_ok_tag']){
 	if(isset($_POST['boutonSuppcat'])){
 		require('connect.php');
+		$query = "UPDATE tag SET Id_Catégorie=0 WHERE Id_Catégorie = ?";
+		$resultStatement = $PDO->prepare($query);
+		$resultStatement->execute(array($_POST['id_cat_clicked']));
 		$query = "DELETE FROM categorie WHERE Id_Catégorie = ?";
 		$resultStatement = $PDO->prepare($query);
 		$resultStatement->execute(array($_POST['id_cat_clicked']));
@@ -278,6 +281,7 @@ if(isset($_SESSION['random_ok_tag'], $_POST['randomformMoveTAG']) && $_POST['ran
 	<form method="post" id="suppcat" name='suppcat'>
 
 			Voulez-vous vraiment supprimer cette catégorie ?<br />
+			Les tags contenus à l'intérieur seront déplacés vers la catégorie "Autre".<br />
 			<input type="hidden" name="randomformSuppCAT" value="<?php echo $_SESSION['random_ok_tag']; ?>" />
 			<input type="hidden" class="id_cat_clicked" name="id_cat_clicked" />
 			<input type="submit" name="boutonSuppcat" value="Valider"/>

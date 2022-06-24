@@ -105,6 +105,18 @@ form .boutonConnexion button
   margin-left: 10px;
 }
 
+@media only screen and (max-width: 900px) {
+  form
+  {
+    width: 75vw;
+  }
+
+  form .saisie
+  {
+    width: calc(75vw - 20px);
+  }
+}
+
 @keyframes launch {
   from
   {

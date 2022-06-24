@@ -32,7 +32,7 @@
 			<br />
 			<br />
 			<div class="boutonConnexion">
-				<button type="submit" id="bouton_login">Se connecter <img src="images/rocket_red.36c56db.svg" class="rocket" /></button>
+				<button type="submit" id="bouton_login">Se&nbsp;connecter <img src="images/rocket_red.36c56db.svg" class="rocket" /></button>
 			</div>
 		</form>
 		<?php

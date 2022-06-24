@@ -431,10 +431,7 @@ input[type=file]{
 
 #table_compte
 {
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+overflow: auto;
 }
 
 #container_tags{
@@ -482,8 +479,6 @@ table
 width: 100%;
 border-collapse: collapse;
 text-align: center;
-display: inline-table;
-overflow: auto;
 }
 
 thead
@@ -935,6 +930,7 @@ input[name='boutonvalideAddTag'], input[name='boutonvalideSuppTag']
   left: calc(50vw - 50vmin / 2);
   top: 50%;
   z-index: 100;
+  padding: 10px;
   transform: translate(-100vw,-50%);
   transition: transform .5s;
   background-color: #D72E2A;
