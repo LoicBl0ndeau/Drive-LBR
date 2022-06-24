@@ -82,7 +82,7 @@ if (
 		$edited_user->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
-				'Description' => "Modification du Prenom par : $Prenom",
+				'Description' => "Modification interne du Prenom par : $Prenom",
 		]);
 
 	}
@@ -118,7 +118,7 @@ if (
 		$edited_user->execute([
 				'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 				'Date_de_modification' => date('d-m-y H:i:s'),
-				'Description' => "Modification du Nom par : $Nom",
+				'Description' => "Modification interne du Nom par : $Nom",
 		]);
 
 	}
@@ -186,7 +186,7 @@ if (
 				$edited_user->execute([
 						'Nom' => $_SESSION['loggedUser']['Id_Profil'] . " : " . $_SESSION['loggedUser']['email'],
 						'Date_de_modification' => date('d-m-y H:i:s'),
-						'Description' => "Modification du mot de passe",
+						'Description' => "Modification interne du mot de passe",
 				]);
 
 			}
