@@ -35,10 +35,6 @@
       <?php include_once('account_Manager_header.php'); ?>
     </header>
 
-		<?php if (empty($users)) : ?>
-			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
-		<?php else : ?>
-
     <div id="table_compte">
 
 			<table>
@@ -53,6 +49,13 @@
           </tr>
         </thead>
         <tbody>
+					<?php if (empty($users)) : ?>
+					</tbody>
+				</table>
+
+			</div>
+			<div class="container alert alert-danger" role="alert"> <?php echo 'Il n\'y a pas de résultats pour votre recherche' ?></div><br></br>
+					<?php else : ?>
 					<?php foreach($users as $user) : ?>
 						<tr class="tab_body">
 							<td><?php echo $user['Nom']?></td>

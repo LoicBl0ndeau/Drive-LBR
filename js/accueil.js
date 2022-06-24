@@ -255,7 +255,7 @@ $(document).ready(function(){
       }
     }
   });
-
+if(sessionStorage.getItem('role')=='Admin'){
   $.contextMenu({
     selector: '.img_media, .player',
     zIndex: 50,
@@ -281,6 +281,7 @@ $(document).ready(function(){
           $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
         }
       },
+
       supprimer: {
         name: "Supprimer",
         callback: function(itemKey, opt){
@@ -293,6 +294,8 @@ $(document).ready(function(){
           $('#delete').submit();
         }
       },
+
+
       telecharger: {
         name: "Télécharger",
         callback: function(itemKey, opt){
@@ -307,4 +310,149 @@ $(document).ready(function(){
       }
     }
   });
+}
+else if(sessionStorage.getItem('role')=='Lecture'){
+  $.contextMenu({
+    selector: '.img_media, .player',
+    zIndex: 50,
+    items: {
+      informations: {
+        name: "Informations",
+        callback: function(itemKey, opt){
+          $('.container_informations').css("transform","translateX(-130%)");
+          $('[id_media=container_inf_'+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0px)");
+        }
+      },
+
+
+
+      telecharger: {
+        name: "Télécharger",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#download input').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#download input').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#download').submit();
+        }
+      }
+    }
+  });
+}
+
+else if(sessionStorage.getItem('role')=='Ecriture'){
+  $.contextMenu({
+    selector: '.img_media, .player',
+    zIndex: 50,
+    items: {
+      informations: {
+        name: "Informations",
+        callback: function(itemKey, opt){
+          $('.container_informations').css("transform","translateX(-130%)");
+          $('[id_media=container_inf_'+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0px)");
+        }
+      },
+      addTags: {
+        name: "Ajouter des tags",
+        callback: function(itemKey, opt){
+          $('.ajouter_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
+          $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
+        }
+      },
+      delTags: {
+        name: "Supprimer des tags",
+        callback: function(itemKey, opt){
+          $('.supprimer_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
+          $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
+        }
+      },
+
+      supprimer: {
+        name: "Supprimer",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#delete input[name=delete]').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#delete input[name=delete]').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#delete').submit();
+        }
+      },
+
+
+      telecharger: {
+        name: "Télécharger",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#download input').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#download input').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#download').submit();
+        }
+      }
+    }
+  });
+}
+else if(sessionStorage.getItem('role')=='Invité'){
+  $.contextMenu({
+    selector: '.img_media, .player',
+    zIndex: 50,
+    items: {
+      informations: {
+        name: "Informations",
+        callback: function(itemKey, opt){
+          $('.container_informations').css("transform","translateX(-130%)");
+          $('[id_media=container_inf_'+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0px)");
+        }
+      },
+      addTags: {
+        name: "Ajouter des tags",
+        callback: function(itemKey, opt){
+          $('.ajouter_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
+          $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
+        }
+      },
+      delTags: {
+        name: "Supprimer des tags",
+        callback: function(itemKey, opt){
+          $('.supprimer_tags[id_fichier='+opt.$trigger.parent().attr("id_media")+']').css("transform","translateX(0)");
+          $('input[name=id_fichier]').val(opt.$trigger.parent().attr("id_media"));
+        }
+      },
+
+      supprimer: {
+        name: "Supprimer",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#delete input[name=delete]').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#delete input[name=delete]').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#delete').submit();
+        }
+      },
+
+
+      telecharger: {
+        name: "Télécharger",
+        callback: function(itemKey, opt){
+          if(opt.$trigger.hasClass("player")){
+            $('#download input').attr("value",opt.$trigger.find('source').attr("src"));
+          }
+          else{
+            $('#download input').attr("value",opt.$trigger.attr("src"));
+          }
+          $('#download').submit();
+        }
+      }
+    }
+  });
+}
+
 });
