@@ -51,6 +51,51 @@ header > a
   align-items: center;
 }
 
+@media only screen and (max-width: 750px)
+{
+  header a[href='accueil.php']
+  {
+    display: none;
+  }
+
+  #scearch_bar
+  {
+    margin-left: auto;
+  }
+
+  #container_header_right
+  {
+    margin-left: auto;
+  }
+}
+
+@media only screen and (max-width: 450px)
+{
+  #importer span
+  {
+    display: none;
+  }
+
+  #importer
+  {
+    background: rgba(200,200,200,.9) !important;
+    border-radius: 50%;
+    padding: 18px;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    margin-right: 0 !important;
+  }
+
+  #importer svg
+  {
+    width: 35px;
+    height: 35px;
+    margin-right: 0 !important;
+    fill: black;
+  }
+}
+
 #logo_longueur_blanc
 {
   height: 70px;
