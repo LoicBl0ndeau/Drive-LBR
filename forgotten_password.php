@@ -114,7 +114,7 @@
             MAIL;
 
         		include_once('sendmail.php');
-        		sendmail($email,$mail,$MDP_sha256);
+        		sendmail_forgotten_password($email,$mail,$MDP_sha256);
   				}
           else
           {
