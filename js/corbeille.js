@@ -40,6 +40,216 @@ function mois(month){
   return month;
 }
 
+function tagQuery(){ //Fonction qui gère la recherche avec la scearch_bar
+  if($('#text_scearch_bar').val() != ''){
+    var tagsSelection = $('#text_scearch_bar').val().split(';');
+    var datesQuery = [];
+    var extensionsQuery = [];
+    var auteursQuery = [];
+    var extensionsAutorisees = ['.ogm', '.wmv', '.mpg', '.webm', '.ogv', '.mov', '.asx', '.mpeg', '.mp4', '.m4v', '.avi','.jpg', '.jpeg', '.gif', '.png', '.tiff', '.pjp', '.jfif', '.bmp', '.svg', '.xbm', '.dib', '.jxl', '.svgz', '.webp', '.ico', '.tif', '.pjpeg', '.avif'];
+    for (var i = 0; i < tagsSelection.length; i++) { //on récupère chaque info taper au clavier
+      if(tagsSelection[i].match(/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/) != null){
+        datesQuery.push(tagsSelection[i]);
+      }
+      else if(extensionsAutorisees.indexOf(tagsSelection[i].toLowerCase()) != -1){
+        extensionsQuery.push(tagsSelection[i].toLowerCase());
+      }
+      else{
+        auteursQuery.push(tagsSelection[i].toLowerCase());
+      }
+    }
+    for (var i = 0; i < $('.container_informations').length; i++) { //Pour chaque fichier
+      var extension = $($('.container_informations')[i]).find(".nom_fichier").text().split('.');
+      extension = "."+extension[extension.length-1];
+      extension = extension.toLowerCase();
+      var date = $($('.container_informations')[i]).find(".date_ajout_fr").text();
+      var auteur = [$($('.container_informations')[i]).find(".prenom").text().toLowerCase(),$($('.container_informations')[i]).find(".nom").text().toLowerCase(),$($('.container_informations')[i]).find(".prenom").text().toLowerCase()+" "+$($('.container_informations')[i]).find(".nom").text().toLowerCase(),$($('.container_informations')[i]).find(".nom").text().toLowerCase()+" "+$($('.container_informations')[i]).find(".prenom").text().toLowerCase()];
+      if(extensionsQuery.length == 0){
+        var selectionnerExtension = true;
+      }
+      else{
+        var selectionnerExtension = false;
+        if(extensionsQuery.indexOf(extension) != -1){
+          selectionnerExtension = true;
+        }
+      }
+      if(datesQuery.length == 0){
+        var selectionnerDate = true;
+      }
+      else{
+        var selectionnerDate = false;
+        if(datesQuery.indexOf(date) != -1){
+          selectionnerDate = true;
+        }
+      }
+      if(auteursQuery.length == 0){
+        var selectionnerAuteur = true;
+      }
+      else{
+        var selectionnerAuteur = false;
+        for (var j = 0; j < auteur.length; j++) {
+          if(auteursQuery.indexOf(auteur[j]) != -1){
+            selectionnerAuteur = true;
+          }
+        }
+      }
+      if(selectionnerExtension === true && selectionnerDate === true && selectionnerAuteur === true){
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","block");
+      }
+      else{
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
+      }
+    }
+  }
+  else{
+    $('.marge').css("display","block");
+  }
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut ajouter ou effacer le titre d'une catégorie de média s'il ne contient plus rien.
+    var compteurMedia = 0;
+    for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
+      if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
+        compteurMedia++;
+      }
+    }
+    if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
+    }
+    else{
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","block");
+    }
+  }
+}
+
+function selectionDesTags(){ //fonction pour traiter les tags cliqués ou non dans le sélecteur
+  if($('.tag_clicked').length != 0){
+    var tagsSelection = [];
+    for (var i = 0; i < $('.tag_clicked').length; i++) { //On récupère les tags sélectionnés
+      tagsSelection.push($($('.tag_clicked')[i]).text());
+    }
+    for (var i = 0; i < $('.container_informations').length; i++) { //Pour chaque média
+      var tagsAssocies = $($('.container_informations')[i]).find(".liste_des_tags").text().split(', '); //tableau avec les tags du fichier
+      var selectionner = 0;
+      for (var j = 0; j < tagsAssocies.length; j++) {
+        if(tagsSelection.indexOf(tagsAssocies[j]) != -1){ //Si le fichier possède les tags sélectionner alors on l'affiche !
+          selectionner++;
+        }
+      }
+      if(selectionner != tagsSelection.length){
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","none");
+      }
+      else{
+        $('.marge[id_media='+$($('.container_informations')[i]).attr("id_media").replace("container_inf_","")+']').css("display","block");
+      }
+    }
+  }
+  else{
+    $('.marge').css("display","block");
+  }
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut ajouter ou effacer le titre d'une catégorie de média s'il ne contient plus rien.
+    var compteurMedia = 0;
+    for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
+      if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
+        compteurMedia++;
+      }
+    }
+    if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
+    }
+    else{
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","block");
+    }
+  }
+}
+
+function trier_par_dates(){ //Quand on clique sur "trier par dates"
+  $('.marge').css("display","flex");
+  $('.titre_container_media').css("display","flex");
+  var dates = [];
+  for (var i = 0; i < $('.marge').length; i++) { //Pour chaque média on cherche sa date d'ajout
+    if(dates.indexOf($($('.container_informations')[i]).find('.date_ajout').text()) == -1){
+      dates.push($($('.container_informations')[i]).find('.date_ajout').text());
+    }
+  }
+  dates.sort();
+  if($('#checked_croissant').is(':checked') === false){
+    dates.reverse();
+  }
+  $('.titre_container_media').remove();
+  var media_dates = "";
+  var compteur_container_media = 0;
+  for (var i = 0; i < dates.length; i++) {
+    media_dates += "<h1 style='text-align: center;' titre_associe_container_media='"+compteur_container_media+"' class='titre_container_media'>"+new Date(dates[i]).getDate()+" "+mois(parseInt(new Date(dates[i]).getMonth()+1))+" "+new Date(dates[i]).getFullYear()+"</h1><div class='container_media' titre_associe_container_media='"+compteur_container_media+"'>";
+    for (var j = 0; j < $('.marge').length; j++) {
+      for (var k = 0; k < $('.marge').length; k++) {
+        if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.date_ajout').text() == dates[i]){
+          media_dates += $("<div>").append($($('.marge')[j]).clone()).html();
+        }
+      }
+    }
+    media_dates += "</div>";
+    compteur_container_media++;
+  }
+  $('.container_media').remove();
+  $(media_dates).insertAfter($('#trier_par'));
+  selectionDesTags();
+  tagQuery();
+  $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;24/09/2021" par exemple.');
+  $('.img_media').on("click",img_media_open);
+  $('.player').on("click",player_open);
+}
+
+function trier_par_auteurs(){ //Quand on clique sur "trier par: Auteurs"
+  $('.marge').css("display","flex");
+  $('.titre_container_media').css("display","flex");
+  var auteurs = [];
+  for (var i = 0; i < $('.marge').length; i++) {
+    if(auteurs.indexOf($($('.container_informations')[i]).find('.mail_auteurs').text()) == -1){
+      auteurs.push($($('.container_informations')[i]).find('.mail_auteurs').text());
+    }
+  }
+  auteurs.sort();
+  if($('#checked_croissant').is(':checked') === false){
+    auteurs.reverse();
+  }
+  $('.titre_container_media').remove();
+  var media_auteur = "";
+  var compteur_container_media = 0;
+  for (var i = 0; i < auteurs.length; i++) {
+    media_auteur += "<h1 style='text-align: center;' titre_associe_container_media='"+compteur_container_media+"' class='titre_container_media'>"+auteurs[i]+"</h1><div class='container_media' titre_associe_container_media='"+compteur_container_media+"'>";
+    for (var j = 0; j < $('.marge').length; j++) {
+      for (var k = 0; k < $('.marge').length; k++) {
+        if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.mail_auteurs').text() == auteurs[i]){
+          media_auteur += $("<div>").append($($('.marge')[j]).clone()).html();
+        }
+      }
+    }
+    media_auteur += "</div>";
+    compteur_container_media++;
+  }
+  $('.container_media').remove();
+  $(media_auteur).insertAfter($('#trier_par'));
+  selectionDesTags();
+  tagQuery();
+  $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;Nom" par exemple.');
+  $('.img_media').on("click",img_media_open);
+  $('.player').on("click",player_open);
+}
+
+function trier_par_mesPhotos(){ //Quand on clique sur "trier par: mes photos"
+  $('.marge[isMediaFromLoggedUser="0"]').css("display","none");
+  for (var i = 0; i < $('.container_media').length; i++) { //pour savoir si il faut effacer le titre d'une catégorie de média car il ne contient plus rien.
+    var compteurMedia = 0;
+    for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
+      if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
+        compteurMedia++;
+      }
+    }
+    if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
+      $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
+    }
+  }
+}
+
 function img_media_open(){
   $('.img_media').off("click",img_media_open);
   $('.player').off("click",player_open);
@@ -78,11 +288,54 @@ function fermerLecteur(){
 }
 
 $(document).ready(function(){
+  $('#container_categories').on("wheel", function(evt){ //Pour pouvoir scroll horizontalement dans le sélecteur de tags
+    if(evt.originalEvent.wheelDeltaX == 0){
+      evt.preventDefault();
+      if(evt.originalEvent.wheelDelta <= 0){
+        $('#container_categories').scrollLeft($('#container_categories').scrollLeft()+15);
+      }
+      else{
+        $('#container_categories').scrollLeft($('#container_categories').scrollLeft()-15);
+      }
+    }
+  });
+  $('label[for=text_scearch_bar]').on("click",tagQuery);
+  $('#text_scearch_bar').on("keypress",function(e){
+    if(e.which == 13) {
+      tagQuery();
+    }
+  });
+  $('#text_scearch_bar').on("keydown",function(e){
+    if($('#text_scearch_bar').val() == '') {
+      tagQuery();
+    }
+  });
+
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
   $('.fermer_informations').on("click",function(){
     $(this).parent().parent().css("transform","translateX(-130%)");
   });
+  $('.nom_categorie').on("click",function(){
+    if($(this).hasClass('cat_entered')){ //Pour bien coloré les catégorie de tag dans le sélécteur
+      $('.nom_categorie:not([id_cat='+$(this).attr("id_cat")+'])').css("display","inline");
+      $('.tag_de_cat_'+$(this).attr("id_cat")).css("display","none");
+      if(!($('.tag_de_cat_'+$(this).attr("id_cat")).hasClass('tag_clicked'))){
+        $(this).removeClass('cat_clicked');
+      }
+    }
+    else{
+      $('.nom_categorie:not([id_cat='+$(this).attr("id_cat")+'])').css("display","none");
+      $('.tag_de_cat_'+$(this).attr("id_cat")).css("display","inline");
+      $(this).addClass('cat_clicked');
+    }
+    $(this).toggleClass('cat_entered');
+  });
+  $('.nom_tag').on("click",function(){
+    $(this).toggleClass('tag_clicked');
+    selectionDesTags();
+  });
+
   $('#checked_croissant').on("click",function(){
     if($('#checked_croissant').is(':checked')){
       $('#checked_croissant+label').text('Croissant');
@@ -95,86 +348,10 @@ $(document).ready(function(){
       $($('.titre_container_media')[i]).insertAfter($('#trier_par'));
     }
   });
-  $('#radio_dates').on("click",function(){
-    $('.marge').css("display","flex");
-    $('.titre_container_media').css("display","flex");
-    var dates = [];
-    for (var i = 0; i < $('.marge').length; i++) {
-      if(dates.indexOf($($('.container_informations')[i]).find('.date_ajout').text()) == -1){
-        dates.push($($('.container_informations')[i]).find('.date_ajout').text());
-      }
-    }
-    dates.sort();
-    if($('#checked_croissant').is(':checked') === false){
-      dates.reverse();
-    }
-    $('.titre_container_media').remove();
-    var media_dates = "";
-    var compteur_container_media = 0;
-    for (var i = 0; i < dates.length; i++) {
-      media_dates += "<h1 style='text-align: center;' titre_associe_container_media='"+compteur_container_media+"' class='titre_container_media'>"+new Date(dates[i]).getDate()+" "+mois(parseInt(new Date(dates[i]).getMonth()+1))+" "+new Date(dates[i]).getFullYear()+"</h1><div class='container_media' titre_associe_container_media='"+compteur_container_media+"'>";
-      for (var j = 0; j < $('.marge').length; j++) {
-        for (var k = 0; k < $('.marge').length; k++) {
-          if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.date_ajout').text() == dates[i]){
-            media_dates += $("<div>").append($($('.marge')[j]).clone()).html();
-          }
-        }
-      }
-      media_dates += "</div>";
-      compteur_container_media++;
-    }
-    $('.container_media').remove();
-    $(media_dates).insertAfter($('#trier_par'));
-    $('.img_media').on("click",img_media_open);
-    $('.player').on("click",player_open);
-  });
-  $('#radio_auteurs').on("click",function(){
-    $('.marge').css("display","flex");
-    $('.titre_container_media').css("display","flex");
-    var auteurs = [];
-    for (var i = 0; i < $('.marge').length; i++) {
-      if(auteurs.indexOf($($('.container_informations')[i]).find('.mail_auteurs').text()) == -1){
-        auteurs.push($($('.container_informations')[i]).find('.mail_auteurs').text());
-      }
-    }
-    auteurs.sort();
-    if($('#checked_croissant').is(':checked') === false){
-      auteurs.reverse();
-    }
-    $('.titre_container_media').remove();
-    var media_auteur = "";
-    var compteur_container_media = 0;
-    for (var i = 0; i < auteurs.length; i++) {
-      media_auteur += "<h1 style='text-align: center;' titre_associe_container_media='"+compteur_container_media+"' class='titre_container_media'>"+auteurs[i]+"</h1><div class='container_media' titre_associe_container_media='"+compteur_container_media+"'>";
-      for (var j = 0; j < $('.marge').length; j++) {
-        for (var k = 0; k < $('.marge').length; k++) {
-          if($($('.marge')[j]).attr("id_media") == $($('.container_informations')[k]).attr("id_media").replace("container_inf_","") && $($('.container_informations')[k]).find('.mail_auteurs').text() == auteurs[i]){
-            media_auteur += $("<div>").append($($('.marge')[j]).clone()).html();
-          }
-        }
-      }
-      media_auteur += "</div>";
-      compteur_container_media++;
-    }
-    $('.container_media').remove();
-    $(media_auteur).insertAfter($('#trier_par'));
-    $('.img_media').on("click",img_media_open);
-    $('.player').on("click",player_open);
-  });
-  $('#radio_mes_photos').on("click",function(){
-    $('.marge[isMediaFromLoggedUser="0"]').css("display","none");
-    for (var i = 0; i < $('.container_media').length; i++) {
-      var compteurMedia = 0;
-      for (var j = 0; j < $($('.container_media')[i]).find('.marge').length; j++) {
-        if($($($('.container_media')[i]).find('.marge')[j]).css("display") == "none"){
-          compteurMedia++;
-        }
-      }
-      if(compteurMedia == $($('.container_media')[i]).find('.marge').length){
-        $('.titre_container_media[titre_associe_container_media='+$($('.container_media')[i]).attr("titre_associe_container_media")+']').css("display","none");
-      }
-    }
-  });
+  $('#radio_dates').on("click",trier_par_dates);
+  $('#radio_auteurs').on("click",trier_par_auteurs);
+  $('#radio_mes_photos').on("click",trier_par_mesPhotos);
+  //La fonction contextMenu() fait appel au plugin pour le menu quand on fait un clic droit.
   $.contextMenu({
     selector: '.img_media, .player',
     zIndex: 50,
