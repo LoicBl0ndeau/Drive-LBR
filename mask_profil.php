@@ -290,7 +290,9 @@ if (
 		<button type="button" onclick="window.location.href='changelog.php';" >Historique de modification</button>
 		<button type="button" onclick="window.location.href='stockage.php';">Stockage</button>
 <?php endif ?>
+<?php if($_SESSION["loggedUser"]["Role"]!="Lecture") : ?>
     <button type="button" onclick="window.location.href='corbeille.php'">Corbeille</button>
+<?php endif ?>
   </div>
 	<span id="container_profil_page">
 		<form method="post">

@@ -7,6 +7,12 @@
 		exit();
 	}
 
+	if($_SESSION["loggedUser"]["Role"] == "Lecture")
+  {
+    header("Location: accueil.php");
+    exit();
+  }
+
 	// Défini le fuseau horaire à utilisateur
 	date_default_timezone_set('Europe/Paris');
 ?>
