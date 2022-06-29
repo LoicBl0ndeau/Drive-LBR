@@ -7,7 +7,7 @@ function sendmail_forgotten_password( string $Email, string $mail, string $MDP_s
   // Pour les champs $expediteur / $copie / $destinataire, séparer par une virgule s'il y a plusieurs adresses
   $expediteur = 'contact@drivelbr.local';
   //$copie = 'contact@drivelbr.local';
-  $copie_cachee = 'contact@drivelbr.local';
+  //$copie_cachee = 'contact@drivelbr.local';
   $objet = 'Compte Drive LBR'; // Objet du message
   $headers  = 'MIME-Version: 1.0' . "\n"; // Version MIME
   $headers .= 'Content-type: text/html; charset=utf-8'."\n"; // l'en-tete Content-type pour le format HTML
@@ -15,7 +15,7 @@ function sendmail_forgotten_password( string $Email, string $mail, string $MDP_s
   $headers .= 'From: "Nom_de_expediteur"<'.$expediteur.'>'."\n"; // Expediteur
   $headers .= 'Delivered-to: '.$destinataire."\n"; // Destinataire
   //$headers .= 'Cc: '.$copie."\n"; // Copie Cc
-  $headers .= 'Bcc: '.$copie_cachee."\n\n"; // Copie cachée Bcc
+  //$headers .= 'Bcc: '.$copie_cachee."\n\n"; // Copie cachée Bcc
   $message =  <<<MAIL
               <html>
                 <head>
@@ -299,7 +299,7 @@ function sendmail(string $Email, string $mail)
   // Pour les champs $expediteur / $copie / $destinataire, séparer par une virgule s'il y a plusieurs adresses
   $expediteur = 'contact@drivelbr.local';
   //$copie = 'contact@drivelbr.local';
-  $copie_cachee = 'contact@drivelbr.local';
+  //$copie_cachee = 'contact@drivelbr.local';
   $objet = 'Compte Drive LBR'; // Objet du message
   $headers  = 'MIME-Version: 1.0' . "\n"; // Version MIME
   $headers .= 'Content-type: text/html; charset=utf-8'."\n"; // l'en-tete Content-type pour le format HTML
@@ -307,7 +307,7 @@ function sendmail(string $Email, string $mail)
   $headers .= 'From: "Nom_de_expediteur"<'.$expediteur.'>'."\n"; // Expediteur
   $headers .= 'Delivered-to: '.$destinataire."\n"; // Destinataire
   //$headers .= 'Cc: '.$copie."\n"; // Copie Cc
-  $headers .= 'Bcc: '.$copie_cachee."\n\n"; // Copie cachée Bcc
+  //$headers .= 'Bcc: '.$copie_cachee."\n\n"; // Copie cachée Bcc
   $message =  <<<MAIL
               <html>
                 <head>

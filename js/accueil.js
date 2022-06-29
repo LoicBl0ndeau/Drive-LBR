@@ -41,6 +41,8 @@ function mois(month){
 }
 
 function tagQuery(){ //Fonction qui gère la recherche avec la scearch_bar
+  $('.tag_clicked').removeClass("tag_clicked");
+  $('.nom_categorie:not(.cat_entered)').removeClass("cat_clicked");
   if($('#text_scearch_bar').val() != ''){
     var tagsSelection = $('#text_scearch_bar').val().split(';');
     var datesQuery = [];
@@ -121,6 +123,7 @@ function tagQuery(){ //Fonction qui gère la recherche avec la scearch_bar
 }
 
 function selectionDesTags(){ //fonction pour traiter les tags cliqués ou non dans le sélecteur
+  $('#text_scearch_bar').val('');
   if($('.tag_clicked').length != 0){
     var tagsSelection = [];
     for (var i = 0; i < $('.tag_clicked').length; i++) { //On récupère les tags sélectionnés
@@ -191,8 +194,12 @@ function trier_par_dates(){ //Quand on clique sur "trier par dates"
   }
   $('.container_media').remove();
   $(media_dates).insertAfter($('#trier_par'));
-  selectionDesTags();
-  tagQuery();
+  if($('.tag_clicked').length != 0){
+    selectionDesTags();
+  }
+  else{
+    tagQuery();
+  }
   $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;24/09/2021" par exemple.');
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
@@ -228,8 +235,12 @@ function trier_par_auteurs(){ //Quand on clique sur "trier par: Auteurs"
   }
   $('.container_media').remove();
   $(media_auteur).insertAfter($('#trier_par'));
-  selectionDesTags();
-  tagQuery();
+  if($('.tag_clicked').length != 0){
+    selectionDesTags();
+  }
+  else{
+    tagQuery();
+  }
   $('#text_scearch_bar').attr("placeholder",'Tapez ".mp4;Nom" par exemple.');
   $('.img_media').on("click",img_media_open);
   $('.player').on("click",player_open);
@@ -302,11 +313,6 @@ $(document).ready(function(){
   $('label[for=text_scearch_bar]').on("click",tagQuery);
   $('#text_scearch_bar').on("keypress",function(e){
     if(e.which == 13) {
-      tagQuery();
-    }
-  });
-  $('#text_scearch_bar').on("keydown",function(e){
-    if($('#text_scearch_bar').val() == '') {
       tagQuery();
     }
   });

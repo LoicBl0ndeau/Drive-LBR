@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 23 juin 2022 à 09:57
+-- Généré le : mer. 29 juin 2022 à 19:19
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `log_` (
   `Date_de_modification` varchar(50) DEFAULT NULL,
   `Description` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`Id_Log_`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -124,17 +124,15 @@ CREATE TABLE IF NOT EXISTS `profil` (
   `Role` varchar(50) DEFAULT NULL,
   `pdp` varchar(100) NOT NULL DEFAULT 'images/pdp_user.jpg',
   PRIMARY KEY (`Id_Profil`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `profil`
 --
 
 INSERT INTO `profil` (`Id_Profil`, `email`, `MDP`, `Nom`, `Prenom`, `Description`, `Role`, `pdp`) VALUES
-(1, 'louis.boubert.26@gmail.com', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9', 'Boubert', 'Louis', 'premier profil', 'Admin', 'images/pdp_user.jpg'),
-(2, 'capellemartin.27@gmail.com', '96f7e2d524182a8b9da4f9a7f3e120eabb9bebab0b75558949a302a6e57f6185', 'Capelle', 'Martin', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
-(3, 'loic.blondeau@student.junia.com', '4bed74a357375b2892d4bcc91e6d511d20b5b021e4566c665eb686a3006ed585', 'Blondeau', 'Loïc', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg'),
-(4, 'iliesbenslama11@gmail.com', '11b44c52faf329051084b393388af64127479a221470e937dbfcba7417fa5f63', 'Benslama', 'Ilies', 'Administrateur de création', 'Admin', 'images/pdp_user.jpg');
+(1, 'foucauld.bergerault@student.junia.com', '1da3ddb73ca4580da955f457c2d5b1e1031598915a5ddef49f235c02ae5dacbd', 'BERGERAULT', 'Foucauld', 'Administrateur des briques rouges', 'Admin', 'images/pdp_user.jpg'),
+(2, 'mathieu.ranc@student.junia.com', '1da3ddb73ca4580da955f457c2d5b1e1031598915a5ddef49f235c02ae5dacbd', 'RANC', 'Mathieu', 'Administrateur des briques rouges', 'Admin', 'images/pdp_user.jpg');
 
 -- --------------------------------------------------------
 
@@ -164,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `Id_Catégorie` int(11) DEFAULT '1',
   PRIMARY KEY (`Id_Tag`),
   KEY `Id_Catégorie` (`Id_Catégorie`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `tag`
@@ -172,10 +170,15 @@ CREATE TABLE IF NOT EXISTS `tag` (
 
 INSERT INTO `tag` (`Id_Tag`, `Nom`, `Créateur`, `Id_Catégorie`) VALUES
 (0, 'sans tags', '1', 0),
-(1, '2022', '4', 1),
-(2, '2021', '4', 1),
-(3, 'Scène 1', '4', 2),
-(4, 'Camping', '4', 2);
+(1, 'Jour', '1', 0),
+(2, 'Nuit', '1', 0),
+(3, '2TH', '1', 0),
+(4, '2021', '1', 1),
+(5, '2022', '1', 1),
+(6, '2024', '1', 1),
+(7, 'Scène 1', '1', 2),
+(8, 'BackStage', '1', 2),
+(9, 'Camping', '1', 2);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
