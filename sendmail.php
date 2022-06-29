@@ -272,7 +272,7 @@ function sendmail_forgotten_password( string $Email, string $mail, string $MDP_s
     // Exécution ! l'utilisateur est maintenant en base de données
     $req->execute([
         'MDP' => $MDP_sha256,
-        'email' => $email,
+        'email' => $Email,
     ]);
 
     // Ecriture de la requête
