@@ -331,6 +331,8 @@ if (
   $('#mask_profil').on("click",function(){
     $('#profil').css("transform","translate(100vw,-50%)");
     $('#mask_profil').css("transform","translateX(100vw)");
+		$('#container_profil_page').css("display","none");
+		$('#container_profil_buttons').css("display","flex");
     $('*:not(#mask_profil,html,body, #profil,#profil *)').css("filter","");
   });
 	$('#mon_profil').on("click",function(){
