@@ -3,6 +3,8 @@
 A lightweight web-based media management platform designed to serve as a “drive” for organizing, viewing, and storing event multimedia content.
 > This project was originally developed as a **student initiative** to support the [**Les Briques Rouges**](https://www.lesbriquesrouges.fr/) music event in managing, viewing, and organizing their media content in a simple and collaborative way.
 
+![example](https://github.com/user-attachments/assets/7363d61a-45dd-4e74-8e63-4c206d826459)
+
 ---
 
 ## 📦 Table of Contents
@@ -24,19 +26,21 @@ A lightweight web-based media management platform designed to serve as a “driv
 
    * [Prerequisites](#prerequisites)
 
-3. [Installation](#installation)
+3. [Architecture](#architecture)
 
-4. [Configuration](#configuration)
+4. [Installation](#installation)
 
-5. [Usage](#usage)
+5. [Configuration](#configuration)
 
-6. [Deployment](#deployment)
+6. [Usage](#usage)
 
-7. [Project Structure](#project-structure)
+7. [Deployment](#deployment)
 
-8. [Contributing](#contributing)
+8. [Project Structure](#project-structure)
 
-9. [Disclaimer](#disclaimer)
+9. [Contributing](#contributing)
+
+10. [Disclaimer](#disclaimer)
 
 ---
 
@@ -124,6 +128,18 @@ Follow these steps to run Drive‑LBR locally or on your own server.
 
 * A web server with **PHP** (e.g., Apache or Nginx + PHP‑FPM)
 * **MySQL** or **MariaDB** database
+
+---
+
+## Architecture
+
+### MCD
+
+![mcd](https://github.com/user-attachments/assets/6967ca61-cd11-4b23-b275-71f8b9f054be)
+
+### Interfaces
+
+![architecture](https://github.com/user-attachments/assets/dbde5f67-8992-48b2-a1e9-18a0409f7948)
 
 ---
 
